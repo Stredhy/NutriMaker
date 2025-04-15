@@ -1,2 +1,2 @@
 # NutriMaker
-App Developing
+Development of NutriMaker.
