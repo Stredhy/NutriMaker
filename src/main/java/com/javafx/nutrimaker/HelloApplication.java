@@ -16,7 +16,7 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
         //Alan Herrera
-        //
+        //Eric Aguilar
     }
 
     public static void main(String[] args) {
