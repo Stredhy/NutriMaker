@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1920.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.javafx.nutrimaker.DietStorageViewController">
+   <children>
+      <Label prefHeight="110.0" prefWidth="1920.0" style="-fx-background-color: ffffff;" text="Almacenamiento de Dietas">
+         <font>
+            <Font size="36.0" />
+         </font>
+         <padding>
+            <Insets left="45.0" top="10.0" />
+         </padding>
+      </Label>
+      <Button layoutX="1706.0" layoutY="31.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="182.0" style="-fx-background-color: #87b4df;" text="+ Nueva" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.20000000298023224" />
+               </color>
+            </DropShadow>
+         </effect>
+      </Button>
+      <Pane layoutX="32.0" layoutY="130.0" prefHeight="851.0" prefWidth="1856.0" style="-fx-background-color: ffffff;">
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.20000000298023224" />
+               </color>
+            </DropShadow>
+         </effect>
+         <children>
+            <FlowPane layoutX="16.0" layoutY="19.0" prefHeight="75.0" prefWidth="1824.0" style="-fx-background-color: #55565f;" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
