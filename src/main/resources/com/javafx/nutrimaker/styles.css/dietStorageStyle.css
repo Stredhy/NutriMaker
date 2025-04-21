@@ -1,4 +1,19 @@
-.table-view .column-header, .table-view .filler{
+.table-view {
+    -fx-font-size: 24px;
+}
+
+.table-view .column-header, .table-view .filler {
     -fx-background-color: #55565f;
+}
+
+.table-view .column-header .label {
     -fx-text-fill: #ffffff;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding:10 15 10 15;
+}
+
+.table-view .table-cell {
+    -fx-padding: 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding:15 10 15 10;
 }

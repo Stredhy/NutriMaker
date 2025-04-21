@@ -15,17 +15,15 @@
          <children>
             <TableView depthTest="DISABLE" layoutX="16.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="75.0" prefWidth="1824.0" styleClass="tableView">
               <columns>
-                <TableColumn prefWidth="62.0" resizable="false" text="NO." />
-                  <TableColumn prefWidth="544.0" resizable="false" text="Paciente" />
-                <TableColumn prefWidth="75.0" text="Peso" />
-                  <TableColumn prefWidth="75.0" text="Altura" />
-                  <TableColumn prefWidth="75.0" text="Fecha" />
-                  <TableColumn prefWidth="75.0" text="Acciones" />
+                <TableColumn prefWidth="85.0" resizable="false" text="NO." />
+                  <TableColumn prefWidth="703.3333358764648" resizable="false" text="PACIENTE" />
+                <TableColumn prefWidth="200.0" text="PESO" />
+                  <TableColumn prefWidth="200.0" text="ALTURA" />
+                  <TableColumn prefWidth="250.0" text="FECHA" />
+                  <TableColumn prefWidth="390.0" text="ACCIONES" />
               </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
             </TableView>
+            <Button layoutX="1742.0" layoutY="810.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="44.0" text="Button" />
          </children>
          <effect>
             <DropShadow>
