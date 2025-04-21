@@ -1,0 +1,4 @@
+.table-view .column-header, .table-view .filler{
+    -fx-background-color: #55565f;
+    -fx-text-fill: #ffffff;
+}
