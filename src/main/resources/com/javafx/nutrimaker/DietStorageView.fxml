@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.DietStorageController">
+<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@styles/dietStorageStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.DietStorageController">
    <children>
       <AnchorPane layoutX="32.0" layoutY="130.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="851.0" prefWidth="1856.0" style="-fx-background-color: ffffff; -fx-border-color: e0e0e0;">
          <children>
