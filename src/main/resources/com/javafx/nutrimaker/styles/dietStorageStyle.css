@@ -12,7 +12,7 @@
     -fx-padding:10 15 10 15;
 }
 
-.table-view .table-cell {
+.table-view .table-cell{
     -fx-padding: 10;
     -fx-alignment: CENTER_LEFT;
     -fx-padding:15 10 15 10;

@@ -13,7 +13,7 @@
    <children>
       <AnchorPane layoutX="32.0" layoutY="130.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="851.0" prefWidth="1856.0" style="-fx-background-color: ffffff; -fx-border-color: e0e0e0;">
          <children>
-            <TableView depthTest="DISABLE" layoutX="16.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="75.0" prefWidth="1824.0" styleClass="tableView">
+            <TableView depthTest="DISABLE" layoutX="16.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="805.0" prefWidth="1824.0" styleClass="tableView">
               <columns>
                 <TableColumn prefWidth="85.0" resizable="false" text="NO." />
                   <TableColumn prefWidth="703.3333358764648" resizable="false" text="PACIENTE" />
@@ -23,7 +23,6 @@
                   <TableColumn prefWidth="390.0" text="ACCIONES" />
               </columns>
             </TableView>
-            <Button layoutX="1742.0" layoutY="810.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="44.0" text="Button" />
          </children>
          <effect>
             <DropShadow>
@@ -35,12 +34,12 @@
       </AnchorPane>
       <AnchorPane prefHeight="110.0" prefWidth="1920.0" style="-fx-background-color: ffffff;">
          <children>
-            <Label layoutX="20.0" layoutY="22.0" text="Almacenamiento de Dietas">
+            <Label layoutX="31.0" layoutY="29.0" text="Almacenamiento de Dietas">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Button layoutX="1695.0" layoutY="30.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="182.0" style="-fx-background-color: #87b4df;" text="+ Nueva" textFill="WHITE">
+            <Button layoutX="1695.0" layoutY="30.0" mnemonicParsing="false" onAction="#createDiet" prefHeight="48.0" prefWidth="182.0" style="-fx-background-color: #87b4df;" text="+ Nueva" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
