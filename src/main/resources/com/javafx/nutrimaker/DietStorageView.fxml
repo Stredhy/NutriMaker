@@ -5,6 +5,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
@@ -13,14 +15,14 @@
    <children>
       <AnchorPane layoutX="32.0" layoutY="130.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="851.0" prefWidth="1856.0" style="-fx-background-color: ffffff; -fx-border-color: e0e0e0;">
          <children>
-            <TableView depthTest="DISABLE" layoutX="16.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="805.0" prefWidth="1824.0" styleClass="tableView">
+            <TableView fx:id="dietsTable" depthTest="DISABLE" layoutX="16.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="805.0" prefWidth="1824.0" styleClass="table-view">
               <columns>
-                <TableColumn prefWidth="85.0" resizable="false" text="NO." />
-                  <TableColumn prefWidth="703.3333358764648" resizable="false" text="PACIENTE" />
-                <TableColumn prefWidth="200.0" text="PESO" />
-                  <TableColumn prefWidth="200.0" text="ALTURA" />
-                  <TableColumn prefWidth="250.0" text="FECHA" />
-                  <TableColumn prefWidth="390.0" text="ACCIONES" />
+                <TableColumn fx:id="numCol" prefWidth="85.0" resizable="false" text="NO." />
+                  <TableColumn fx:id="patientCol" prefWidth="703.3333358764648" resizable="false" text="PACIENTE" />
+                <TableColumn fx:id="weightCol" prefWidth="200.0" text="PESO" />
+                  <TableColumn fx:id="heightCol" prefWidth="200.0" text="ALTURA" />
+                  <TableColumn fx:id="dateCol" prefWidth="250.0" text="FECHA" />
+                  <TableColumn fx:id="actionsCol" prefWidth="390.0" text="ACCIONES" />
               </columns>
             </TableView>
          </children>
@@ -39,7 +41,7 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Button layoutX="1695.0" layoutY="30.0" mnemonicParsing="false" onAction="#createDiet" prefHeight="48.0" prefWidth="182.0" style="-fx-background-color: #87b4df;" text="+ Nueva" textFill="WHITE">
+            <Button layoutX="1695.0" layoutY="30.0" mnemonicParsing="false" onAction="#createDiet" prefHeight="48.0" prefWidth="182.0" style="-fx-background-color: #87b4df;" styleClass="newButton" text="Nueva" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
@@ -51,6 +53,11 @@
                   </DropShadow>
                </effect>
             </Button>
+            <ImageView fitHeight="34.0" fitWidth="38.0" layoutX="1719.0" layoutY="38.0">
+               <image>
+                  <Image url="@images/new.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>
