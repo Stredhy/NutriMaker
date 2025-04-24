@@ -1,5 +1,6 @@
 .table-view{
     -fx-font-size: 24px;
+    -fx-border-color: #e0e0e0;
 }
 
 .table-view .column-header, .table-view .filler {
