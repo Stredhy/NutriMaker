@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -69,13 +70,14 @@ public class DietStorageController implements Initializable {
             private final HBox actions = new HBox(10);;
             private final ImageView pdf = new ImageView(DietStorageController.class.getResource("images/pdf.png").toExternalForm());
             private final ImageView clone = new ImageView(DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
-            private final ImageView modify = new ImageView(DietStorageController.class.getResource("images/modify.png").toExternalForm());
+            private final ImageView modify = new ImageView(DietStorageController.class.getResource("images/edit.png").toExternalForm());
             private final ImageView delete = new ImageView(DietStorageController.class.getResource("images/delete.png").toExternalForm());
             
             {
                 for(ImageView icon: new ImageView[]{pdf,clone,modify,delete}){
                     icon.setFitHeight(34);
                     icon.setFitWidth(34);
+                    icon.setCursor(Cursor.HAND);
                 }
 
                 pdf.setOnMouseClicked(event -> exportToPDF());
@@ -92,16 +94,17 @@ public class DietStorageController implements Initializable {
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);
+                    //Debug
+                    System.out.println("Error de carga de graficos");
                 } else {
                     actions.getChildren().addAll(pdf,clone,modify,delete);
                     actions.setAlignment(Pos.CENTER);
-                    
                     actions.setPadding(new Insets(5));
+                    
                     setGraphic(actions);
                 }
             }
         });
-        
     }
     
     private void exportToPDF(){
