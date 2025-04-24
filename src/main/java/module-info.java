@@ -5,6 +5,8 @@ module com.javafx.nutrimaker {
     requires org.kordamp.bootstrapfx.core;
     requires java.base;
 
+    requires java.sql;
+
     opens com.javafx.nutrimaker to javafx.fxml;
     exports com.javafx.nutrimaker;
 }
