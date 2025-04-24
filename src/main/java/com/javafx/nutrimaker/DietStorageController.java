@@ -11,9 +11,14 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 /**
@@ -36,7 +41,7 @@ public class DietStorageController implements Initializable {
     @FXML
     private TableColumn<Diet, String> dateCol;
     @FXML
-    private TableColumn<Patient, String> actionsCol;
+    private TableColumn<Diet, Void> actionsCol;
     
 
     /**
@@ -50,6 +55,7 @@ public class DietStorageController implements Initializable {
 
     @FXML
     private void createDiet(ActionEvent event) {
+        
     }
 
     private void showDietList() {
@@ -59,32 +65,68 @@ public class DietStorageController implements Initializable {
         weightCol.setCellValueFactory(new PropertyValueFactory<>("weight"));
         heightCol.setCellValueFactory(new PropertyValueFactory<>("height"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("creationDate"));
-    }
-    
-    
-    private void exportToPDF(ActionEvent event){
+        actionsCol.setCellFactory(col ->  new TableCell<Diet,Void>(){
+            private final HBox actions = new HBox(10);;
+            private final ImageView pdf = new ImageView(DietStorageController.class.getResource("images/pdf.png").toExternalForm());
+            private final ImageView clone = new ImageView(DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
+            private final ImageView modify = new ImageView(DietStorageController.class.getResource("images/modify.png").toExternalForm());
+            private final ImageView delete = new ImageView(DietStorageController.class.getResource("images/delete.png").toExternalForm());
+            
+            {
+                for(ImageView icon: new ImageView[]{pdf,clone,modify,delete}){
+                    icon.setFitHeight(34);
+                    icon.setFitWidth(34);
+                }
+
+                pdf.setOnMouseClicked(event -> exportToPDF());
+
+                clone.setOnMouseClicked(event -> copyDiet());
+
+                modify.setOnMouseClicked(event -> modifyDiet());
+
+                delete.setOnMouseClicked(event -> deleteDiet());
+            }
+            
+            @Override   
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    actions.getChildren().addAll(pdf,clone,modify,delete);
+                    actions.setAlignment(Pos.CENTER);
+                    
+                    actions.setPadding(new Insets(5));
+                    setGraphic(actions);
+                }
+            }
+        });
         
     }
     
-    private void copyDiet(ActionEvent event){
+    private void exportToPDF(){
+        
+    }
+    
+    private void copyDiet(){
     
     }
     
-    private void modifyDiet(ActionEvent event){
+    private void modifyDiet(){
     
     }
     
-    private void deleteDiet(ActionEvent event){
+    private void deleteDiet(){
     
     }
     
     @FXML
-    private void next(ActionEvent event){
+    private void next(MouseEvent event){
     
     }
     
     @FXML
-    private void prev(ActionEvent event){
+    private void prev(MouseEvent event){
         
     }
     
