@@ -55,7 +55,7 @@ public class LoginController implements Initializable {
     public boolean verifyEmail(String email) {}*/
 
     public void dialog() throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("DietStorage.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("EmptyInputsController.fxml"));
         Scene scene = new Scene(parent);
         Stage stage = new Stage();
         stage.setScene(scene);

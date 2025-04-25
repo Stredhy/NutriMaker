@@ -130,7 +130,5 @@ public class DietStorageController implements Initializable {
         
     }
 
-    public static class EmptyInputsController {
-    }
 }
 
