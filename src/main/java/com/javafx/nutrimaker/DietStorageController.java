@@ -129,6 +129,8 @@ public class DietStorageController implements Initializable {
     private void prev(MouseEvent event){
         
     }
-    
+
+    public static class EmptyInputsController {
+    }
 }
 

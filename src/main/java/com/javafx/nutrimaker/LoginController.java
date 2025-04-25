@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -53,12 +54,13 @@ public class LoginController implements Initializable {
 
     public boolean verifyEmail(String email) {}*/
 
-    public void dialog() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Alert");
-        //alert.setHeaderText("Alert");
-        alert.setContentText("No campos vacios");
-        alert.showAndWait();
+    public void dialog() throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource("DietStorage.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UTILITY);
+        stage.show();
     }
 
     @FXML

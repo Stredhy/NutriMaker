@@ -8,8 +8,6 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -52,11 +50,6 @@
                                     </DropShadow>
                                  </effect>
                               </TextField>
-                              <ImageView fitHeight="25.0" fitWidth="44.0" layoutX="16.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../../../OneDrive/Imágenes/Assets/Icons/user.png" />
-                                 </image>
-                              </ImageView>
                            </children>
                         </Pane>
                         <Pane>
@@ -79,16 +72,11 @@
                                     <Point3D />
                                  </rotationAxis>
                               </PasswordField>
-                              <ImageView fitHeight="25.0" fitWidth="44.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../../../../../OneDrive/Imágenes/Assets/Icons/lock.png" />
-                                 </image>
-                              </ImageView>
                            </children>
                         </Pane>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="22.0">
                            <children>
-                              <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUp" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #48a6a7; -fx-background-radius: 12;" text="Registrarse" textFill="WHITE">
+                              <Button mnemonicParsing="false" onAction="#signUp" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #48a6a7; -fx-background-radius: 12;" text="Registrarse" textFill="WHITE">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
@@ -103,7 +91,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #006a71; -fx-background-radius: 12;" text="Iniciar Sesión" textFill="WHITE">
+                              <Button mnemonicParsing="false" onAction="#login" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #006a71; -fx-background-radius: 12;" text="Iniciar Sesión" textFill="WHITE">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
