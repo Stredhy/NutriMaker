@@ -3,6 +3,7 @@ package com.javafx.nutrimaker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +26,7 @@ public class LoginController implements Initializable {
     private TextField emailTextField;
 
     private boolean isEmpty() {
-        return !passwordTextField.getText().isEmpty() && emailTextField.getText().isEmpty();
+        return passwordTextField.getText().isEmpty() || emailTextField.getText().isEmpty();
     }
 
     private void dietStorage(ActionEvent event) throws IOException {
@@ -42,7 +43,7 @@ public class LoginController implements Initializable {
         //db connection
     }
 
-    public boolean checkPassword(String password) {
+    /*public boolean checkPassword(String password) {
 
     }
 
@@ -50,11 +51,22 @@ public class LoginController implements Initializable {
 
     public boolean verifyPassword(String password) {}
 
-    public boolean verifyEmail(String email) {}
+    public boolean verifyEmail(String email) {}*/
+
+    public void dialog() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Alert");
+        //alert.setHeaderText("Alert");
+        alert.setContentText("No campos vacios");
+        alert.showAndWait();
+    }
 
     @FXML
     public void login(ActionEvent event) throws IOException {
-        dietStorage(event);
+        if(isEmpty()){
+            dialog();
+        }
+
     }
 
     @FXML
