@@ -37,7 +37,7 @@
                         </Label>
                         <Pane prefHeight="85.0" prefWidth="569.0">
                            <children>
-                              <TextField prefHeight="85.0" prefWidth="569.0" promptText="Correo" style="-fx-background-color: #ffffff; -fx-border-color: #7d7d7d; -fx-background-radius: 5; -fx-border-radius: 5;">
+                              <TextField fx:id="emailTextField" prefHeight="85.0" prefWidth="569.0" promptText="Correo" style="-fx-background-color: #ffffff; -fx-border-color: #7d7d7d; -fx-background-radius: 5; -fx-border-radius: 5;">
                                  <font>
                                     <Font size="35.0" />
                                  </font>
@@ -61,7 +61,7 @@
                         </Pane>
                         <Pane>
                            <children>
-                              <PasswordField prefHeight="85.0" prefWidth="569.0" promptText="Contraseña" style="-fx-background-color: #ffffff; -fx-border-color: #7d7d7d; -fx-background-radius: 5; -fx-border-radius: 5;">
+                              <PasswordField fx:id="passwordTextField" prefHeight="85.0" prefWidth="569.0" promptText="Contraseña" style="-fx-background-color: #ffffff; -fx-border-color: #7d7d7d; -fx-background-radius: 5; -fx-border-radius: 5;">
                                  <font>
                                     <Font size="35.0" />
                                  </font>
@@ -88,7 +88,7 @@
                         </Pane>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="22.0">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #48a6a7; -fx-background-radius: 12;" text="Registrarse" textFill="WHITE">
+                              <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUp" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #48a6a7; -fx-background-radius: 12;" text="Registrarse" textFill="WHITE">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
@@ -103,7 +103,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #006a71; -fx-background-radius: 12;" text="Iniciar Sesión" textFill="WHITE">
+                              <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #006a71; -fx-background-radius: 12;" text="Iniciar Sesión" textFill="WHITE">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
