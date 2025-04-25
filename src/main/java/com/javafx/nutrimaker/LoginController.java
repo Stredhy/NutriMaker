@@ -24,20 +24,9 @@ public class LoginController implements Initializable {
     @FXML
     private TextField emailTextField;
 
-    @FXML
-    public void login(ActionEvent event) throws IOException {
-        dietStorage(event);
-    }
-
-    @FXML
-    public void signUp(ActionEvent event) throws IOException {
-        dietStorage(event);
-    }
-
     private boolean isEmpty() {
         return !passwordTextField.getText().isEmpty() && emailTextField.getText().isEmpty();
     }
-
 
     private void dietStorage(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DietStorage.fxml"));
@@ -48,10 +37,28 @@ public class LoginController implements Initializable {
         stage.show();
     }
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //db connection
+    }
+
+    public boolean checkPassword(String password) {
+
+    }
+
+    public boolean checkEmail(String email) {}
+
+    public boolean verifyPassword(String password) {}
+
+    public boolean verifyEmail(String email) {}
+
+    @FXML
+    public void login(ActionEvent event) throws IOException {
+        dietStorage(event);
+    }
+
+    @FXML
+    public void signUp(ActionEvent event) throws IOException {
+        //dietStorage(event);
     }
 }
