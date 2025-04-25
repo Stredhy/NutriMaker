@@ -61,6 +61,7 @@ public class LoginController implements Initializable {
         stage.setScene(scene);
         stage.initStyle(StageStyle.UTILITY);
         stage.show();
+        
     }
 
     @FXML
