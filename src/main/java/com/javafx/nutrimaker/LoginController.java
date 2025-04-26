@@ -55,12 +55,13 @@ public class LoginController implements Initializable {
     public boolean verifyEmail(String email) {}*/
 
     public void dialog() throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("EmptyInputsController.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("EmptyInputs.fxml"));
         Scene scene = new Scene(parent);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.initStyle(StageStyle.UTILITY);
         stage.show();
+        
     }
 
     @FXML
