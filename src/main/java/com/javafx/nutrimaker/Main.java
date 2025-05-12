@@ -5,7 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import com.javafx.nutrimaker.models.Database;
+
+
+
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Main extends Application {
     @Override
@@ -19,5 +25,12 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch();
+        try (Connection conn = conectar()) {
+            if (conn != null) {
+                System.out.println("Conexión exitosa a Oracle Autonomous Database sin wallet.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al conectar: " + e.getMessage());
+        }
     }
 }
