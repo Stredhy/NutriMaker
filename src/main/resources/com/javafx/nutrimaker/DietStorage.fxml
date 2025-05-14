@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -24,6 +25,9 @@
                   <TableColumn fx:id="dateCol" prefWidth="250.0" text="FECHA" />
                   <TableColumn fx:id="actionsCol" prefWidth="390.0" text="ACCIONES" />
               </columns>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </TableView>
          </children>
          <effect>
@@ -41,7 +45,7 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Button layoutX="1695.0" layoutY="30.0" mnemonicParsing="false" onAction="#createDiet" prefHeight="48.0" prefWidth="182.0" style="-fx-background-color: #87b4df;" styleClass="newButton" text="Nueva" textAlignment="RIGHT" textFill="WHITE">
+            <Button fx:id="createButton" layoutX="1673.0" layoutY="31.0" mnemonicParsing="false" onAction="#createDiet" prefHeight="48.0" prefWidth="182.0" style="-fx-background-color: #87b4df;" styleClass="newButton" text="Nueva" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
@@ -52,15 +56,20 @@
                      </color>
                   </DropShadow>
                </effect>
+               <graphic>
+                  <ImageView fitHeight="34.0" fitWidth="34.0">
+                     <image>
+                        <Image url="@images/new.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="1719.0" layoutY="38.0">
-               <image>
-                  <Image url="@images/new.png" />
-               </image>
-            </ImageView>
          </children>
       </AnchorPane>
-      <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="1845.0" layoutY="995.0" onMouseClicked="#next">
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1800.0" layoutY="990.0" onMouseClicked="#next">
          <image>
             <Image url="@images/next.png" />
          </image>
@@ -71,14 +80,20 @@
                </color>
             </DropShadow>
          </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
-      <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="1795.0" layoutY="995.0" onMouseClicked="#prev">
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1700.0" layoutY="990.0" onMouseClicked="#prev">
          <image>
             <Image url="@images/prev.png" />
          </image>
          <effect>
             <DropShadow />
          </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
    </children>
 </AnchorPane>
