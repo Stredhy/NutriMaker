@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.javafx.nutrimaker.models.Database;
+import com.javafx.nutrimaker.models.DataBase;
 
 
 
@@ -25,7 +25,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch();
-        try (Connection conn = Database.conectar()) {
+        try (Connection conn = DataBase.getConnection()) {
             if (conn != null) {
                 System.out.println("Conexión exitosa a Oracle Autonomous Database sin wallet.");
             }
