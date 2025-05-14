@@ -10,7 +10,7 @@ public class Database {
     private static final String username= "NUTRICIONISTA";
     private static final String password= "6m88Zp^t29JG*MXZsY!&";
 
-    public static Connection conectar() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
 }
