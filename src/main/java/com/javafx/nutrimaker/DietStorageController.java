@@ -25,7 +25,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -52,6 +51,10 @@ public class DietStorageController implements Initializable {
     private TableColumn<Diet, Void> actionsCol;
     @FXML
     private Button createButton;
+    @FXML
+    private Button nextButton;
+    @FXML
+    private Button prevButton;
     
 
     /**
@@ -60,6 +63,7 @@ public class DietStorageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        dietsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         showDietList();
     }    
 
@@ -74,12 +78,12 @@ public class DietStorageController implements Initializable {
     }
     
     @FXML
-    private void next(MouseEvent event){
-    
+    private void next(ActionEvent event){
+        
     }
     
     @FXML
-    private void prev(MouseEvent event){
+    private void prev(ActionEvent event){
         
     }
 
