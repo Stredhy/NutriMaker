@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DataBase {
+public class Database {
     private static final String url= "jdbc:oracle:thin:@//adb.mx-queretaro-1.oraclecloud.com:1522/nutrimaker_medium.adb.oraclecloud.com";
 
     private static final String username= "NUTRICIONISTA";
