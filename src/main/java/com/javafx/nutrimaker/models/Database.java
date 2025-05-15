@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DataBase {
+public class Database {
     private static final String walletPath = System.getenv("NUTRIMAKER_WALLET_PATH");
     private static final String url= "jdbc:oracle:thin:@nutrimaker_medium?TNS_ADMIN=" + walletPath;
 
