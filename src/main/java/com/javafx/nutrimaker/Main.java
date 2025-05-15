@@ -24,7 +24,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        //launch();
         try (Connection conn = Database.getConnection()) {
             if (conn != null) {
                 System.out.println("Conexión exitosa a Oracle Autonomous Database sin wallet.");
