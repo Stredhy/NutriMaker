@@ -9,6 +9,7 @@ import com.javafx.nutrimaker.models.Patient;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -62,7 +64,25 @@ public class DietStorageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.3),createButton);
+        fadeIn.setFromValue(1.0);
+        fadeIn.setToValue(0.5);
+        fadeIn.setAutoReverse(false);
+        
+        createButton.setOnMouseEntered(e -> {
+            fadeIn.play();
+        });
+        
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3),createButton);
+        fadeOut.setFromValue(0.5);
+        fadeOut.setToValue(1.0);
+        fadeOut.setCycleCount(1);
+        fadeOut.setAutoReverse(false);
+        
+        createButton.setOnMouseExited(e -> {
+            fadeOut.play();
+        });
+        
         dietsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         showDietList();
     }    
