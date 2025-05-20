@@ -25,12 +25,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //launch();
-        try (Connection conn = Database.getConnection()) {
-            if (conn != null) {
-                System.out.println("Conexión exitosa a Oracle Autonomous Database sin wallet.");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al conectar: " + e.getMessage());
-        }
+        Database db = new Database();
+        db.listarUsuarios();
     }
 }
