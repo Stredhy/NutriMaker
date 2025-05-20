@@ -6,6 +6,7 @@ module com.javafx.nutrimaker {
     requires java.base;
 
     requires okhttp3;
+    requires com.google.gson;
 
     requires java.sql;
     opens com.javafx.nutrimaker to javafx.fxml;
