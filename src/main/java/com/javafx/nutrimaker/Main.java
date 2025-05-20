@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.javafx.nutrimaker.models.Database;
+import com.javafx.nutrimaker.database.DatabaseClient;
 
 import java.io.IOException;
 
@@ -21,7 +21,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //launch();
-        Database db = new Database();
+        DatabaseClient db = new DatabaseClient();
         db.listarUsuarios();
     }
 }

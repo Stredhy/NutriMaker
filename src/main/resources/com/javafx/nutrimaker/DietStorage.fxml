@@ -12,7 +12,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" minHeight="1040.0" minWidth="1280.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: eeeeee;" stylesheets="@styles/dietStorageStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.DietStorageController">
+<AnchorPane id="AnchorPane" minHeight="1040.0" minWidth="1280.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: eeeeee;" stylesheets="@styles/dietStorageStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.controllers.DietStorageController">
    <children>
       <AnchorPane layoutX="32.0" layoutY="130.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="811.0" minWidth="1216.0" prefHeight="851.0" prefWidth="1856.0" style="-fx-background-color: ffffff; -fx-border-color: e0e0e0;" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="130.0">
          <children>

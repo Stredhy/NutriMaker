@@ -1,12 +1,13 @@
-package com.javafx.nutrimaker.models;
+package com.javafx.nutrimaker.database;
 
 import okhttp3.*;
 import com.google.gson.*;
 import java.io.IOException;
 
-public class Database {
+public class DatabaseClient {
     private final OkHttpClient client = new OkHttpClient();
     private final Gson gson = new Gson();
+
     private static final String USUARIOS_URL = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/usuario/";
 
     // 1. LISTAR USUARIOS

@@ -11,4 +11,6 @@ module com.javafx.nutrimaker {
     requires java.sql;
     opens com.javafx.nutrimaker to javafx.fxml;
     exports com.javafx.nutrimaker;
+    exports com.javafx.nutrimaker.controllers;
+    opens com.javafx.nutrimaker.controllers to javafx.fxml;
 }

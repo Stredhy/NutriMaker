@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="147.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.EmptyInputsController">
+<AnchorPane prefHeight="147.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.controllers.EmptyInputsController">
    <children>
       <HBox alignment="CENTER" prefHeight="55.0" prefWidth="305.0">
          <children>

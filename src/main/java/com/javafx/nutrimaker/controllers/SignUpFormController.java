@@ -1,4 +1,4 @@
-package com.javafx.nutrimaker;
+package com.javafx.nutrimaker.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
