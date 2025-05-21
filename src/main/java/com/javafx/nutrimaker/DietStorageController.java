@@ -6,20 +6,30 @@ package com.javafx.nutrimaker;
 
 import com.javafx.nutrimaker.models.Diet;
 import com.javafx.nutrimaker.models.Patient;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -42,6 +52,12 @@ public class DietStorageController implements Initializable {
     private TableColumn<Diet, String> dateCol;
     @FXML
     private TableColumn<Diet, Void> actionsCol;
+    @FXML
+    private Button createButton;
+    @FXML
+    private Button nextButton;
+    @FXML
+    private Button prevButton;
     
 
     /**
@@ -49,12 +65,30 @@ public class DietStorageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        setFadeAndScaleAnimation(createButton);
+        setFadeAndScaleAnimation(nextButton);
+        setFadeAndScaleAnimation(prevButton);
+        dietsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
         showDietList();
     }    
 
     @FXML
-    private void createDiet(ActionEvent event) {
+    private void createDiet(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateDiet.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Creat Dieta");
+        stage.show();
+    }
+    
+    @FXML
+    private void next(ActionEvent event){
+        
+    }
+    
+    @FXML
+    private void prev(ActionEvent event){
         
     }
 
@@ -69,20 +103,21 @@ public class DietStorageController implements Initializable {
             private final HBox actions = new HBox(10);;
             private final ImageView pdf = new ImageView(DietStorageController.class.getResource("images/pdf.png").toExternalForm());
             private final ImageView clone = new ImageView(DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
-            private final ImageView modify = new ImageView(DietStorageController.class.getResource("images/modify.png").toExternalForm());
+            private final ImageView edit = new ImageView(DietStorageController.class.getResource("images/edit.png").toExternalForm());
             private final ImageView delete = new ImageView(DietStorageController.class.getResource("images/delete.png").toExternalForm());
             
             {
-                for(ImageView icon: new ImageView[]{pdf,clone,modify,delete}){
+                for(ImageView icon: new ImageView[]{pdf,clone,edit,delete}){
                     icon.setFitHeight(34);
                     icon.setFitWidth(34);
+                    icon.setCursor(Cursor.HAND);
                 }
 
                 pdf.setOnMouseClicked(event -> exportToPDF());
 
                 clone.setOnMouseClicked(event -> copyDiet());
 
-                modify.setOnMouseClicked(event -> modifyDiet());
+                edit.setOnMouseClicked(event -> modifyDiet());
 
                 delete.setOnMouseClicked(event -> deleteDiet());
             }
@@ -92,16 +127,17 @@ public class DietStorageController implements Initializable {
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);
+                    //Debug
+                    System.out.println("Error de carga de graficos");
                 } else {
-                    actions.getChildren().addAll(pdf,clone,modify,delete);
+                    actions.getChildren().addAll(pdf,clone,edit,delete);
                     actions.setAlignment(Pos.CENTER);
-                    
                     actions.setPadding(new Insets(5));
+                    
                     setGraphic(actions);
                 }
             }
         });
-        
     }
     
     private void exportToPDF(){
@@ -120,15 +156,35 @@ public class DietStorageController implements Initializable {
     
     }
     
-    @FXML
-    private void next(MouseEvent event){
-    
-    }
-    
-    @FXML
-    private void prev(MouseEvent event){
+    public void setFadeAndScaleAnimation(Node n){
+        FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.3),n);
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3),n);
+        ScaleTransition expand = new ScaleTransition(Duration.seconds(0.3),n);
+        ScaleTransition reduce = new ScaleTransition(Duration.seconds(0.3),n);
         
+        fadeIn.setFromValue(1.0);
+        fadeIn.setToValue(0.5);
+        fadeIn.setAutoReverse(false);
+        
+        expand.setToX(1.1);
+        expand.setToY(1.1);
+        
+        n.setOnMouseEntered(e -> {
+            expand.play();
+            fadeIn.play();
+        });
+        
+        fadeOut.setFromValue(0.5);
+        fadeOut.setToValue(1.0);
+        fadeOut.setCycleCount(1);
+        fadeOut.setAutoReverse(false);
+        
+        reduce.setToX(1);
+        reduce.setToY(1);
+        
+        n.setOnMouseExited(e -> {
+            reduce.play();
+            fadeOut.play();
+        });
     }
-
 }
-
