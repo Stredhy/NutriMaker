@@ -66,7 +66,9 @@ public class DietStorageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setFadeAndScaleAnimation(createButton);
-        dietsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        setFadeAndScaleAnimation(nextButton);
+        setFadeAndScaleAnimation(prevButton);
+        dietsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
         showDietList();
     }    
 

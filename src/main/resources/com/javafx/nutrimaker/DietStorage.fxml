@@ -12,14 +12,14 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" minHeight="1040.0" minWidth="1280.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: eeeeee;" stylesheets="@styles/dietStorageStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.DietStorageController">
+<AnchorPane id="AnchorPane" minHeight="1040.0" minWidth="1280.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #101d4f;" stylesheets="@styles/dietStorageStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.DietStorageController">
    <children>
-      <AnchorPane layoutX="32.0" layoutY="130.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="811.0" minWidth="1216.0" prefHeight="851.0" prefWidth="1856.0" style="-fx-background-color: ffffff; -fx-border-color: e0e0e0;" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="130.0">
+      <AnchorPane layoutX="32.0" layoutY="130.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="811.0" minWidth="1216.0" prefHeight="851.0" prefWidth="1856.0" style="-fx-background-color: #0e3d58; -fx-border-color: #0e3d58;" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="130.0">
          <children>
-            <TableView fx:id="dietsTable" depthTest="DISABLE" layoutX="16.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="765.0" minWidth="1184.0" prefHeight="805.0" prefWidth="1824.0" styleClass="table-view" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="19.0">
+            <TableView fx:id="dietsTable" depthTest="DISABLE" layoutX="16.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="765.0" minWidth="1184.0" prefHeight="805.0" prefWidth="1824.0" style="-fx-background-color: #67ab95;" styleClass="table-view" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="19.0">
               <columns>
-                <TableColumn fx:id="numCol" minWidth="-1.0" prefWidth="85.0" text="NO." />
-                  <TableColumn fx:id="patientCol" minWidth="-1.0" prefWidth="713.3333358764648" text="PACIENTE" />
+                <TableColumn fx:id="numCol" minWidth="-1.0" prefWidth="109.0" text="NO." />
+                  <TableColumn fx:id="patientCol" minWidth="-1.0" prefWidth="682.0" text="PACIENTE" />
                 <TableColumn fx:id="weightCol" minWidth="-1.0" prefWidth="200.0" text="PESO" />
                   <TableColumn fx:id="heightCol" minWidth="-1.0" prefWidth="200.0" text="ALTURA" />
                   <TableColumn fx:id="dateCol" minWidth="-1.0" prefWidth="250.0" text="FECHA" />
@@ -41,14 +41,14 @@
             </DropShadow>
          </effect>
       </AnchorPane>
-      <AnchorPane minHeight="110.0" minWidth="1280.0" prefHeight="110.0" prefWidth="1920.0" style="-fx-background-color: ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane minHeight="110.0" minWidth="1280.0" prefHeight="110.0" prefWidth="1920.0" style="-fx-background-color: #0e3d58;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label layoutX="31.0" layoutY="29.0" text="Almacenamiento de Dietas">
+            <Label layoutX="31.0" layoutY="29.0" text="Almacenamiento de Dietas" textFill="WHITE">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Button fx:id="createButton" layoutX="1673.0" layoutY="31.0" mnemonicParsing="false" onAction="#createDiet" prefHeight="48.0" prefWidth="182.0" style="-fx-background-color: #87b4df;" styleClass="newButton" text="Nueva" textAlignment="RIGHT" textFill="WHITE" AnchorPane.rightAnchor="65.0">
+            <Button fx:id="createButton" layoutX="1673.0" layoutY="31.0" mnemonicParsing="false" onAction="#createDiet" prefHeight="48.0" prefWidth="182.0" style="-fx-background-color: #b0ceb5;" styleClass="newButton" text="Nueva" textAlignment="RIGHT" textFill="WHITE" AnchorPane.rightAnchor="65.0">
                <font>
                   <Font size="24.0" />
                </font>
@@ -59,6 +59,9 @@
                      </color>
                   </DropShadow>
                </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                <graphic>
                   <ImageView fitHeight="34.0" fitWidth="34.0">
                      <image>
@@ -66,11 +69,15 @@
                      </image>
                   </ImageView>
                </graphic>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
             </Button>
          </children>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.20000000298023224" />
+               </color>
+            </DropShadow>
+         </effect>
       </AnchorPane>
       <Button fx:id="prevButton" layoutX="1700.0" layoutY="990.0" mnemonicParsing="false" onAction="#prev" prefHeight="21.0" prefWidth="56.0" style="-fx-background-color: none;" AnchorPane.bottomAnchor="52.0" AnchorPane.rightAnchor="164.0">
          <graphic>
