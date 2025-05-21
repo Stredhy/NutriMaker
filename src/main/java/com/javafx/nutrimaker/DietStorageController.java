@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.javafx.nutrimaker.controllers;
+package com.javafx.nutrimaker;
 
 import com.javafx.nutrimaker.models.Diet;
 import com.javafx.nutrimaker.models.Patient;
@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,25 +65,8 @@ public class DietStorageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.3),createButton);
-        fadeIn.setFromValue(1.0);
-        fadeIn.setToValue(0.5);
-        fadeIn.setAutoReverse(false);
-        
-        createButton.setOnMouseEntered(e -> {
-            fadeIn.play();
-        });
-        
-        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3),createButton);
-        fadeOut.setFromValue(0.5);
-        fadeOut.setToValue(1.0);
-        fadeOut.setCycleCount(1);
-        fadeOut.setAutoReverse(false);
-        
-        createButton.setOnMouseExited(e -> {
-            fadeOut.play();
-        });
-        
+        setFadeAnimation(createButton);
+        setScaleTransition(createButton);
         dietsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         showDietList();
     }    
@@ -169,5 +153,46 @@ public class DietStorageController implements Initializable {
     
     private void deleteDiet(){
     
+    }
+    
+    public void setFadeAnimation(Node n){
+        FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.3),n);
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3),n);
+        
+        fadeIn.setFromValue(1.0);
+        fadeIn.setToValue(0.5);
+        fadeIn.setAutoReverse(false);
+        
+        n.setOnMouseEntered(e -> {
+            fadeIn.play();
+        });
+        
+        fadeOut.setFromValue(0.5);
+        fadeOut.setToValue(1.0);
+        fadeOut.setCycleCount(1);
+        fadeOut.setAutoReverse(false);
+        
+        n.setOnMouseExited(e -> {
+            fadeOut.play();
+        });
+    }
+    
+    public void setScaleTransition(Node n){
+        ScaleTransition expand = new ScaleTransition(Duration.seconds(0.3),n);
+        ScaleTransition reduce = new ScaleTransition(Duration.seconds(0.3),n);
+        
+        expand.setToX(1.1);
+        expand.setToY(1.1);
+        
+        reduce.setToX(1);
+        reduce.setToY(1);
+                
+        n.setOnMouseEntered(e -> {
+            expand.play();
+        });
+        
+        n.setOnMouseExited(e -> {
+            reduce.play();
+        });
     }
 }

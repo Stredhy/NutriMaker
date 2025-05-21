@@ -1,4 +1,4 @@
-package com.javafx.nutrimaker.controllers;
+package com.javafx.nutrimaker;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
