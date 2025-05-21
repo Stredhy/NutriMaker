@@ -7,9 +7,13 @@ package com.javafx.nutrimaker;
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
 import com.javafx.nutrimaker.models.Diet;
 import com.javafx.nutrimaker.models.Patient;
+import com.javafx.nutrimaker.repository.DietRepository;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,21 +45,23 @@ public class DietStorageController implements Initializable {
     @FXML
     private TableColumn<Diet, String> numCol;
     @FXML
-    private TableColumn<Patient, String> patientCol;
+    private TableColumn<Diet, String> patientCol;
     @FXML
-    private TableColumn<Patient, String> weightCol;
+    private TableColumn<Diet, String> weightCol;
     @FXML
-    private TableColumn<Patient, String> heightCol;
+    private TableColumn<Diet, String> heightCol;
     @FXML
     private TableColumn<Diet, String> dateCol;
     @FXML
-    private TableColumn<Diet, Void> actionsCol;
+    private TableColumn<Diet, String> actionsCol;
     @FXML
     private Button createButton;
     @FXML
     private Button nextButton;
     @FXML
     private Button prevButton;
+    
+    private ObservableList<Diet> dietsList = FXCollections.observableArrayList();
     
 
     /**
@@ -97,7 +103,7 @@ public class DietStorageController implements Initializable {
         weightCol.setCellValueFactory(new PropertyValueFactory<>("weight"));
         heightCol.setCellValueFactory(new PropertyValueFactory<>("height"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("creationDate"));
-        actionsCol.setCellFactory(col ->  new TableCell<Diet,Void>(){
+        actionsCol.setCellFactory(col ->  new TableCell<Diet,String>(){
             private final HBox actions = new HBox(10);;
             private final ImageView pdf = new ImageView(DietStorageController.class.getResource("images/pdf.png").toExternalForm());
             private final ImageView clone = new ImageView(DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
@@ -121,7 +127,7 @@ public class DietStorageController implements Initializable {
             }
             
             @Override   
-            protected void updateItem(Void item, boolean empty) {
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);

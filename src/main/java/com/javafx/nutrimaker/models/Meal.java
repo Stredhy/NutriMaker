@@ -22,4 +22,30 @@ public class Meal {
         this.type = typeX;
         this.hour = hourX;
     }
+
+    public void setIngredients(ObservableList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+    public ObservableList<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+    
+    
 }

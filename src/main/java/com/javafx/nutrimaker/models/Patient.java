@@ -23,4 +23,37 @@ public class Patient {
         this.weight = wh;
         this.height = hg;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public void setHeight(Double height) {
+        this.height = height;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public Double getHeight() {
+        return height;
+    }
+    
 }
