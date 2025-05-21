@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class UserRepository {
 
-    private static final String BASE_URL = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/usuario/";
+    private static final String BASE_URL = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/useraccount/";
 
     // Obtener todos los usuarios
     public void getAllUsers(ResponseCallback callback) {
@@ -24,18 +24,18 @@ public class UserRepository {
     }
 
     // Insertar un nuevo usuario
-    public void createUser(String correo, String password, ResponseCallback callback) {
+    public void createUser(String email, String password, ResponseCallback callback) {
         JsonObject json = new JsonObject();
-        json.addProperty("correo", correo);
+        json.addProperty("email", email);
         json.addProperty("password", password);
         DatabaseClient dbClient = new DatabaseClient();
         dbClient.post(BASE_URL, json.toString(), null, callback);
     }
 
     // Actualizar usuario existente por ID
-    public void updateUser(int id, String correo, String password, ResponseCallback callback) {
+    public void updateUser(int id, String email, String password, ResponseCallback callback) {
         JsonObject json = new JsonObject();
-        json.addProperty("correo", correo);
+        json.addProperty("email", email);
         json.addProperty("password", password);
         String url = BASE_URL + id;
         DatabaseClient dbClient = new DatabaseClient();
@@ -50,8 +50,8 @@ public class UserRepository {
     }
 
     // Buscar usuario por correo
-    public void getUserByEmail(String correo, ResponseCallback callback) {
-        String url = BASE_URL + "?q={\"correo\":\"" + correo + "\"}";
+    public void getUserByEmail(String email, ResponseCallback callback) {
+        String url = BASE_URL + "?q={\"email\":\"" + email + "\"}";
         DatabaseClient dbClient = new DatabaseClient();
         dbClient.get(url, null, callback);
     }
