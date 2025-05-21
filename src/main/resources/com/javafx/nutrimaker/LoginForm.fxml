@@ -8,23 +8,20 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: eeeeee;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.LoginController">
-   <children>
-      <HBox layoutX="367.0" layoutY="130.0" prefHeight="820.0" prefWidth="1186.0" spacing="16.0" style="-fx-background-color: fff; -fx-background-radius: 12;">
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.LoginController">
+   <center>
+      <HBox prefHeight="1080.0" prefWidth="1920.0" spacing="16.0" style="-fx-background-color: fff; -fx-background-radius: 12;">
          <children>
-            <VBox prefHeight="625.0" prefWidth="585.0">
-               <children>
-                  <Pane cache="true" prefHeight="852.0" prefWidth="585.0" style="-fx-background-color: #7abd9c; -fx-background-radius: 12 0 0 12;" />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER">
+            <Pane cache="true" prefHeight="698.0" prefWidth="585.0" style="-fx-background-color: #7abd9c; -fx-background-radius: 12 0 0 12;" />
+            <VBox alignment="CENTER" prefHeight="772.0" prefWidth="569.0">
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="512.0" prefWidth="569.0" spacing="52.0">
                      <children>
@@ -33,7 +30,7 @@
                               <Font size="72.0" />
                            </font>
                         </Label>
-                        <Pane prefHeight="85.0" prefWidth="569.0">
+                        <HBox>
                            <children>
                               <TextField fx:id="emailTextField" prefHeight="85.0" prefWidth="569.0" promptText="Correo" style="-fx-background-color: #ffffff; -fx-border-color: #7d7d7d; -fx-background-radius: 5; -fx-border-radius: 5;">
                                  <font>
@@ -51,8 +48,8 @@
                                  </effect>
                               </TextField>
                            </children>
-                        </Pane>
-                        <Pane>
+                        </HBox>
+                        <HBox>
                            <children>
                               <PasswordField fx:id="passwordTextField" prefHeight="85.0" prefWidth="569.0" promptText="Contraseña" style="-fx-background-color: #ffffff; -fx-border-color: #7d7d7d; -fx-background-radius: 5; -fx-border-radius: 5;">
                                  <font>
@@ -73,7 +70,7 @@
                                  </rotationAxis>
                               </PasswordField>
                            </children>
-                        </Pane>
+                        </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="22.0">
                            <children>
                               <Button mnemonicParsing="false" onAction="#signUp" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #48a6a7; -fx-background-radius: 12;" text="Registrarse" textFill="WHITE">
@@ -109,9 +106,6 @@
                            </children>
                         </HBox>
                      </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
                   </VBox>
                </children>
             </VBox>
@@ -123,6 +117,9 @@
                </color>
             </DropShadow>
          </effect>
+         <padding>
+            <Insets bottom="130.0" left="367.0" right="367.0" top="130.0" />
+         </padding>
       </HBox>
-   </children>
-</AnchorPane>
+   </center>
+</BorderPane>
