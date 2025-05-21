@@ -9,6 +9,7 @@ module com.javafx.nutrimaker {
     requires com.google.gson;
 
     requires java.sql;
+    requires annotations;
     opens com.javafx.nutrimaker to javafx.fxml;
     exports com.javafx.nutrimaker;
     exports com.javafx.nutrimaker.controllers;

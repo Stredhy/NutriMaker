@@ -1,139 +1,79 @@
 package com.javafx.nutrimaker.database;
 
 import okhttp3.*;
-import com.google.gson.*;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
+import java.util.Map;
 
 public class DatabaseClient {
-    private final OkHttpClient client = new OkHttpClient();
-    private final Gson gson = new Gson();
 
-    private static final String USUARIOS_URL = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/usuario/";
+    private final OkHttpClient client;
+    private static final MediaType JSON = MediaType.parse("application/json");
 
-    // 1. LISTAR USUARIOS
-    public void listarUsuarios() {
-        Request request = new Request.Builder()
-                .url(USUARIOS_URL)
-                .get()
-                .build();
+    public interface ResponseCallback {
+        void onSuccess(String responseBody);
+        void onError(Exception e);
+    }
 
-        client.newCall(request).enqueue(new Callback() {
+    public DatabaseClient() {
+        this.client = new OkHttpClient();
+    }
+
+    // GET
+    public void get(String url, Map<String, String> headers, ResponseCallback callback) {
+        Request.Builder builder = new Request.Builder().url(url).get();
+        addHeaders(builder, headers);
+        executeAsync(builder.build(), callback);
+    }
+
+    // POST
+    public void post(String url, String jsonBody, Map<String, String> headers, ResponseCallback callback) {
+        RequestBody body = RequestBody.create(jsonBody, JSON);
+        Request.Builder builder = new Request.Builder().url(url).post(body);
+        addHeaders(builder, headers);
+        executeAsync(builder.build(), callback);
+    }
+
+    // PUT
+    public void put(String url, String jsonBody, Map<String, String> headers, ResponseCallback callback) {
+        RequestBody body = RequestBody.create(jsonBody, JSON);
+        Request.Builder builder = new Request.Builder().url(url).put(body);
+        addHeaders(builder, headers);
+        executeAsync(builder.build(), callback);
+    }
+
+    // DELETE
+    public void delete(String url, Map<String, String> headers, ResponseCallback callback) {
+        Request.Builder builder = new Request.Builder().url(url).delete();
+        addHeaders(builder, headers);
+        executeAsync(builder.build(), callback);
+    }
+
+    // Utilidad: Agregar headers opcionales
+    private void addHeaders(Request.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            headers.forEach(builder::addHeader);
+        }
+    }
+
+    // Ejecutar de forma asíncrona
+    private void executeAsync(Request request, ResponseCallback callback) {
+        client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                System.err.println("Error al hacer la solicitud: " + e.getMessage());
+            public void onFailure(@NotNull Call call,@NotNull IOException e) {
+                callback.onError(e);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String json = response.body().string();
-                    System.out.println("Usuarios encontrados:\n" + json);
-                } else {
-                    System.err.println("Error en la respuesta HTTP: " + response.code());
-                }
-            }
-        });
-    }
-
-    // 2. INSERTAR USUARIO
-    public void insertarUsuario(String nombre, String email) {
-        JsonObject json = new JsonObject();
-        json.addProperty("nombre", nombre);
-        json.addProperty("email", email);
-
-        RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json"));
-        Request request = new Request.Builder()
-                .url(USUARIOS_URL)
-                .post(body)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {
-                System.err.println("Error al insertar: " + e.getMessage());
-            }
-
-            @Override public void onResponse(Call call, Response response) throws IOException {
-                System.out.println("Respuesta al insertar: " + response.code());
-                System.out.println(response.body().string());
-            }
-        });
-    }
-
-    // 3. MODIFICAR USUARIO POR ID
-    public void modificarUsuario(int id, String nuevoNombre, String nuevoEmail) {
-        JsonObject json = new JsonObject();
-        json.addProperty("nombre", nuevoNombre);
-        json.addProperty("email", nuevoEmail);
-
-        RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json"));
-        Request request = new Request.Builder()
-                .url(USUARIOS_URL + id)
-                .put(body)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {
-                System.err.println("Error al modificar: " + e.getMessage());
-            }
-
-            @Override public void onResponse(Call call, Response response) throws IOException {
-                System.out.println("Respuesta al modificar: " + response.code());
-                System.out.println(response.body().string());
-            }
-        });
-    }
-
-    // 4. ELIMINAR USUARIO POR CORREO (requiere buscar primero el ID)
-    public void eliminarUsuarioPorCorreo(String correo) {
-        Request request = new Request.Builder()
-                .url(USUARIOS_URL)
-                .get()
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {
-                System.err.println("Error al buscar usuarios: " + e.getMessage());
-            }
-
-            @Override public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    System.err.println("Error al consultar usuarios: " + response.code());
-                    return;
-                }
-
-                String json = response.body().string();
-                JsonObject root = JsonParser.parseString(json).getAsJsonObject();
-                JsonArray items = root.getAsJsonArray("items");
-
-                for (JsonElement elem : items) {
-                    JsonObject usuario = elem.getAsJsonObject();
-                    String email = usuario.get("email").getAsString();
-                    if (email.equalsIgnoreCase(correo)) {
-                        int id = usuario.get("id").getAsInt();
-                        eliminarUsuarioPorId(id);
+            public void onResponse(@NotNull Call call,@NotNull Response response) throws IOException {
+                try (ResponseBody body = response.body()) {
+                    if (!response.isSuccessful()) {
+                        callback.onError(new IOException("Error HTTP: " + response.code()));
                         return;
                     }
+                    callback.onSuccess(body != null ? body.string() : "");
                 }
-
-                System.out.println("No se encontró el usuario con correo: " + correo);
-            }
-        });
-    }
-
-    private void eliminarUsuarioPorId(int id) {
-        Request request = new Request.Builder()
-                .url(USUARIOS_URL + id)
-                .delete()
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {
-                System.err.println("Error al eliminar usuario: " + e.getMessage());
-            }
-
-            @Override public void onResponse(Call call, Response response) throws IOException {
-                System.out.println("Respuesta al eliminar: " + response.code());
-                System.out.println(response.body().string());
             }
         });
     }
