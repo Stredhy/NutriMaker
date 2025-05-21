@@ -65,8 +65,7 @@ public class DietStorageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setFadeAnimation(createButton);
-        setScaleTransition(createButton);
+        setFadeAndScaleAnimation(createButton);
         dietsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         showDietList();
     }    
@@ -155,15 +154,21 @@ public class DietStorageController implements Initializable {
     
     }
     
-    public void setFadeAnimation(Node n){
+    public void setFadeAndScaleAnimation(Node n){
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.3),n);
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3),n);
+        ScaleTransition expand = new ScaleTransition(Duration.seconds(0.3),n);
+        ScaleTransition reduce = new ScaleTransition(Duration.seconds(0.3),n);
         
         fadeIn.setFromValue(1.0);
         fadeIn.setToValue(0.5);
         fadeIn.setAutoReverse(false);
         
+        expand.setToX(1.1);
+        expand.setToY(1.1);
+        
         n.setOnMouseEntered(e -> {
+            expand.play();
             fadeIn.play();
         });
         
@@ -172,27 +177,12 @@ public class DietStorageController implements Initializable {
         fadeOut.setCycleCount(1);
         fadeOut.setAutoReverse(false);
         
-        n.setOnMouseExited(e -> {
-            fadeOut.play();
-        });
-    }
-    
-    public void setScaleTransition(Node n){
-        ScaleTransition expand = new ScaleTransition(Duration.seconds(0.3),n);
-        ScaleTransition reduce = new ScaleTransition(Duration.seconds(0.3),n);
-        
-        expand.setToX(1.1);
-        expand.setToY(1.1);
-        
         reduce.setToX(1);
         reduce.setToY(1);
-                
-        n.setOnMouseEntered(e -> {
-            expand.play();
-        });
         
         n.setOnMouseExited(e -> {
             reduce.play();
+            fadeOut.play();
         });
     }
 }
