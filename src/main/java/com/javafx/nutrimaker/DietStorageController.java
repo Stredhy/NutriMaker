@@ -6,6 +6,7 @@ package com.javafx.nutrimaker;
 
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
 import com.javafx.nutrimaker.models.DietSummary;
+import com.javafx.nutrimaker.models.User;
 import com.javafx.nutrimaker.repository.DietRepository;
 import java.io.IOException;
 import java.net.URL;
@@ -42,7 +43,8 @@ import javafx.stage.Stage;
 public class DietStorageController implements Initializable {
 
     private final int LIMIT = 10;
-    private int count = 0;
+    private int count = 0;    
+    private int userId = User.getUser().getId();
     
     @FXML
     private TableView<DietSummary> dietsTable;
@@ -77,7 +79,12 @@ public class DietStorageController implements Initializable {
         setFadeAndScaleAnimation(nextButton);
         setFadeAndScaleAnimation(prevButton);
         dietsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
-        showDietList();
+        dietsTable.setSelectionModel(null);
+        try {
+            showDietList();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }    
 
     @FXML
@@ -91,16 +98,22 @@ public class DietStorageController implements Initializable {
     }
     
     @FXML
-    private void next(ActionEvent event){
-        
+    private void next(ActionEvent event) throws IOException{
+        count+=10;
+        showDietList();
     }
     
     @FXML
-    private void prev(ActionEvent event){
-        
+    private void prev(ActionEvent event) throws IOException{
+        count-=10;
+        if (count < 0){
+            count+=10;
+        }
+        showDietList();
     }
 
-    private void showDietList() {
+    private void showDietList() throws IOException {
+        refreshButtons();
         refreshTable();
         numCol.setCellValueFactory(new PropertyValueFactory<>("dietId"));
         patientCol.setCellValueFactory(new PropertyValueFactory<>("patientName"));
@@ -122,7 +135,6 @@ public class DietStorageController implements Initializable {
             private final Button clone = new Button("",cloneIcon);
             private final Button edit = new Button("",editIcon);
             private final Button delete = new Button("",deleteIcon);
-
             {
                 for(ImageView icon: new ImageView[]{pdfIcon,cloneIcon,editIcon,deleteIcon}){
                     icon.setEffect(shadow);
@@ -135,7 +147,6 @@ public class DietStorageController implements Initializable {
                     btn.setCursor(Cursor.HAND);
                     setFadeAndScaleAnimation(btn);
                 }
-
                 pdf.setOnMouseClicked(event -> exportToPDF());
                 clone.setOnMouseClicked(event -> copyDiet());
                 edit.setOnMouseClicked(event -> modifyDiet());
@@ -174,21 +185,24 @@ public class DietStorageController implements Initializable {
         System.out.println("Delete Diet");
     }
     
+    private void refreshButtons() throws IOException{
+        DietRepository dietRepo = new DietRepository();        
+        prevButton.setVisible( count > 0);        
+        nextButton.setVisible((count + LIMIT) < dietRepo.getTotalDietsCount());
+    }
+    
     private void refreshTable(){
         dietsList.clear();
         DietRepository dietRepo = new DietRepository();
-        
         try{
             List<DietSummary> diets = dietRepo.getDiets(count, LIMIT);
             for(DietSummary diet : diets){
                 dietsList.add(new DietSummary(diet.getDietId(),diet.getPatientName(),
                 diet.getWeight(),diet.getHeight(),diet.getCreationDate()));
                 dietsTable.setItems(dietsList);
-            }
-            
+            }            
         }catch(IOException e){
-            System.out.println("It cannot load your diets");
-        }
-        
+            System.out.println(e.getMessage());
+        }        
     }
 }

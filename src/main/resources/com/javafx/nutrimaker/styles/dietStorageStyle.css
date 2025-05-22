@@ -21,7 +21,14 @@
     -fx-font-size: 20px;
     -fx-alignment: CENTER_LEFT;
     -fx-padding:5 10 5 10;
+    -fx-border-color: none;
 }
+
+.table-row-cell{
+   -fx-background-color: #67ab95;
+}
+
+
 
 .newButton{
     -fx-font-size: 20;

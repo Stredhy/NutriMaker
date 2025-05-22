@@ -1,6 +1,7 @@
 package com.javafx.nutrimaker.models;
 
 public class User {
+    private static User user;
     private String email;
     private String password;
     private int id;
@@ -23,7 +24,7 @@ public class User {
         this.id = i;
     }
     
-    public static User getUser(User user){
+    public static User getUser(){
         if(user == null){
             user = new User();
         }

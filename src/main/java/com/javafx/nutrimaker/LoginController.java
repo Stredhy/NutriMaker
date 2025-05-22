@@ -20,7 +20,7 @@ import javafx.scene.control.Button;
 
 public class LoginController implements Initializable {
     static final String REG_EXP_VER_EMAIL= "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{5,256}";
-    static final String REG_EXP_VER_PASS= "{8,16}";
+    static final String REG_EXP_VER_PASS= ".{8,16}";
     public User user;
     
     @FXML
@@ -34,6 +34,22 @@ public class LoginController implements Initializable {
 
     private boolean isEmpty() {
         return passwordTextField.getText().isEmpty() || emailTextField.getText().isEmpty();
+    }
+    
+    private boolean checkPassword() {
+        return passwordTextField.getText().matches(REG_EXP_VER_PASS);
+    }
+    
+    private boolean checkEmail() {
+        return emailTextField.getText().matches(REG_EXP_VER_EMAIL);
+    }
+    
+    private boolean verifyPassword() {
+        return true;
+    }
+
+    private boolean verifyEmail() {
+        return true;
     }
 
     private void dietStorage(ActionEvent event) throws IOException {
@@ -52,20 +68,9 @@ public class LoginController implements Initializable {
         setFadeAndScaleAnimation(signupButton);
         setFadeAnimation(emailTextField);
         setFadeAnimation(passwordTextField);
+        
         //db connection
     }
-
-    /*public boolean checkPassword(String password) {
-
-    }
-
-    public boolean checkEmail(String email) {
-        
-    }
-
-    public boolean verifyPassword(String password) {}
-
-    public boolean verifyEmail(String email) {}*/
 
     public void dialog() throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource("EmptyInputs.fxml"));
@@ -74,15 +79,32 @@ public class LoginController implements Initializable {
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
-        
     }
 
+    public void invalidCredentials() throws IOException{
+        Parent parent = FXMLLoader.load(getClass().getResource("checkCredentials.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
+    
     @FXML
     public void login(ActionEvent event) throws IOException {
         if(isEmpty()){
             dialog();
+            return;
         }
-
+        if(!checkPassword() || !checkEmail()){
+            invalidCredentials();
+            return;
+        }
+        
+        if(verifyPassword() && verifyEmail()){
+            dietStorage(event);
+        }
+        
     }
 
     @FXML

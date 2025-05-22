@@ -25,9 +25,6 @@
                   <TableColumn fx:id="dateCol" minWidth="-1.0" prefWidth="250.0" text="FECHA" />
                   <TableColumn fx:id="actionsCol" minWidth="-1.0" prefWidth="390.0" text="ACCIONES" />
               </columns>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
