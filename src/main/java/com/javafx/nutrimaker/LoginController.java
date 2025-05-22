@@ -1,6 +1,7 @@
 package com.javafx.nutrimaker;
 
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
+import com.javafx.nutrimaker.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
