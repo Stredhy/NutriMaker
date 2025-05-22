@@ -20,9 +20,9 @@ public class DietRepository {
     private final Gson gson = new Gson();
     private final DatabaseClient dbClient = new DatabaseClient();
 
-    public List<DietSummary> getDiets(int offset, int limit) throws IOException {
-        String getsDietsURL = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietapi/diets";
-        String urlWithParams = getsDietsURL + "?offset=" + offset + "&limit=" + limit;
+    public List<DietSummary> getDiets(int offset, int limit, int user_id) throws IOException {
+        String getsDietsURL = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietapi/diets?limit=10&offset=0&user_id=1";
+        String urlWithParams = getsDietsURL + "?offset=" + offset + "&limit=" + limit + "&user_id=" + user_id;
         String json = dbClient.get(urlWithParams, null);
 
         Gson gson = new Gson();

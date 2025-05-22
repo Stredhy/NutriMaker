@@ -193,16 +193,5 @@ public class DietStorageController implements Initializable {
     
     private void refreshTable(){
         dietsList.clear();
-        DietRepository dietRepo = new DietRepository();
-        try{
-            List<DietSummary> diets = dietRepo.getDiets(count, LIMIT);
-            for(DietSummary diet : diets){
-                dietsList.add(new DietSummary(diet.getDietId(),diet.getPatientName(),
-                diet.getWeight(),diet.getHeight(),diet.getCreationDate()));
-                dietsTable.setItems(dietsList);
-            }            
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-        }        
     }
 }
