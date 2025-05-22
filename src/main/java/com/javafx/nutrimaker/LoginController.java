@@ -1,5 +1,6 @@
 package com.javafx.nutrimaker;
 
+import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.control.Button;
 
 public class LoginController implements Initializable {
     static final String REG_EXP_VER_EMAIL= "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{5,256}";
@@ -21,9 +23,12 @@ public class LoginController implements Initializable {
 
     @FXML
     private PasswordField passwordTextField;
-
     @FXML
     private TextField emailTextField;
+    @FXML
+    private Button signupButton;
+    @FXML
+    private Button loginButton;
 
     private boolean isEmpty() {
         return passwordTextField.getText().isEmpty() || emailTextField.getText().isEmpty();
@@ -40,6 +45,10 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        setFadeAndScaleAnimation(loginButton);
+        setFadeAndScaleAnimation(signupButton);
+        setFadeAnimation(emailTextField);
+        setFadeAnimation(passwordTextField);
         //db connection
     }
 

@@ -6,11 +6,8 @@ package com.javafx.nutrimaker;
 
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
 import com.javafx.nutrimaker.models.Diet;
-import com.javafx.nutrimaker.models.Patient;
-import com.javafx.nutrimaker.repository.DietRepository;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -104,7 +101,7 @@ public class DietStorageController implements Initializable {
         heightCol.setCellValueFactory(new PropertyValueFactory<>("height"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("creationDate"));
         actionsCol.setCellFactory(col ->  new TableCell<Diet,String>(){
-            private final HBox actions = new HBox(10);;
+            private final HBox actions = new HBox(10);
             private final ImageView pdf = new ImageView(DietStorageController.class.getResource("images/pdf.png").toExternalForm());
             private final ImageView clone = new ImageView(DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
             private final ImageView edit = new ImageView(DietStorageController.class.getResource("images/edit.png").toExternalForm());

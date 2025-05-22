@@ -46,7 +46,7 @@ public class AnimationPersonalized {
         });
     }
     
-    public static void fadeAnimation(Node n){
+    public static void setFadeAnimation(Node n){
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.3),n);
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3),n);
         fadeIn.setFromValue(1.0);
@@ -67,7 +67,7 @@ public class AnimationPersonalized {
         });
     }
     
-    public static void scaleAnimation(Node n){
+    public static void setScaleAnimation(Node n){
         ScaleTransition expand = new ScaleTransition(Duration.seconds(0.3),n);
         ScaleTransition reduce = new ScaleTransition(Duration.seconds(0.3),n);
         
