@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 import javafx.scene.control.Button;
 
 public class LoginController implements Initializable {
-    static final String REG_EXP_VER_EMAIL= "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{5,256}";
+    static final String REG_EXP_VER_EMAIL= "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,63}$";
     static final String REG_EXP_VER_PASS= ".{8,16}";
     public User user;
     
