@@ -1,27 +1,34 @@
 package com.javafx.nutrimaker.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Patient {
+    @SerializedName("patient_name")
     private String name;
     private int age;
     private Double weight;
     private Double height;
-    
+    private int patientId;
+
+
     private void copyAll(Patient p){
         this.name = p.name;
         this.age = p.age;
         this.weight = p.weight;
         this.height = p.height;
+        this.patientId = p.patientId;
     }
     
     public Patient(Patient p){
         copyAll(p);
     }
     
-    public Patient(String nameX, int ageX, Double wh, Double hg){
+    public Patient(String nameX, int ageX, Double wh, Double hg, int id){
         this.name = nameX;
         this.age = ageX;
         this.weight = wh;
         this.height = hg;
+        this.patientId = id;
     }
 
     public void setName(String name) {
@@ -38,6 +45,14 @@ public class Patient {
 
     public void setHeight(Double height) {
         this.height = height;
+    }
+
+    public void setPatientId(int patientId) {
+        this.patientId = patientId;
+    }
+
+    public int getPatientId() {
+        return patientId;
     }
 
     public String getName() {
