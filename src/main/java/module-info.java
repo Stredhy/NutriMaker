@@ -15,6 +15,7 @@ module com.javafx.nutrimaker {
 
     requires java.sql;
     requires annotations;
+    requires jbcrypt;
     opens com.javafx.nutrimaker to javafx.fxml;
     exports com.javafx.nutrimaker;
 }
