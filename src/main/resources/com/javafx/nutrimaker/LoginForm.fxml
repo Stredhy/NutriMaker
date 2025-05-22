@@ -15,16 +15,16 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1040.0" minWidth="1280.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #101d4f;" stylesheets="@styles/loginForm.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="935.0" minWidth="1280.0" prefHeight="972.0" prefWidth="1728.0" style="-fx-background-color: #101d4f;" stylesheets="@styles/loginForm.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.LoginController">
    <children>
-      <HBox AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="330.0" AnchorPane.topAnchor="112.0">
+      <AnchorPane layoutX="251.0" layoutY="109.0" prefHeight="708.0" prefWidth="1198.0" AnchorPane.bottomAnchor="155.0" AnchorPane.leftAnchor="251.0" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="109.0">
          <children>
-            <AnchorPane prefHeight="820.0" prefWidth="630.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 12 0 0 12;" />
-            <AnchorPane minHeight="820.0" minWidth="630.0" prefHeight="820.0" prefWidth="630.0" style="-fx-background-color: #0c7774; -fx-background-radius: 0 12 0 0;">
+            <HBox prefHeight="708.0" prefWidth="1198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <AnchorPane layoutX="602.0" layoutY="8.0" prefHeight="820.0" prefWidth="507.0" AnchorPane.bottomAnchor="-8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
+                  <AnchorPane prefHeight="820.0" prefWidth="634.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 12 0 0 12;" />
+                  <AnchorPane prefHeight="820.0" prefWidth="577.0">
                      <children>
-                        <VBox alignment="CENTER" layoutX="-2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox alignment="CENTER" layoutX="40.0" prefHeight="820.0" prefWidth="630.0" style="-fx-background-color: #0c7774; -fx-background-radius: 0 12 12 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane>
                                  <VBox.margin>
@@ -47,7 +47,7 @@
                                           </AnchorPane>
                                           <AnchorPane>
                                              <children>
-                                                <TextField fx:id="emailTextField" prefHeight="85.0" prefWidth="569.0" promptText="Correo" style="-fx-background-color: #b0ceb5; -fx-border-color: #b0ceb5; -fx-background-radius: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <TextField fx:id="emailTextField" layoutX="4.0" prefHeight="85.0" prefWidth="560.0" promptText="Correo" style="-fx-background-color: #b0ceb5; -fx-border-color: #b0ceb5; -fx-background-radius: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <font>
                                                       <Font size="24.0" />
                                                    </font>
@@ -71,7 +71,7 @@
                                           </AnchorPane>
                                           <AnchorPane>
                                              <children>
-                                                <PasswordField fx:id="passwordTextField" prefHeight="85.0" prefWidth="569.0" promptText="Contraseña" style="-fx-background-color: #b0ceb5; -fx-border-color: #b0ceb5; -fx-background-radius: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <PasswordField fx:id="passwordTextField" layoutX="4.0" prefHeight="85.0" prefWidth="560.0" promptText="Contraseña" style="-fx-background-color: #b0ceb5; -fx-border-color: #b0ceb5; -fx-background-radius: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <font>
                                                       <Font size="24.0" />
                                                    </font>
@@ -93,11 +93,11 @@
                                                 </ImageView>
                                              </children>
                                           </AnchorPane>
-                                          <AnchorPane>
+                                          <AnchorPane prefHeight="85.0" prefWidth="476.0">
                                              <children>
-                                                <Button fx:id="signupButton" mnemonicParsing="false" onAction="#signUp" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #67ab95; -fx-background-radius: 12;" text="Registrarse" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <Button fx:id="signupButton" layoutX="31.0" mnemonicParsing="false" onAction="#signUp" prefHeight="85.0" prefWidth="225.0" style="-fx-background-color: #67ab95; -fx-background-radius: 12;" text="Registrarse" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="0.0">
                                                    <font>
-                                                      <Font size="36.0" />
+                                                      <Font size="24.0" />
                                                    </font>
                                                    <effect>
                                                       <DropShadow>
@@ -110,9 +110,9 @@
                                                       <Cursor fx:constant="HAND" />
                                                    </cursor>
                                                 </Button>
-                                                <Button fx:id="loginButton" layoutX="296.0" mnemonicParsing="false" onAction="#login" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 12;" text="Iniciar Sesión" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <Button fx:id="loginButton" layoutX="310.0" mnemonicParsing="false" onAction="#login" prefHeight="85.0" prefWidth="225.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 12;" text="Iniciar Sesión" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="0.0">
                                                    <font>
-                                                      <Font size="36.0" />
+                                                      <Font size="24.0" />
                                                    </font>
                                                    <effect>
                                                       <DropShadow>
@@ -136,11 +136,8 @@
                      </children>
                   </AnchorPane>
                </children>
-            </AnchorPane>
+            </HBox>
          </children>
-         <effect>
-            <DropShadow />
-         </effect>
-      </HBox>
+      </AnchorPane>
    </children>
 </AnchorPane>
