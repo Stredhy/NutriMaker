@@ -1,8 +1,6 @@
 package com.javafx.nutrimaker.database;
 
 import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.util.Map;
 
@@ -11,70 +9,56 @@ public class DatabaseClient {
     private final OkHttpClient client;
     private static final MediaType JSON = MediaType.parse("application/json");
 
-    public interface ResponseCallback {
-        void onSuccess(String responseBody);
-        void onError(Exception e);
-    }
-
     public DatabaseClient() {
         this.client = new OkHttpClient();
     }
 
-    // GET
-    public void get(String url, Map<String, String> headers, ResponseCallback callback) {
+    // GET sincrónico
+    public String get(String url, Map<String, String> headers) throws IOException {
         Request.Builder builder = new Request.Builder().url(url).get();
         addHeaders(builder, headers);
-        executeAsync(builder.build(), callback);
+        return executeSync(builder.build());
     }
 
-    // POST
-    public void post(String url, String jsonBody, Map<String, String> headers, ResponseCallback callback) {
+    // POST sincrónico
+    public String post(String url, String jsonBody, Map<String, String> headers) throws IOException {
         RequestBody body = RequestBody.create(jsonBody, JSON);
         Request.Builder builder = new Request.Builder().url(url).post(body);
         addHeaders(builder, headers);
-        executeAsync(builder.build(), callback);
+        return executeSync(builder.build());
     }
 
-    // PUT
-    public void put(String url, String jsonBody, Map<String, String> headers, ResponseCallback callback) {
+    // PUT sincrónico
+    public String put(String url, String jsonBody, Map<String, String> headers) throws IOException {
         RequestBody body = RequestBody.create(jsonBody, JSON);
         Request.Builder builder = new Request.Builder().url(url).put(body);
         addHeaders(builder, headers);
-        executeAsync(builder.build(), callback);
+        return executeSync(builder.build());
     }
 
-    // DELETE
-    public void delete(String url, Map<String, String> headers, ResponseCallback callback) {
+    // DELETE sincrónico
+    public String delete(String url, Map<String, String> headers) throws IOException {
         Request.Builder builder = new Request.Builder().url(url).delete();
         addHeaders(builder, headers);
-        executeAsync(builder.build(), callback);
+        return executeSync(builder.build());
     }
 
-    // Utilidad: Agregar headers opcionales
+    // Agregar headers si existen
     private void addHeaders(Request.Builder builder, Map<String, String> headers) {
         if (headers != null) {
             headers.forEach(builder::addHeader);
         }
     }
 
-    // Ejecutar de forma asíncrona
-    private void executeAsync(Request request, ResponseCallback callback) {
-        client.newCall(request).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call,@NotNull IOException e) {
-                callback.onError(e);
+    // Ejecuta la petición y devuelve el cuerpo en String o lanza IOException en error HTTP
+    private String executeSync(Request request) throws IOException {
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Error HTTP: " + response.code());
             }
-
-            @Override
-            public void onResponse(@NotNull Call call,@NotNull Response response) throws IOException {
-                try (ResponseBody body = response.body()) {
-                    if (!response.isSuccessful()) {
-                        callback.onError(new IOException("Error HTTP: " + response.code()));
-                        return;
-                    }
-                    callback.onSuccess(body != null ? body.string() : "");
-                }
-            }
-        });
+            ResponseBody body = response.body();
+            return body != null ? body.string() : "";
+        }
     }
 }
+
