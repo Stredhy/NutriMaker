@@ -20,7 +20,8 @@ import javafx.scene.control.Button;
 public class LoginController implements Initializable {
     static final String REG_EXP_VER_EMAIL= "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{5,256}";
     static final String REG_EXP_VER_PASS= "{8,16}";
-
+    public User user;
+    
     @FXML
     private PasswordField passwordTextField;
     @FXML
@@ -37,6 +38,7 @@ public class LoginController implements Initializable {
     private void dietStorage(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DietStorage.fxml"));
         Parent root = loader.load();
+        
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("Almacenamiento de Dietas");
@@ -56,7 +58,9 @@ public class LoginController implements Initializable {
 
     }
 
-    public boolean checkEmail(String email) {}
+    public boolean checkEmail(String email) {
+        
+    }
 
     public boolean verifyPassword(String password) {}
 
@@ -67,7 +71,7 @@ public class LoginController implements Initializable {
         Scene scene = new Scene(parent);
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UTILITY);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
         
     }
@@ -82,6 +86,11 @@ public class LoginController implements Initializable {
 
     @FXML
     public void signUp(ActionEvent event) throws IOException {
-        //dietStorage(event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUpForm.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Register");
+        stage.show();
     }
 }

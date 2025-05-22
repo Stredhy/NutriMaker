@@ -17,10 +17,10 @@
 
 .table-view .table-cell{
     -fx-padding: 10;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #101d4f;
     -fx-font-size: 20px;
     -fx-alignment: CENTER_LEFT;
-    -fx-padding:20 10 20 10;
+    -fx-padding:5 10 5 10;
 }
 
 .newButton{

@@ -5,9 +5,11 @@
 package com.javafx.nutrimaker;
 
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
-import com.javafx.nutrimaker.models.Diet;
+import com.javafx.nutrimaker.models.DietSummary;
+import com.javafx.nutrimaker.repository.DietRepository;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,8 +28,10 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -37,20 +41,23 @@ import javafx.stage.Stage;
  */
 public class DietStorageController implements Initializable {
 
+    private final int LIMIT = 10;
+    private int count = 0;
+    
     @FXML
-    private TableView<Diet> dietsTable;
+    private TableView<DietSummary> dietsTable;
     @FXML
-    private TableColumn<Diet, String> numCol;
+    private TableColumn<DietSummary, String> numCol;
     @FXML
-    private TableColumn<Diet, String> patientCol;
+    private TableColumn<DietSummary, String> patientCol;
     @FXML
-    private TableColumn<Diet, String> weightCol;
+    private TableColumn<DietSummary, String> weightCol;
     @FXML
-    private TableColumn<Diet, String> heightCol;
+    private TableColumn<DietSummary, String> heightCol;
     @FXML
-    private TableColumn<Diet, String> dateCol;
+    private TableColumn<DietSummary, String> dateCol;
     @FXML
-    private TableColumn<Diet, String> actionsCol;
+    private TableColumn<DietSummary, String> actionsCol;
     @FXML
     private Button createButton;
     @FXML
@@ -58,7 +65,7 @@ public class DietStorageController implements Initializable {
     @FXML
     private Button prevButton;
     
-    private ObservableList<Diet> dietsList = FXCollections.observableArrayList();
+    private ObservableList<DietSummary> dietsList = FXCollections.observableArrayList();
     
 
     /**
@@ -94,32 +101,44 @@ public class DietStorageController implements Initializable {
     }
 
     private void showDietList() {
-        int count=5;
-        numCol.setCellValueFactory(new PropertyValueFactory<>(Integer.toString(count)));
-        patientCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        refreshTable();
+        numCol.setCellValueFactory(new PropertyValueFactory<>("dietId"));
+        patientCol.setCellValueFactory(new PropertyValueFactory<>("patientName"));
         weightCol.setCellValueFactory(new PropertyValueFactory<>("weight"));
         heightCol.setCellValueFactory(new PropertyValueFactory<>("height"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("creationDate"));
-        actionsCol.setCellFactory(col ->  new TableCell<Diet,String>(){
-            private final HBox actions = new HBox(10);
-            private final ImageView pdf = new ImageView(DietStorageController.class.getResource("images/pdf.png").toExternalForm());
-            private final ImageView clone = new ImageView(DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
-            private final ImageView edit = new ImageView(DietStorageController.class.getResource("images/edit.png").toExternalForm());
-            private final ImageView delete = new ImageView(DietStorageController.class.getResource("images/delete.png").toExternalForm());
-            
+        actionsCol.setCellFactory(col ->  new TableCell<DietSummary,String>(){
+            private final HBox actions = new HBox(5);
+            private final ImageView pdfIcon = new ImageView(
+                    DietStorageController.class.getResource("images/pdf.png").toExternalForm());
+            private final ImageView cloneIcon = new ImageView(
+                    DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
+            private final ImageView editIcon = new ImageView(
+                    DietStorageController.class.getResource("images/edit.png").toExternalForm());
+            private final ImageView deleteIcon = new ImageView(
+                    DietStorageController.class.getResource("images/delete.png").toExternalForm());
+            private final DropShadow shadow = new DropShadow(5, 2, 2, Color.rgb(0, 0, 0, 0.4));
+            private final Button pdf = new Button("",pdfIcon);
+            private final Button clone = new Button("",cloneIcon);
+            private final Button edit = new Button("",editIcon);
+            private final Button delete = new Button("",deleteIcon);
+
             {
-                for(ImageView icon: new ImageView[]{pdf,clone,edit,delete}){
-                    icon.setFitHeight(34);
-                    icon.setFitWidth(34);
-                    icon.setCursor(Cursor.HAND);
+                for(ImageView icon: new ImageView[]{pdfIcon,cloneIcon,editIcon,deleteIcon}){
+                    icon.setEffect(shadow);
+                    icon.setFitHeight(30);
+                    icon.setFitWidth(30);
+                }
+                for(Button btn: new Button[]{pdf,clone,edit,delete}){
+                    btn.setPrefSize(30, 30);
+                    btn.setStyle("-fx-background-color: none; -fx-border-color: none;");
+                    btn.setCursor(Cursor.HAND);
+                    setFadeAndScaleAnimation(btn);
                 }
 
                 pdf.setOnMouseClicked(event -> exportToPDF());
-
                 clone.setOnMouseClicked(event -> copyDiet());
-
                 edit.setOnMouseClicked(event -> modifyDiet());
-
                 delete.setOnMouseClicked(event -> deleteDiet());
             }
             
@@ -128,8 +147,6 @@ public class DietStorageController implements Initializable {
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);
-                    //Debug
-                    System.out.println("Error de carga de graficos");
                 } else {
                     actions.getChildren().addAll(pdf,clone,edit,delete);
                     actions.setAlignment(Pos.CENTER);
@@ -142,18 +159,36 @@ public class DietStorageController implements Initializable {
     }
     
     private void exportToPDF(){
-        
+        System.out.println("Export to Pdf");
     }
     
     private void copyDiet(){
-    
+        System.out.println("Copy Diet");
     }
     
     private void modifyDiet(){
-    
+        System.out.println("Modify Diet");
     }
     
     private void deleteDiet(){
+        System.out.println("Delete Diet");
+    }
     
+    private void refreshTable(){
+        dietsList.clear();
+        DietRepository dietRepo = new DietRepository();
+        
+        try{
+            List<DietSummary> diets = dietRepo.getDiets(count, LIMIT);
+            for(DietSummary diet : diets){
+                dietsList.add(new DietSummary(diet.getDietId(),diet.getPatientName(),
+                diet.getWeight(),diet.getHeight(),diet.getCreationDate()));
+                dietsTable.setItems(dietsList);
+            }
+            
+        }catch(IOException e){
+            System.out.println("It cannot load your diets");
+        }
+        
     }
 }

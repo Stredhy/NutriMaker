@@ -100,9 +100,9 @@
                                                 </ImageView>
                                              </children>
                                           </AnchorPane>
-                                          <AnchorPane prefHeight="85.0" prefWidth="476.0">
+                                          <AnchorPane prefHeight="50.0" prefWidth="564.0">
                                              <children>
-                                                <Button fx:id="signupButton" layoutX="31.0" mnemonicParsing="false" onAction="#signUp" prefHeight="85.0" prefWidth="225.0" style="-fx-background-color: #67ab95; -fx-background-radius: 12;" text="Registrarse" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="0.0">
+                                                <Button fx:id="signupButton" layoutX="31.0" mnemonicParsing="false" onAction="#signUp" prefHeight="85.0" prefWidth="225.0" style="-fx-background-color: #67ab95; -fx-background-radius: 12;" text="Registrarse" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="0.0">
                                                    <font>
                                                       <Font size="24.0" />
                                                    </font>
@@ -117,7 +117,7 @@
                                                       <Cursor fx:constant="HAND" />
                                                    </cursor>
                                                 </Button>
-                                                <Button fx:id="loginButton" layoutX="310.0" mnemonicParsing="false" onAction="#login" prefHeight="85.0" prefWidth="225.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 12;" text="Iniciar Sesión" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="0.0">
+                                                <Button fx:id="loginButton" layoutX="310.0" mnemonicParsing="false" onAction="#login" prefHeight="56.0" prefWidth="225.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 12;" text="Iniciar Sesión" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0">
                                                    <font>
                                                       <Font size="24.0" />
                                                    </font>

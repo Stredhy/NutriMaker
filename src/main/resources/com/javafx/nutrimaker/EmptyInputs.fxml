@@ -36,7 +36,4 @@
          </effect>
       </Button>
    </children>
-   <effect>
-      <DropShadow blurType="TWO_PASS_BOX" />
-   </effect>
 </AnchorPane>

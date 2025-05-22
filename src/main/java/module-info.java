@@ -9,7 +9,9 @@ module com.javafx.nutrimaker {
     requires com.google.gson;
 
 
-    opens com.javafx.nutrimaker.models to com.google.gson;
+    
+    opens com.javafx.nutrimaker.models to javafx.base, com.google.gson;
+
 
     requires java.sql;
     requires annotations;

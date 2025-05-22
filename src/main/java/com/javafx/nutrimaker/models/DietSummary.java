@@ -16,6 +16,27 @@ public class DietSummary {
     @SerializedName("creation_date")
     private String creationDate;
 
+    
+    private void copyAll(DietSummary ds){
+        this.dietId = ds.dietId;
+        this.patientName = ds.patientName;
+        this.weight = ds.weight;
+        this.height = ds.height;
+        this.creationDate = ds.creationDate;
+    }
+    
+    public DietSummary(DietSummary ds){
+        copyAll(ds);
+    }
+    
+    public DietSummary(int dietId, String patientName, double weight, double height, String creationDate) {
+        this.dietId = dietId;
+        this.patientName = patientName;
+        this.weight = weight;
+        this.height = height;
+        this.creationDate = creationDate;
+    }
+    
     // Getters y Setters
     public int getDietId() {
         return dietId;

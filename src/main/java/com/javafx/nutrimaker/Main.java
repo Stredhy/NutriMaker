@@ -14,9 +14,9 @@ import java.util.List;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("DietStorage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("LoginForm.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Test!");
+        stage.setTitle("Login");
         stage.setScene(scene);
         stage.show();
     }
