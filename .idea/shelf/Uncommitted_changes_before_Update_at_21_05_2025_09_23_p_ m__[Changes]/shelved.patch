@@ -1,0 +1,299 @@
+Index: src/main/java/com/javafx/nutrimaker/repository/UserRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.javafx.nutrimaker.repository;\r\n\r\nimport com.javafx.nutrimaker.database.DatabaseClient;\r\nimport com.javafx.nutrimaker.database.DatabaseClient.ResponseCallback;\r\nimport com.google.gson.JsonObject;\r\n\r\nimport java.util.Map;\r\n\r\npublic class UserRepository {\r\n\r\n    private static final String BASE_URL = \"https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/useraccount/\";\r\n\r\n    // Obtener todos los usuarios\r\n    public void getAllUsers(ResponseCallback callback) {\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.get(BASE_URL, null, callback);\r\n    }\r\n\r\n    // Obtener usuario por ID\r\n    public void getUserById(int id, ResponseCallback callback) {\r\n        String url = BASE_URL + id;\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.get(url, null, callback);\r\n    }\r\n\r\n    // Insertar un nuevo usuario\r\n    public void createUser(String email, String password, ResponseCallback callback) {\r\n        JsonObject json = new JsonObject();\r\n        json.addProperty(\"email\", email);\r\n        json.addProperty(\"password\", password);\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.post(BASE_URL, json.toString(), null, callback);\r\n    }\r\n\r\n    // Actualizar usuario existente por ID\r\n    public void updateUser(int id, String email, String password, ResponseCallback callback) {\r\n        JsonObject json = new JsonObject();\r\n        json.addProperty(\"email\", email);\r\n        json.addProperty(\"password\", password);\r\n        String url = BASE_URL + id;\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.put(url, json.toString(), null, callback);\r\n    }\r\n\r\n    // Eliminar usuario por ID\r\n    public void deleteUser(int id, ResponseCallback callback) {\r\n        String url = BASE_URL + id;\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.delete(url, null, callback);\r\n    }\r\n\r\n    // Buscar usuario por correo\r\n    public void getUserByEmail(String email, ResponseCallback callback) {\r\n        String url = BASE_URL + \"?q={\\\"email\\\":\\\"\" + email + \"\\\"}\";\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.get(url, null, callback);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/javafx/nutrimaker/repository/UserRepository.java b/src/main/java/com/javafx/nutrimaker/repository/UserRepository.java
+--- a/src/main/java/com/javafx/nutrimaker/repository/UserRepository.java	(revision 5989d0cf667cfb00e16c933a22bc26f593e89a7e)
++++ b/src/main/java/com/javafx/nutrimaker/repository/UserRepository.java	(date 1747875775622)
+@@ -1,7 +1,6 @@
+ package com.javafx.nutrimaker.repository;
+ 
+ import com.javafx.nutrimaker.database.DatabaseClient;
+-import com.javafx.nutrimaker.database.DatabaseClient.ResponseCallback;
+ import com.google.gson.JsonObject;
+ 
+ import java.util.Map;
+@@ -10,49 +9,4 @@
+ 
+     private static final String BASE_URL = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/useraccount/";
+ 
+-    // Obtener todos los usuarios
+-    public void getAllUsers(ResponseCallback callback) {
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.get(BASE_URL, null, callback);
+-    }
+-
+-    // Obtener usuario por ID
+-    public void getUserById(int id, ResponseCallback callback) {
+-        String url = BASE_URL + id;
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.get(url, null, callback);
+-    }
+-
+-    // Insertar un nuevo usuario
+-    public void createUser(String email, String password, ResponseCallback callback) {
+-        JsonObject json = new JsonObject();
+-        json.addProperty("email", email);
+-        json.addProperty("password", password);
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.post(BASE_URL, json.toString(), null, callback);
+-    }
+-
+-    // Actualizar usuario existente por ID
+-    public void updateUser(int id, String email, String password, ResponseCallback callback) {
+-        JsonObject json = new JsonObject();
+-        json.addProperty("email", email);
+-        json.addProperty("password", password);
+-        String url = BASE_URL + id;
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.put(url, json.toString(), null, callback);
+-    }
+-
+-    // Eliminar usuario por ID
+-    public void deleteUser(int id, ResponseCallback callback) {
+-        String url = BASE_URL + id;
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.delete(url, null, callback);
+-    }
+-
+-    // Buscar usuario por correo
+-    public void getUserByEmail(String email, ResponseCallback callback) {
+-        String url = BASE_URL + "?q={\"email\":\"" + email + "\"}";
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.get(url, null, callback);
+-    }
+-}
++}
+\ No newline at end of file
+Index: src/main/java/com/javafx/nutrimaker/repository/DietRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.javafx.nutrimaker.repository;\r\n\r\nimport com.javafx.nutrimaker.database.DatabaseClient;\r\nimport com.google.gson.Gson;\r\n\r\nimport java.net.URLEncoder;\r\nimport java.nio.charset.StandardCharsets;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\n\r\npublic class DietRepository {\r\n    private static final String BASE_URL = \"https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/diet/\";\r\n    private final Gson gson = new Gson();\r\n\r\n    //Obtener todas las dietas\r\n    public void getAllDiets(DatabaseClient.ResponseCallback callback) {\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.get(BASE_URL, null, callback);\r\n    }\r\n    //Obtener dieta por id\r\n    public void getDietById(int dietId, DatabaseClient.ResponseCallback callback) {\r\n        String url = BASE_URL + dietId;\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.get(url, null, callback);\r\n    }\r\n    //Crear Dieta\r\n    public void createDiet(Map<String, Object> dietData, DatabaseClient.ResponseCallback callback) {\r\n        // diet_id y creation_date no deben incluirse en dietData\r\n        String json = gson.toJson(dietData);\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.post(BASE_URL, json, defaultHeaders(), callback);\r\n    }\r\n    //Modificar dieta\r\n    public void updateDiet(int dietId, Map<String, Object> dietData, DatabaseClient.ResponseCallback callback) {\r\n        String json = gson.toJson(dietData);\r\n        String url = BASE_URL + dietId;\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.put(url, json, defaultHeaders(), callback);\r\n    }\r\n    // Eliminar dieta por diet_id\r\n    public void deleteDiet(int dietId, DatabaseClient.ResponseCallback callback) {\r\n        String url = BASE_URL + dietId;\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.delete(url, defaultHeaders(), callback);\r\n    }\r\n\r\n    // Buscar dietas por user_id\r\n    public void getDietsByUserId(int userId, DatabaseClient.ResponseCallback callback) {\r\n        String query = \"{\\\"user_id\\\":\" + userId + \"}\";\r\n        String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);\r\n        String url = BASE_URL + \"?q=\" + encodedQuery;\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.get(url, null, callback);\r\n    }\r\n\r\n    // Buscar dietas por patient_id\r\n    public void getDietsByPatientId(int patientId, DatabaseClient.ResponseCallback callback) {\r\n        String query = \"{\\\"patient_id\\\":\" + patientId + \"}\";\r\n        String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);\r\n        String url = BASE_URL + \"?q=\" + encodedQuery;\r\n        DatabaseClient dbClient = new DatabaseClient();\r\n        dbClient.get(url, null, callback);\r\n    }\r\n\r\n    private Map<String, String> defaultHeaders() {\r\n        Map<String, String> headers = new HashMap<>();\r\n        headers.put(\"Content-Type\", \"application/json\");\r\n        return headers;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/javafx/nutrimaker/repository/DietRepository.java b/src/main/java/com/javafx/nutrimaker/repository/DietRepository.java
+--- a/src/main/java/com/javafx/nutrimaker/repository/DietRepository.java	(revision 5989d0cf667cfb00e16c933a22bc26f593e89a7e)
++++ b/src/main/java/com/javafx/nutrimaker/repository/DietRepository.java	(date 1747875775609)
+@@ -3,64 +3,61 @@
+ import com.javafx.nutrimaker.database.DatabaseClient;
+ import com.google.gson.Gson;
+ 
++import java.io.IOException;
+ import java.net.URLEncoder;
+ import java.nio.charset.StandardCharsets;
+ import java.util.HashMap;
+ import java.util.Map;
+ 
+-
+ public class DietRepository {
+     private static final String BASE_URL = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/diet/";
+     private final Gson gson = new Gson();
++    private final DatabaseClient dbClient = new DatabaseClient();
+ 
+-    //Obtener todas las dietas
+-    public void getAllDiets(DatabaseClient.ResponseCallback callback) {
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.get(BASE_URL, null, callback);
++    // Obtener todas las dietas - devuelve JSON String
++    public String getAllDiets() throws IOException {
++        return dbClient.get(BASE_URL, null);
+     }
+-    //Obtener dieta por id
+-    public void getDietById(int dietId, DatabaseClient.ResponseCallback callback) {
++
++    // Obtener dieta por id
++    public String getDietById(int dietId) throws IOException {
+         String url = BASE_URL + dietId;
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.get(url, null, callback);
++        return dbClient.get(url, null);
+     }
+-    //Crear Dieta
+-    public void createDiet(Map<String, Object> dietData, DatabaseClient.ResponseCallback callback) {
+-        // diet_id y creation_date no deben incluirse en dietData
++
++    // Crear Dieta
++    public String createDiet(Map<String, Object> dietData) throws IOException {
+         String json = gson.toJson(dietData);
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.post(BASE_URL, json, defaultHeaders(), callback);
++        return dbClient.post(BASE_URL, json, defaultHeaders());
+     }
+-    //Modificar dieta
+-    public void updateDiet(int dietId, Map<String, Object> dietData, DatabaseClient.ResponseCallback callback) {
++
++    // Modificar dieta
++    public String updateDiet(int dietId, Map<String, Object> dietData) throws IOException {
+         String json = gson.toJson(dietData);
+         String url = BASE_URL + dietId;
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.put(url, json, defaultHeaders(), callback);
++        return dbClient.put(url, json, defaultHeaders());
+     }
++
+     // Eliminar dieta por diet_id
+-    public void deleteDiet(int dietId, DatabaseClient.ResponseCallback callback) {
++    public String deleteDiet(int dietId) throws IOException {
+         String url = BASE_URL + dietId;
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.delete(url, defaultHeaders(), callback);
++        return dbClient.delete(url, defaultHeaders());
+     }
+ 
+     // Buscar dietas por user_id
+-    public void getDietsByUserId(int userId, DatabaseClient.ResponseCallback callback) {
++    public String getDietsByUserId(int userId) throws IOException {
+         String query = "{\"user_id\":" + userId + "}";
+         String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
+         String url = BASE_URL + "?q=" + encodedQuery;
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.get(url, null, callback);
++        return dbClient.get(url, null);
+     }
+ 
+     // Buscar dietas por patient_id
+-    public void getDietsByPatientId(int patientId, DatabaseClient.ResponseCallback callback) {
++    public String getDietsByPatientId(int patientId) throws IOException {
+         String query = "{\"patient_id\":" + patientId + "}";
+         String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
+         String url = BASE_URL + "?q=" + encodedQuery;
+-        DatabaseClient dbClient = new DatabaseClient();
+-        dbClient.get(url, null, callback);
++        return dbClient.get(url, null);
+     }
+ 
+     private Map<String, String> defaultHeaders() {
+Index: src/main/java/com/javafx/nutrimaker/database/DatabaseClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.javafx.nutrimaker.database;\r\n\r\nimport okhttp3.*;\r\nimport org.jetbrains.annotations.NotNull;\r\n\r\nimport java.io.IOException;\r\nimport java.util.Map;\r\n\r\npublic class DatabaseClient {\r\n\r\n    private final OkHttpClient client;\r\n    private static final MediaType JSON = MediaType.parse(\"application/json\");\r\n\r\n    public interface ResponseCallback {\r\n        void onSuccess(String responseBody);\r\n        void onError(Exception e);\r\n    }\r\n\r\n    public DatabaseClient() {\r\n        this.client = new OkHttpClient();\r\n    }\r\n\r\n    // GET\r\n    public void get(String url, Map<String, String> headers, ResponseCallback callback) {\r\n        Request.Builder builder = new Request.Builder().url(url).get();\r\n        addHeaders(builder, headers);\r\n        executeAsync(builder.build(), callback);\r\n    }\r\n\r\n    // POST\r\n    public void post(String url, String jsonBody, Map<String, String> headers, ResponseCallback callback) {\r\n        RequestBody body = RequestBody.create(jsonBody, JSON);\r\n        Request.Builder builder = new Request.Builder().url(url).post(body);\r\n        addHeaders(builder, headers);\r\n        executeAsync(builder.build(), callback);\r\n    }\r\n\r\n    // PUT\r\n    public void put(String url, String jsonBody, Map<String, String> headers, ResponseCallback callback) {\r\n        RequestBody body = RequestBody.create(jsonBody, JSON);\r\n        Request.Builder builder = new Request.Builder().url(url).put(body);\r\n        addHeaders(builder, headers);\r\n        executeAsync(builder.build(), callback);\r\n    }\r\n\r\n    // DELETE\r\n    public void delete(String url, Map<String, String> headers, ResponseCallback callback) {\r\n        Request.Builder builder = new Request.Builder().url(url).delete();\r\n        addHeaders(builder, headers);\r\n        executeAsync(builder.build(), callback);\r\n    }\r\n\r\n    // Utilidad: Agregar headers opcionales\r\n    private void addHeaders(Request.Builder builder, Map<String, String> headers) {\r\n        if (headers != null) {\r\n            headers.forEach(builder::addHeader);\r\n        }\r\n    }\r\n\r\n    // Ejecutar de forma asíncrona\r\n    private void executeAsync(Request request, ResponseCallback callback) {\r\n        client.newCall(request).enqueue(new okhttp3.Callback() {\r\n            @Override\r\n            public void onFailure(@NotNull Call call,@NotNull IOException e) {\r\n                callback.onError(e);\r\n            }\r\n\r\n            @Override\r\n            public void onResponse(@NotNull Call call,@NotNull Response response) throws IOException {\r\n                try (ResponseBody body = response.body()) {\r\n                    if (!response.isSuccessful()) {\r\n                        callback.onError(new IOException(\"Error HTTP: \" + response.code()));\r\n                        return;\r\n                    }\r\n                    callback.onSuccess(body != null ? body.string() : \"\");\r\n                }\r\n            }\r\n        });\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/javafx/nutrimaker/database/DatabaseClient.java b/src/main/java/com/javafx/nutrimaker/database/DatabaseClient.java
+--- a/src/main/java/com/javafx/nutrimaker/database/DatabaseClient.java	(revision 5989d0cf667cfb00e16c933a22bc26f593e89a7e)
++++ b/src/main/java/com/javafx/nutrimaker/database/DatabaseClient.java	(date 1747875447003)
+@@ -1,8 +1,6 @@
+ package com.javafx.nutrimaker.database;
+ 
+ import okhttp3.*;
+-import org.jetbrains.annotations.NotNull;
+-
+ import java.io.IOException;
+ import java.util.Map;
+ 
+@@ -11,70 +9,56 @@
+     private final OkHttpClient client;
+     private static final MediaType JSON = MediaType.parse("application/json");
+ 
+-    public interface ResponseCallback {
+-        void onSuccess(String responseBody);
+-        void onError(Exception e);
+-    }
+-
+     public DatabaseClient() {
+         this.client = new OkHttpClient();
+     }
+ 
+-    // GET
+-    public void get(String url, Map<String, String> headers, ResponseCallback callback) {
++    // GET sincrónico
++    public String get(String url, Map<String, String> headers) throws IOException {
+         Request.Builder builder = new Request.Builder().url(url).get();
+         addHeaders(builder, headers);
+-        executeAsync(builder.build(), callback);
++        return executeSync(builder.build());
+     }
+ 
+-    // POST
+-    public void post(String url, String jsonBody, Map<String, String> headers, ResponseCallback callback) {
++    // POST sincrónico
++    public String post(String url, String jsonBody, Map<String, String> headers) throws IOException {
+         RequestBody body = RequestBody.create(jsonBody, JSON);
+         Request.Builder builder = new Request.Builder().url(url).post(body);
+         addHeaders(builder, headers);
+-        executeAsync(builder.build(), callback);
++        return executeSync(builder.build());
+     }
+ 
+-    // PUT
+-    public void put(String url, String jsonBody, Map<String, String> headers, ResponseCallback callback) {
++    // PUT sincrónico
++    public String put(String url, String jsonBody, Map<String, String> headers) throws IOException {
+         RequestBody body = RequestBody.create(jsonBody, JSON);
+         Request.Builder builder = new Request.Builder().url(url).put(body);
+         addHeaders(builder, headers);
+-        executeAsync(builder.build(), callback);
++        return executeSync(builder.build());
+     }
+ 
+-    // DELETE
+-    public void delete(String url, Map<String, String> headers, ResponseCallback callback) {
++    // DELETE sincrónico
++    public String delete(String url, Map<String, String> headers) throws IOException {
+         Request.Builder builder = new Request.Builder().url(url).delete();
+         addHeaders(builder, headers);
+-        executeAsync(builder.build(), callback);
++        return executeSync(builder.build());
+     }
+ 
+-    // Utilidad: Agregar headers opcionales
++    // Agregar headers si existen
+     private void addHeaders(Request.Builder builder, Map<String, String> headers) {
+         if (headers != null) {
+             headers.forEach(builder::addHeader);
+         }
+     }
+ 
+-    // Ejecutar de forma asíncrona
+-    private void executeAsync(Request request, ResponseCallback callback) {
+-        client.newCall(request).enqueue(new okhttp3.Callback() {
+-            @Override
+-            public void onFailure(@NotNull Call call,@NotNull IOException e) {
+-                callback.onError(e);
+-            }
+-
+-            @Override
+-            public void onResponse(@NotNull Call call,@NotNull Response response) throws IOException {
+-                try (ResponseBody body = response.body()) {
+-                    if (!response.isSuccessful()) {
+-                        callback.onError(new IOException("Error HTTP: " + response.code()));
+-                        return;
+-                    }
+-                    callback.onSuccess(body != null ? body.string() : "");
+-                }
+-            }
+-        });
++    // Ejecuta la petición y devuelve el cuerpo en String o lanza IOException en error HTTP
++    private String executeSync(Request request) throws IOException {
++        try (Response response = client.newCall(request).execute()) {
++            if (!response.isSuccessful()) {
++                throw new IOException("Error HTTP: " + response.code());
++            }
++            ResponseBody body = response.body();
++            return body != null ? body.string() : "";
++        }
+     }
+ }
++
+Index: src/main/java/com/javafx/nutrimaker/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.javafx.nutrimaker;\r\n\r\nimport javafx.application.Application;\r\nimport javafx.fxml.FXMLLoader;\r\nimport javafx.scene.Scene;\r\nimport javafx.stage.Stage;\r\n\r\n\r\nimport java.io.IOException;\r\n\r\npublic class Main extends Application {\r\n    @Override\r\n    public void start(Stage stage) throws IOException {\r\n        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(\"DietStorage.fxml\"));\r\n        Scene scene = new Scene(fxmlLoader.load());\r\n        stage.setTitle(\"Test!\");\r\n        stage.setScene(scene);\r\n        stage.show();\r\n    }\r\n\r\n    public static void main(String[] args) {\r\n        launch();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/javafx/nutrimaker/Main.java b/src/main/java/com/javafx/nutrimaker/Main.java
+--- a/src/main/java/com/javafx/nutrimaker/Main.java	(revision 5989d0cf667cfb00e16c933a22bc26f593e89a7e)
++++ b/src/main/java/com/javafx/nutrimaker/Main.java	(date 1747876517758)
+@@ -1,5 +1,6 @@
+ package com.javafx.nutrimaker;
+ 
++import com.javafx.nutrimaker.repository.DietRepository;
+ import javafx.application.Application;
+ import javafx.fxml.FXMLLoader;
+ import javafx.scene.Scene;

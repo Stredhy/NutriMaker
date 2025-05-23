@@ -1,7 +1,7 @@
 package com.javafx.nutrimaker;
 
-import java.net.URL;
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
+import java.net.URL;
 import com.javafx.nutrimaker.repository.PatientRepository;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -9,15 +9,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class PatientFormController implements Initializable {
-        
-    @FXML
-    private BorderPane borderPane;
+     
+    static final String REG_EXP_POSIT_FLOAT = "\\d+(\\.\\d*)?";
+    static final String REG_EXP_POSIT_INT = "\\d+";
     
     @FXML
     private TextField nameTextField;
@@ -35,10 +38,40 @@ public class PatientFormController implements Initializable {
     private Button saveButton;
     
     @FXML
-    void save(ActionEvent event) throws IOException {
-        AnchorPane view = new  FXMLLoader().load(getClass().getResource("CreateDiet.fxml"));
-        borderPane.setCenter(view);
+    private void save(ActionEvent event) throws IOException {
+        checkInputs();
     }
+    
+    //1 vacias, 2 formatos, 
+    public void dialog(String archiveRoute) throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource(archiveRoute));
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
+    
+    private boolean isPositive(TextField textField) {
+        return textField.getText().matches(REG_EXP_POSIT_INT);
+    }
+    
+    public boolean checkInputs() throws IOException {
+        if (nameTextField.getText().isEmpty() || ageTextField.getText().isEmpty() || weightTextField.getText().isEmpty() || heightTextField.getText().isEmpty()) {
+            dialog("EmptyInputs.fxml");
+            return false;
+        }
+        if (!isPositive(ageTextField) || !isPositive(weightTextField) || !isPositive(heightTextField)) {
+            dialog("WrongNumberInputs.fxml");
+            return false;
+        }
+        return true;
+    }
+    
+    private void createDiet(ActionEvent event) throws IOException {
+        
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setFadeAnimation(nameTextField);

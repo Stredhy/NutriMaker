@@ -13,7 +13,6 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.PatientFormController">
    <top>
       <AnchorPane id="AnchorPane" prefHeight="972.0" prefWidth="1728.0" style="-fx-background-color: #101d4f;" BorderPane.alignment="CENTER">
@@ -49,7 +48,7 @@
                                                 <TextField fx:id="ageTextField" maxWidth="1.7976931348623157E308" prefHeight="53.0" promptText="Edad" styleClass="text-field" stylesheets="@styles/loginForm.css" HBox.hgrow="ALWAYS" />
                                                 <TextField fx:id="weightTextField" maxWidth="1.7976931348623157E308" prefHeight="53.0" promptText="Peso" styleClass="text-field" stylesheets="@styles/loginForm.css" HBox.hgrow="ALWAYS" />
                                                 <TextField fx:id="heightTextField" maxWidth="1.7976931348623157E308" prefHeight="53.0" promptText="Estatura" styleClass="text-field" stylesheets="@styles/loginForm.css" HBox.hgrow="ALWAYS" />
-                                                <Button alignment="CENTER" mnemonicParsing="false" onAction="#save" prefHeight="53.0" prefWidth="124.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 5;" text="Guardar" textFill="WHITE">
+                                                <Button fx:id="saveButton" alignment="CENTER" mnemonicParsing="false" onAction="#save" prefHeight="53.0" prefWidth="124.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 5;" text="Guardar" textFill="WHITE">
                                                    <font>
                                                       <Font size="21.0" />
                                                    </font>
