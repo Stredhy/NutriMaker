@@ -2,6 +2,7 @@ package com.javafx.nutrimaker;
 
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
 import com.javafx.nutrimaker.models.User;
+import com.javafx.nutrimaker.repository.UserRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,7 +22,6 @@ import javafx.scene.control.Button;
 public class LoginController implements Initializable {
     static final String REG_EXP_VER_EMAIL= "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,63}$";
     static final String REG_EXP_VER_PASS= ".{8,16}";
-    public User user;
     
     @FXML
     private PasswordField passwordTextField;
@@ -43,13 +43,10 @@ public class LoginController implements Initializable {
     private boolean checkEmail() {
         return emailTextField.getText().matches(REG_EXP_VER_EMAIL);
     }
-    
-    private boolean verifyPassword() {
-        return true;
-    }
 
-    private boolean verifyEmail() {
-        return true;
+    private boolean verifyCredentials() {
+        UserRepository userRepo = new UserRepository();
+        return userRepo.verifyPasswordByEmail(emailTextField.getText(), passwordTextField.getText());
     }
 
     private void dietStorage(ActionEvent event) throws IOException {
@@ -96,15 +93,16 @@ public class LoginController implements Initializable {
             dialog();
             return;
         }
-        if(!checkPassword() || !checkEmail()){
+        if((!checkPassword() || !checkEmail()) || !verifyCredentials()){
             invalidCredentials();
             return;
         }
         
-        if(verifyPassword() && verifyEmail()){
-            dietStorage(event);
-        }
+        User.getUser().setEmail(emailTextField.getText());
+        User.getUser().setPassword(passwordTextField.getText());
+        User.getUser().setId(new UserRepository().getIdByEmail(emailTextField.getText()));
         
+        dietStorage(event);  
     }
 
     @FXML

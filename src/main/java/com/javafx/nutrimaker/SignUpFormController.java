@@ -2,6 +2,7 @@ package com.javafx.nutrimaker;
 
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.setFadeAndScaleAnimation;
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.setFadeAnimation;
+import com.javafx.nutrimaker.repository.UserRepository;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,8 +25,8 @@ import javafx.stage.StageStyle;
  * @author uh709
  */
 public class SignUpFormController implements Initializable {
-    static final String REG_EXP_VER_EMAIL= "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{5,256}";
-    static final String REG_EXP_VER_PASS= "{8,16}";
+    static final String REG_EXP_VER_EMAIL= "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,63}$";
+    static final String REG_EXP_VER_PASS= ".{8,16}";
     
     @FXML
     private TextField emailTextField;
@@ -38,9 +39,28 @@ public class SignUpFormController implements Initializable {
     @FXML
     private Button loginButton;
 
-    /**
-     * Initializes the controller class.
-     */
+    private boolean isEmpty(){
+        return emailTextField.getText().isEmpty() && 
+                passwordTextField.getText().isEmpty() && 
+                confPasswordTextField.getText().isEmpty();
+    }
+    
+    private boolean checkPassword(String pass){
+        return pass.matches(REG_EXP_VER_PASS);
+    }
+    
+    private boolean checkPassword() {
+        return comparePasswords() && checkPassword(passwordTextField.getText());                  
+    }
+    
+    private boolean checkEmail() {
+        return emailTextField.getText().matches(REG_EXP_VER_EMAIL);
+    }
+    
+    private boolean comparePasswords(){
+        return passwordTextField.getText().equals(confPasswordTextField.getText());
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setFadeAndScaleAnimation(loginButton);
@@ -49,18 +69,23 @@ public class SignUpFormController implements Initializable {
         setFadeAnimation(passwordTextField);
         setFadeAnimation(confPasswordTextField);
     }    
-
-     private boolean isEmpty(){
-        return emailTextField.getText().isEmpty() && 
-                passwordTextField.getText().isEmpty() && 
-                confPasswordTextField.getText().isEmpty();
-    }
       
     @FXML
     private void signUp(ActionEvent event) throws IOException {
         if(isEmpty()){
             dialog();
+            return;
         }
+        if((!checkPassword() || !checkEmail())){
+            invalidCredentials();
+            return;
+        }
+        
+        if(!(new UserRepository().insertUser(emailTextField.getText(),passwordTextField.getText()))){
+            emailExists();
+            return;
+        }
+        registerSuccessful();  
     }
 
     @FXML
@@ -79,7 +104,32 @@ public class SignUpFormController implements Initializable {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();   
+    }
+    
+    public void invalidCredentials() throws IOException{
+        Parent parent = FXMLLoader.load(getClass().getResource("CheckCredentials.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
-        
+    }
+    private void emailExists() throws IOException{
+        Parent parent = FXMLLoader.load(getClass().getResource("EmailExists.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
+    
+    private void registerSuccessful() throws IOException{
+        Parent parent = FXMLLoader.load(getClass().getResource("RegisterSuccessful.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
     }
 }

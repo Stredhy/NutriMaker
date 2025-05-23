@@ -36,7 +36,7 @@ public class UserRepository {
     }
 
     // 2. Obtener ID del usuario por correo
-    public Integer obtenerIdPorCorreo(String email) {
+    public Integer getIdByEmail(String email) {
         String url = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/user_idcorreo/user/idcorreo?email=" + email;
 
         try {
