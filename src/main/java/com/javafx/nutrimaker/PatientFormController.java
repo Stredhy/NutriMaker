@@ -43,8 +43,11 @@ public class PatientFormController implements Initializable {
     }
     
     //1 vacias, 2 formatos, 
-    public void dialog(String archiveRoute) throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource(archiveRoute));
+    public void dialog(String warningMessage) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("DialogInputs.fxml"));
+        Parent parent = loader.load();
+        DialogController dialog = loader.getController();
+        dialog.setText(warningMessage);
         Scene scene = new Scene(parent);
         Stage stage = new Stage();
         stage.setScene(scene);
@@ -58,11 +61,11 @@ public class PatientFormController implements Initializable {
     
     public boolean checkInputs() throws IOException {
         if (nameTextField.getText().isEmpty() || ageTextField.getText().isEmpty() || weightTextField.getText().isEmpty() || heightTextField.getText().isEmpty()) {
-            dialog("EmptyInputs.fxml");
+            dialog("No pueden existir campos vacios ");
             return false;
         }
         if (!isPositive(ageTextField) || !isPositive(weightTextField) || !isPositive(heightTextField)) {
-            dialog("WrongNumberInputs.fxml");
+            dialog("Solo se permiten números");
             return false;
         }
         return true;
