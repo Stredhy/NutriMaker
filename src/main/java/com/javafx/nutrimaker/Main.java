@@ -8,6 +8,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/*
+Usuario de prueba
+
+email: probandoregistro@cactus.moy
+contraseña: 123456789
+*/
+
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {

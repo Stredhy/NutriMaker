@@ -44,7 +44,6 @@ public class DietStorageController implements Initializable {
 
     private final int LIMIT = 10;
     private int count = 0;    
-    private int userId = User.getUser().getId();
     
     @FXML
     private TableView<DietSummary> dietsTable;
@@ -69,7 +68,6 @@ public class DietStorageController implements Initializable {
     
     private ObservableList<DietSummary> dietsList = FXCollections.observableArrayList();
     
-
     /**
      * Initializes the controller class.
      */
@@ -191,7 +189,20 @@ public class DietStorageController implements Initializable {
         nextButton.setVisible((count + LIMIT) < dietRepo.getTotalDietsCount());
     }
     
-    private void refreshTable(){
+    private void refreshTable() throws IOException{
         dietsList.clear();
+        
+        int id = User.getUser().getId();
+        DietRepository dietRepo= new DietRepository();
+        List<DietSummary> diets = dietRepo.getDiets(count, LIMIT, id); 
+        for(DietSummary diet : diets){
+            dietsList.add(new DietSummary(diet.getDietId(),
+                    diet.getPatientName(),
+                    diet.getWeight(),
+                    diet.getHeight(),
+                    diet.getCreationDate()));
+            dietsTable.setItems(dietsList);
+        }
+        
     }
 }
