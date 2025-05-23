@@ -1,39 +1,35 @@
 package com.javafx.nutrimaker.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Ingredient {
+    @SerializedName("ingredient_name")
     private String name;
-    private String group;
-    private Double calories;
-    private Double protein;
-    private Double calcium;
-    private Double sodium;
-    private Double iron;
-    private Double fats;
-    
-    private void copyAll(Ingredient i){
-        this.name = i.name;
-        this.group = i.group;
-        this.calories = i.calories;
-        this.protein = i.protein;
-        this.calcium = i.calcium;
-        this.sodium = i.sodium;
-        this.iron = i.iron;
-        this.fats = i.fats;
+    @SerializedName("ingredient_amount")
+    private double amount; // en gramos o mililitros
+
+    public Ingredient(String name, double amount) {
+        this.name = name;
+        this.amount = amount;
     }
-    
-    public Ingredient(Ingredient i){
-        copyAll(i);
+
+    public Ingredient() {
+
     }
-    
-    public Ingredient(String nameX, String groupX, Double calo, Double prot, 
-            Double calc, Double sodi, Double ironX, Double fat){
-        this.name = nameX;
-        this.group = groupX;
-        this.calories = calo;
-        this.protein = prot;
-        this.calcium = calc;
-        this.sodium = sodi;
-        this.iron = ironX;
-        this.fats = fat;
+
+    public String getName() {
+        return name;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }

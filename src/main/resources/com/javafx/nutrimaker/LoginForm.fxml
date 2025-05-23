@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Point3D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<<<<<<< HEAD
 <?import javafx.scene.layout.BorderPane?>
+=======
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+>>>>>>> main
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
+<<<<<<< HEAD
 
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.LoginController">
    <center>
@@ -31,23 +36,160 @@
                            </font>
                         </Label>
                         <HBox>
+=======
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="935.0" minWidth="1280.0" prefHeight="972.0" prefWidth="1728.0" style="-fx-background-color: #101d4f;" stylesheets="@styles/loginForm.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.LoginController">
+   <children>
+      <AnchorPane layoutX="251.0" layoutY="109.0" prefHeight="708.0" prefWidth="1198.0" AnchorPane.bottomAnchor="155.0" AnchorPane.leftAnchor="251.0" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="109.0">
+         <children>
+            <HBox prefHeight="708.0" prefWidth="1198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <AnchorPane prefHeight="820.0" prefWidth="634.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 12 0 0 12;">
+                     <children>
+                        <ImageView fitHeight="500.0" fitWidth="500.0" layoutX="30.0" layoutY="100.0">
+                           <image>
+                              <Image url="@images/nutrimakerLogo.png" />
+                           </image>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </ImageView>
+                     </children></AnchorPane>
+                  <AnchorPane prefHeight="820.0" prefWidth="577.0">
+                     <children>
+                        <VBox alignment="CENTER" layoutX="40.0" prefHeight="820.0" prefWidth="630.0" style="-fx-background-color: #0c7774; -fx-background-radius: 0 12 12 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+>>>>>>> main
                            <children>
-                              <TextField fx:id="emailTextField" prefHeight="85.0" prefWidth="569.0" promptText="Correo" style="-fx-background-color: #ffffff; -fx-border-color: #7d7d7d; -fx-background-radius: 5; -fx-border-radius: 5;">
-                                 <font>
-                                    <Font size="35.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="51.0" />
-                                 </padding>
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.20000000298023224" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </TextField>
+                              <AnchorPane>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="512.0" prefWidth="569.0" spacing="52.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <AnchorPane>
+                                             <children>
+                                                <Label layoutX="64.0" layoutY="1.0" prefHeight="56.0" prefWidth="451.0" text="¡BIENVENIDO!" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <font>
+                                                      <Font size="36.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets left="100.0" />
+                                                   </padding>
+                                                </Label>
+                                             </children>
+                                          </AnchorPane>
+                                          <AnchorPane>
+                                             <children>
+                                                <TextField fx:id="emailTextField" layoutX="4.0" prefHeight="85.0" prefWidth="560.0" promptText="Correo" style="-fx-background-color: #b0ceb5; -fx-border-color: #b0ceb5; -fx-background-radius: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <font>
+                                                      <Font size="24.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets left="51.0" />
+                                                   </padding>
+                                                   <effect>
+                                                      <DropShadow>
+                                                         <color>
+                                                            <Color opacity="0.20000000298023224" />
+                                                         </color>
+                                                      </DropShadow>
+                                                   </effect>
+                                                </TextField>
+                                                <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="10.0" layoutY="20.0">
+                                                   <image>
+                                                      <Image url="@images/user.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                          </AnchorPane>
+                                          <AnchorPane prefHeight="0.0" prefWidth="564.0">
+                                             <children>
+                                                <Label layoutX="39.0" text="Ej: usuario@dominio.com" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="-25.0" top="-50.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <AnchorPane>
+                                             <children>
+                                                <PasswordField fx:id="passwordTextField" layoutX="4.0" prefHeight="85.0" prefWidth="560.0" promptText="Contraseña" style="-fx-background-color: #b0ceb5; -fx-border-color: #b0ceb5; -fx-background-radius: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <font>
+                                                      <Font size="24.0" />
+                                                   </font>
+                                                   <effect>
+                                                      <DropShadow>
+                                                         <color>
+                                                            <Color opacity="0.20000000298023224" />
+                                                         </color>
+                                                      </DropShadow>
+                                                   </effect>
+                                                   <padding>
+                                                      <Insets left="51.0" />
+                                                   </padding>
+                                                </PasswordField>
+                                                <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="10.0" layoutY="20.0">
+                                                   <image>
+                                                      <Image url="@images/lock.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                          </AnchorPane>
+                                          <AnchorPane prefHeight="0.0" prefWidth="564.0">
+                                             <children>
+                                                <Label layoutX="39.0" text="Mínimo 8 y máximo 16 caracteres" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="-25.0" top="-50.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <AnchorPane prefHeight="50.0" prefWidth="564.0">
+                                             <children>
+                                                <Button fx:id="signupButton" layoutX="31.0" mnemonicParsing="false" onAction="#signUp" prefHeight="85.0" prefWidth="225.0" style="-fx-background-color: #67ab95; -fx-background-radius: 12;" text="Registrarse" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="0.0">
+                                                   <font>
+                                                      <Font size="24.0" />
+                                                   </font>
+                                                   <effect>
+                                                      <DropShadow>
+                                                         <color>
+                                                            <Color opacity="0.20000000298023224" />
+                                                         </color>
+                                                      </DropShadow>
+                                                   </effect>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </Button>
+                                                <Button fx:id="loginButton" layoutX="310.0" mnemonicParsing="false" onAction="#login" prefHeight="56.0" prefWidth="225.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 12;" text="Iniciar Sesión" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0">
+                                                   <font>
+                                                      <Font size="24.0" />
+                                                   </font>
+                                                   <effect>
+                                                      <DropShadow>
+                                                         <color>
+                                                            <Color opacity="0.20000000298023224" />
+                                                         </color>
+                                                      </DropShadow>
+                                                   </effect>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </Button>
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
                            </children>
+<<<<<<< HEAD
                         </HBox>
                         <HBox>
                            <children>
@@ -107,9 +249,15 @@
                         </HBox>
                      </children>
                   </VBox>
+=======
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+>>>>>>> main
                </children>
-            </VBox>
+            </HBox>
          </children>
+<<<<<<< HEAD
          <effect>
             <DropShadow>
                <color>
@@ -123,3 +271,8 @@
       </HBox>
    </center>
 </BorderPane>
+=======
+      </AnchorPane>
+   </children>
+</AnchorPane>
+>>>>>>> main

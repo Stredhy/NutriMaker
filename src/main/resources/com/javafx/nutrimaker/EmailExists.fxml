@@ -9,11 +9,11 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="147.0" prefWidth="305.0" style="-fx-background-color: #101d4f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.EmptyInputsController">
+<AnchorPane prefHeight="147.0" prefWidth="305.0" style="-fx-background-color: #101d4f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.EmailExistsController">
    <children>
       <HBox alignment="CENTER" prefHeight="55.0" prefWidth="305.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="No pueden existir entradas vacias" textFill="WHITE">
+            <Label alignment="CENTER" contentDisplay="CENTER" text="El correo ya existe" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>

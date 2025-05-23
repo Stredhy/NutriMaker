@@ -1,5 +1,8 @@
 package com.javafx.nutrimaker;
 
+import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
+import com.javafx.nutrimaker.models.User;
+import com.javafx.nutrimaker.repository.UserRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,24 +17,42 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.control.Button;
 
 public class LoginController implements Initializable {
-    static final String REG_EXP_VER_EMAIL= "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{5,256}";
-    static final String REG_EXP_VER_PASS= "{8,16}";
-
+    static final String REG_EXP_VER_EMAIL= "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,63}$";
+    static final String REG_EXP_VER_PASS= ".{8,16}";
+    
     @FXML
     private PasswordField passwordTextField;
-
     @FXML
     private TextField emailTextField;
+    @FXML
+    private Button signupButton;
+    @FXML
+    private Button loginButton;
 
     private boolean isEmpty() {
         return passwordTextField.getText().isEmpty() || emailTextField.getText().isEmpty();
+    }
+    
+    private boolean checkPassword() {
+        return passwordTextField.getText().matches(REG_EXP_VER_PASS);
+    }
+    
+    private boolean checkEmail() {
+        return emailTextField.getText().matches(REG_EXP_VER_EMAIL);
+    }
+
+    private boolean verifyCredentials() {
+        UserRepository userRepo = new UserRepository();
+        return userRepo.verifyPasswordByEmail(emailTextField.getText(), passwordTextField.getText());
     }
 
     private void dietStorage(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DietStorage.fxml"));
         Parent root = loader.load();
+        
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("Almacenamiento de Dietas");
@@ -40,39 +61,56 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        setFadeAndScaleAnimation(loginButton);
+        setFadeAndScaleAnimation(signupButton);
+        setFadeAnimation(emailTextField);
+        setFadeAnimation(passwordTextField);
+        
         //db connection
     }
-
-    /*public boolean checkPassword(String password) {
-
-    }
-
-    public boolean checkEmail(String email) {}
-
-    public boolean verifyPassword(String password) {}
-
-    public boolean verifyEmail(String email) {}*/
 
     public void dialog() throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource("EmptyInputs.fxml"));
         Scene scene = new Scene(parent);
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UTILITY);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
-        
     }
 
+    public void invalidCredentials() throws IOException{
+        Parent parent = FXMLLoader.load(getClass().getResource("checkCredentials.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
+    
     @FXML
     public void login(ActionEvent event) throws IOException {
         if(isEmpty()){
             dialog();
+            return;
         }
-
+        if((!checkPassword() || !checkEmail()) || !verifyCredentials()){
+            invalidCredentials();
+            return;
+        }
+        
+        User.getUser().setEmail(emailTextField.getText());
+        User.getUser().setPassword(passwordTextField.getText());
+        User.getUser().setId(new UserRepository().getIdByEmail(emailTextField.getText()));
+        dietStorage(event);  
     }
 
     @FXML
     public void signUp(ActionEvent event) throws IOException {
-        //dietStorage(event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUpForm.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Register");
+        stage.show();
     }
 }

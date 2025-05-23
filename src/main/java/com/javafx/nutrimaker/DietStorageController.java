@@ -4,13 +4,21 @@
  */
 package com.javafx.nutrimaker;
 
+import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
 import com.javafx.nutrimaker.models.Diet;
-import com.javafx.nutrimaker.models.Patient;
+import com.javafx.nutrimaker.models.DietSummary;
+import com.javafx.nutrimaker.models.User;
+import com.javafx.nutrimaker.repository.DietRepository;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.util.List;
 import java.util.ResourceBundle;
-import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,10 +34,11 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -38,20 +47,23 @@ import javafx.util.Duration;
  */
 public class DietStorageController implements Initializable {
 
+    private final int LIMIT = 10;
+    private int count = 0;    
+    
     @FXML
-    private TableView<Diet> dietsTable;
+    private TableView<DietSummary> dietsTable;
     @FXML
-    private TableColumn<Diet, String> numCol;
+    private TableColumn<DietSummary, String> numCol;
     @FXML
-    private TableColumn<Patient, String> patientCol;
+    private TableColumn<DietSummary, String> patientCol;
     @FXML
-    private TableColumn<Patient, String> weightCol;
+    private TableColumn<DietSummary, String> weightCol;
     @FXML
-    private TableColumn<Patient, String> heightCol;
+    private TableColumn<DietSummary, String> heightCol;
     @FXML
-    private TableColumn<Diet, String> dateCol;
+    private TableColumn<DietSummary, String> dateCol;
     @FXML
-    private TableColumn<Diet, Void> actionsCol;
+    private TableColumn<DietSummary, String> actionsCol;
     @FXML
     private Button createButton;
     @FXML
@@ -59,7 +71,8 @@ public class DietStorageController implements Initializable {
     @FXML
     private Button prevButton;
     
-
+    private ObservableList<DietSummary> dietsList = FXCollections.observableArrayList();
+    
     /**
      * Initializes the controller class.
      */
@@ -69,66 +82,128 @@ public class DietStorageController implements Initializable {
         setFadeAndScaleAnimation(nextButton);
         setFadeAndScaleAnimation(prevButton);
         dietsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
-        showDietList();
+        dietsTable.setSelectionModel(null);
+        dietsTable.getColumns().forEach(column -> column.setReorderable(false));
+        try {
+            showDietList();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }    
 
     @FXML
     private void createDiet(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateDiet.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PatientForm.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        stage.setTitle("Creat Dieta");
+        stage.setTitle("Crear Dieta");
         stage.show();
     }
     
     @FXML
-    private void next(ActionEvent event){
-        
+    private void next(ActionEvent event) throws IOException{
+        count+=10;
+        showDietList();
     }
     
     @FXML
-    private void prev(ActionEvent event){
-        
+    private void prev(ActionEvent event) throws IOException{
+        count-=10;
+        if (count < 0){
+            count+=10;
+        }
+        showDietList();
     }
 
-    private void showDietList() {
-        int count=5;
-        numCol.setCellValueFactory(new PropertyValueFactory<>(Integer.toString(count)));
-        patientCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+    private void showDietList() throws IOException {
+        refreshButtons();
+        refreshTable();
+        numCol.setCellValueFactory(new PropertyValueFactory<>("dietId"));
+        patientCol.setCellValueFactory(new PropertyValueFactory<>("patientName"));
         weightCol.setCellValueFactory(new PropertyValueFactory<>("weight"));
         heightCol.setCellValueFactory(new PropertyValueFactory<>("height"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("creationDate"));
-        actionsCol.setCellFactory(col ->  new TableCell<Diet,Void>(){
-            private final HBox actions = new HBox(10);;
-            private final ImageView pdf = new ImageView(DietStorageController.class.getResource("images/pdf.png").toExternalForm());
-            private final ImageView clone = new ImageView(DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
-            private final ImageView edit = new ImageView(DietStorageController.class.getResource("images/edit.png").toExternalForm());
-            private final ImageView delete = new ImageView(DietStorageController.class.getResource("images/delete.png").toExternalForm());
-            
+        actionsCol.setCellFactory(col ->  new TableCell<DietSummary,String>(){
+            private final HBox actions = new HBox(5);
+            private final ImageView pdfIcon = new ImageView(
+                    DietStorageController.class.getResource("images/pdf.png").toExternalForm());
+            private final ImageView cloneIcon = new ImageView(
+                    DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
+            private final ImageView editIcon = new ImageView(
+                    DietStorageController.class.getResource("images/edit.png").toExternalForm());
+            private final ImageView deleteIcon = new ImageView(
+                    DietStorageController.class.getResource("images/delete.png").toExternalForm());
+            private final DropShadow shadow = new DropShadow(5, 2, 2, Color.rgb(0, 0, 0, 0.4));
+            private final Button pdf = new Button("",pdfIcon);
+            private final Button clone = new Button("",cloneIcon);
+            private final Button edit = new Button("",editIcon);
+            private final Button delete = new Button("",deleteIcon);
             {
-                for(ImageView icon: new ImageView[]{pdf,clone,edit,delete}){
-                    icon.setFitHeight(34);
-                    icon.setFitWidth(34);
-                    icon.setCursor(Cursor.HAND);
+                for(ImageView icon: new ImageView[]{pdfIcon,cloneIcon,editIcon,deleteIcon}){
+                    icon.setEffect(shadow);
+                    icon.setFitHeight(30);
+                    icon.setFitWidth(30);
                 }
-
-                pdf.setOnMouseClicked(event -> exportToPDF());
-
-                clone.setOnMouseClicked(event -> copyDiet());
-
-                edit.setOnMouseClicked(event -> modifyDiet());
-
-                delete.setOnMouseClicked(event -> deleteDiet());
+                
+                for(Button btn: new Button[]{pdf,clone,edit,delete}){
+                    btn.setPrefSize(30, 30);
+                    btn.setStyle("-fx-background-color: none; -fx-border-color: none;");
+                    btn.setCursor(Cursor.HAND);
+                    setFadeAndScaleAnimation(btn);
+                }
+                
+                pdf.setOnAction(event -> {
+                    DietSummary dietSummary = dietsTable.getItems().get(getIndex());
+                    DietRepository dietRepo = new DietRepository();
+                    Diet diet = null;
+                    try {
+                        diet = dietRepo.getDietObjectById(dietSummary.getDietId());
+                        System.out.println("Export to Pdf = " + diet.getDietID()); 
+                    } catch (IOException | ParseException ex) {
+                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        PDFBuilder.exportPdf(diet);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                });
+                
+                clone.setOnAction(event -> {
+                    
+                });
+                
+                edit.setOnAction(event -> {
+                
+                });
+                
+                delete.setOnAction(event -> {
+                    DietSummary dietSummary = dietsTable.getItems().get(getIndex());
+                    DietRepository dietRepo = new DietRepository();
+                    try {
+                        Diet diet = dietRepo.getDietObjectById(dietSummary.getDietId());
+                    } catch (IOException | ParseException ex) {
+                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    try {
+                        refreshTable();
+                    } catch (IOException ex) {
+                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    System.out.println("Diet Deleted");
+                });
             }
             
             @Override   
-            protected void updateItem(Void item, boolean empty) {
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);
-                    //Debug
-                    System.out.println("Error de carga de graficos");
                 } else {
                     actions.getChildren().addAll(pdf,clone,edit,delete);
                     actions.setAlignment(Pos.CENTER);
@@ -140,51 +215,26 @@ public class DietStorageController implements Initializable {
         });
     }
     
-    private void exportToPDF(){
-        
+    private void refreshButtons() throws IOException{
+        DietRepository dietRepo = new DietRepository();        
+        prevButton.setVisible( count > 0);        
+        nextButton.setVisible((count + LIMIT) < dietRepo.getTotalDietsCount());
     }
     
-    private void copyDiet(){
-    
-    }
-    
-    private void modifyDiet(){
-    
-    }
-    
-    private void deleteDiet(){
-    
-    }
-    
-    public void setFadeAndScaleAnimation(Node n){
-        FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.3),n);
-        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3),n);
-        ScaleTransition expand = new ScaleTransition(Duration.seconds(0.3),n);
-        ScaleTransition reduce = new ScaleTransition(Duration.seconds(0.3),n);
+    private void refreshTable() throws IOException{
+        dietsList.clear();
         
-        fadeIn.setFromValue(1.0);
-        fadeIn.setToValue(0.5);
-        fadeIn.setAutoReverse(false);
+        int id = User.getUser().getId();
+        DietRepository dietRepo= new DietRepository();
+        List<DietSummary> diets = dietRepo.getDiets(count, LIMIT, id); 
+        for(DietSummary diet : diets){
+            dietsList.add(new DietSummary(diet.getDietId(),
+                    diet.getPatientName(),
+                    diet.getWeight(),
+                    diet.getHeight(),
+                    diet.getCreationDate()));
+            dietsTable.setItems(dietsList);
+        }
         
-        expand.setToX(1.1);
-        expand.setToY(1.1);
-        
-        n.setOnMouseEntered(e -> {
-            expand.play();
-            fadeIn.play();
-        });
-        
-        fadeOut.setFromValue(0.5);
-        fadeOut.setToValue(1.0);
-        fadeOut.setCycleCount(1);
-        fadeOut.setAutoReverse(false);
-        
-        reduce.setToX(1);
-        reduce.setToY(1);
-        
-        n.setOnMouseExited(e -> {
-            reduce.play();
-            fadeOut.play();
-        });
     }
 }
