@@ -46,8 +46,6 @@ public class DietRepository {
         return buildDietFromFlatJson(json);
     }
 
-
-
     public int getTotalDietsCount() throws IOException {
         String url = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietapi_count/diets/count";
         String json = dbClient.get(url, null);

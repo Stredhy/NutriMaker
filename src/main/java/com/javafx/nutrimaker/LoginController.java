@@ -101,7 +101,6 @@ public class LoginController implements Initializable {
         User.getUser().setEmail(emailTextField.getText());
         User.getUser().setPassword(passwordTextField.getText());
         User.getUser().setId(new UserRepository().getIdByEmail(emailTextField.getText()));
-        
         dietStorage(event);  
     }
 
