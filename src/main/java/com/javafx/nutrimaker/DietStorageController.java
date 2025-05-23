@@ -86,11 +86,11 @@ public class DietStorageController implements Initializable {
 
     @FXML
     private void createDiet(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateDiet.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PatientForm.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        stage.setTitle("Creat Dieta");
+        stage.setTitle("Crear Dieta");
         stage.show();
     }
     

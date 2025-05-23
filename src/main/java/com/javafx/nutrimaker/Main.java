@@ -17,7 +17,7 @@ contraseña: 123456789
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("LoginForm.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("PatientForm.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Login");
         stage.setScene(scene);
