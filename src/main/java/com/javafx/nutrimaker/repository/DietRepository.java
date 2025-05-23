@@ -113,7 +113,7 @@ public class DietRepository {
     public Diet buildDietFromFlatJson(String json) throws ParseException {
         JsonObject root = JsonParser.parseString(json).getAsJsonObject(); // ✅ parsea como objeto
         JsonArray rows = root.getAsJsonArray("items"); // ✅ accede al array de "items"
-
+        
         Diet diet = new Diet();
         Map<Integer, Meal> mealsMap = new HashMap<>();
 
@@ -134,7 +134,8 @@ public class DietRepository {
                 diet.setSodium(row.get("sodium").getAsDouble());
                 diet.setIron(row.get("iron").getAsDouble());
                 diet.setFats(row.get("fat").getAsDouble());
-
+                //diet.setComments(row.get("note").getAsString());
+                
                 Patient patient = new Patient(row.get("patient_name").getAsString(), row.get("age").getAsInt(), row.get("weight").getAsDouble(), row.get("height").getAsDouble(), row.get("patient_id").getAsInt());
                 diet.setPatient(patient);
             }

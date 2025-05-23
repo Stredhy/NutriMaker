@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.javafx.nutrimaker;
 
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
@@ -11,6 +7,8 @@ import com.javafx.nutrimaker.models.User;
 import com.javafx.nutrimaker.repository.DietRepository;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.List;
@@ -40,11 +38,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author mimoe
- */
 public class DietStorageController implements Initializable {
 
     private final int LIMIT = 10;
@@ -124,6 +117,7 @@ public class DietStorageController implements Initializable {
         weightCol.setCellValueFactory(new PropertyValueFactory<>("weight"));
         heightCol.setCellValueFactory(new PropertyValueFactory<>("height"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("creationDate"));
+        //Hace seteo de botones por cada fila de dieta que se genera
         actionsCol.setCellFactory(col ->  new TableCell<DietSummary,String>(){
             private final HBox actions = new HBox(5);
             private final ImageView pdfIcon = new ImageView(
@@ -167,7 +161,7 @@ public class DietStorageController implements Initializable {
                         PDFBuilder.exportPdf(diet);
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
+                    } catch (IOException | URISyntaxException ex) {
                         Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     

@@ -18,7 +18,8 @@ public class Diet {
     private Double iron;
     @SerializedName("fat")
     private Double fats;
-
+    private String comments;
+    
     public Diet() {
 
     }
@@ -34,6 +35,7 @@ public class Diet {
         this.sodium = d.sodium;
         this.iron = d.iron;
         this.fats = d.fats;
+        this.comments = d.comments;
     }
     
     public Diet(Diet d){
@@ -41,7 +43,7 @@ public class Diet {
     }
 
     public Diet(int dietID,Patient pat, List<Meal> meals, Date date, Double calo, Double prot,
-                Double calc, Double sodi, Double ironX, Double fat){
+                Double calc, Double sodi, Double ironX, Double fat,String comment){
         this.dietID = dietID;
         this.patient = pat;
         this.meals = meals;
@@ -52,6 +54,7 @@ public class Diet {
         this.sodium = sodi;
         this.iron = ironX;
         this.fats = fat;
+        this.comments = comment;
     }
 
     public void setDietID(int dietID) {
@@ -134,6 +137,14 @@ public class Diet {
 
     public Double getFats() {
         return fats;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public String getComments() {
+        return comments;
     }
     
 }
