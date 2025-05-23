@@ -136,7 +136,7 @@ public class PDFBuilder {
         dayCell.setBorder(Border.NO_BORDER);    
         dayCell.setBorderRight(new SolidBorder(1));
         dayCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
-        Paragraph typeMeal = new Paragraph(meal.getMealType());
+        Paragraph typeMeal = new Paragraph("" + meal.getMealType());
         
         for(Ingredient ingredient : meal.getIngredients()){
 
