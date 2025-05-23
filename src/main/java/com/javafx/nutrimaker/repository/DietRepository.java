@@ -40,7 +40,7 @@ public class DietRepository {
     }
 
     public Diet getDietObjectById(int dietId) throws IOException, ParseException {
-        String urlDietById = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietapi_access/diets/access?dietId=" + dietId;
+        String urlDietById = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietapi_access/dietaccess/" + dietId;
         String json = dbClient.get(urlDietById, null);
 
         return buildDietFromFlatJson(json);
@@ -134,6 +134,7 @@ public class DietRepository {
                 diet.setSodium(row.get("sodium").getAsDouble());
                 diet.setIron(row.get("iron").getAsDouble());
                 diet.setFats(row.get("fat").getAsDouble());
+                diet.setNote(row.get("note").getAsString());
 
                 Patient patient = new Patient(row.get("patient_name").getAsString(), row.get("age").getAsInt(), row.get("weight").getAsDouble(), row.get("height").getAsDouble(), row.get("patient_id").getAsInt());
                 diet.setPatient(patient);
