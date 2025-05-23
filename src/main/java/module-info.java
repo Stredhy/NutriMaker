@@ -8,10 +8,12 @@ module com.javafx.nutrimaker {
     requires okhttp3;
     requires com.google.gson;
 
-
+    requires kernel;
+    requires layout;
+    requires io;
+    requires java.desktop;
     
     opens com.javafx.nutrimaker.models to javafx.base, com.google.gson;
-
 
     requires java.sql;
     requires annotations;

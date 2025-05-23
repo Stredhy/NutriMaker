@@ -5,13 +5,18 @@
 package com.javafx.nutrimaker;
 
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
+import com.javafx.nutrimaker.models.Diet;
 import com.javafx.nutrimaker.models.DietSummary;
 import com.javafx.nutrimaker.models.User;
 import com.javafx.nutrimaker.repository.DietRepository;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -78,6 +83,7 @@ public class DietStorageController implements Initializable {
         setFadeAndScaleAnimation(prevButton);
         dietsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
         dietsTable.setSelectionModel(null);
+        dietsTable.getColumns().forEach(column -> column.setReorderable(false));
         try {
             showDietList();
         } catch (IOException ex) {
@@ -139,16 +145,58 @@ public class DietStorageController implements Initializable {
                     icon.setFitHeight(30);
                     icon.setFitWidth(30);
                 }
+                
                 for(Button btn: new Button[]{pdf,clone,edit,delete}){
                     btn.setPrefSize(30, 30);
                     btn.setStyle("-fx-background-color: none; -fx-border-color: none;");
                     btn.setCursor(Cursor.HAND);
                     setFadeAndScaleAnimation(btn);
                 }
-                pdf.setOnMouseClicked(event -> exportToPDF());
-                clone.setOnMouseClicked(event -> copyDiet());
-                edit.setOnMouseClicked(event -> modifyDiet());
-                delete.setOnMouseClicked(event -> deleteDiet());
+                
+                pdf.setOnAction(event -> {
+                    DietSummary dietSummary = dietsTable.getItems().get(getIndex());
+                    DietRepository dietRepo = new DietRepository();
+                    Diet diet = null;
+                    try {
+                        diet = dietRepo.getDietObjectById(dietSummary.getDietId());
+                        System.out.println("Export to Pdf = " + diet.getDietID()); 
+                    } catch (IOException | ParseException ex) {
+                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        PDFBuilder.exportPdf(diet);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                });
+                
+                clone.setOnAction(event -> {
+                    
+                });
+                
+                edit.setOnAction(event -> {
+                
+                });
+                
+                delete.setOnAction(event -> {
+                    DietSummary dietSummary = dietsTable.getItems().get(getIndex());
+                    DietRepository dietRepo = new DietRepository();
+                    try {
+                        Diet diet = dietRepo.getDietObjectById(dietSummary.getDietId());
+                    } catch (IOException | ParseException ex) {
+                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    try {
+                        refreshTable();
+                    } catch (IOException ex) {
+                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    System.out.println("Diet Deleted");
+                });
             }
             
             @Override   
@@ -165,22 +213,6 @@ public class DietStorageController implements Initializable {
                 }
             }
         });
-    }
-    
-    private void exportToPDF(){
-        System.out.println("Export to Pdf");
-    }
-    
-    private void copyDiet(){
-        System.out.println("Copy Diet");
-    }
-    
-    private void modifyDiet(){
-        System.out.println("Modify Diet");
-    }
-    
-    private void deleteDiet(){
-        System.out.println("Delete Diet");
     }
     
     private void refreshButtons() throws IOException{

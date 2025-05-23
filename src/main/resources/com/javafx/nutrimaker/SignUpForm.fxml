@@ -27,6 +27,9 @@
                            <image>
                               <Image url="@images/nutrimakerLogo.png" />
                            </image>
+                           <effect>
+                              <DropShadow />
+                           </effect>
                         </ImageView>
                      </children></AnchorPane>
                   <AnchorPane prefHeight="820.0" prefWidth="577.0">
