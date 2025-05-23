@@ -7,36 +7,15 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
-<<<<<<< HEAD
 <?import javafx.scene.layout.BorderPane?>
-=======
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
->>>>>>> main
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD
-
-<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.LoginController">
-   <center>
-      <HBox prefHeight="1080.0" prefWidth="1920.0" spacing="16.0" style="-fx-background-color: fff; -fx-background-radius: 12;">
-         <children>
-            <Pane cache="true" prefHeight="698.0" prefWidth="585.0" style="-fx-background-color: #7abd9c; -fx-background-radius: 12 0 0 12;" />
-            <VBox alignment="CENTER" prefHeight="772.0" prefWidth="569.0">
-               <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="512.0" prefWidth="569.0" spacing="52.0">
-                     <children>
-                        <Label prefHeight="56.0" prefWidth="451.0" text="¡BIENVENIDO!" textFill="#7d7d7d">
-                           <font>
-                              <Font size="72.0" />
-                           </font>
-                        </Label>
-                        <HBox>
-=======
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="935.0" minWidth="1280.0" prefHeight="972.0" prefWidth="1728.0" style="-fx-background-color: #101d4f;" stylesheets="@styles/loginForm.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.LoginController">
    <children>
       <AnchorPane layoutX="251.0" layoutY="109.0" prefHeight="708.0" prefWidth="1198.0" AnchorPane.bottomAnchor="155.0" AnchorPane.leftAnchor="251.0" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="109.0">
@@ -57,7 +36,7 @@
                   <AnchorPane prefHeight="820.0" prefWidth="577.0">
                      <children>
                         <VBox alignment="CENTER" layoutX="40.0" prefHeight="820.0" prefWidth="630.0" style="-fx-background-color: #0c7774; -fx-background-radius: 0 12 12 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
->>>>>>> main
+
                            <children>
                               <AnchorPane>
                                  <VBox.margin>
@@ -189,90 +168,12 @@
                                  </children>
                               </AnchorPane>
                            </children>
-<<<<<<< HEAD
-                        </HBox>
-                        <HBox>
-                           <children>
-                              <PasswordField fx:id="passwordTextField" prefHeight="85.0" prefWidth="569.0" promptText="Contraseña" style="-fx-background-color: #ffffff; -fx-border-color: #7d7d7d; -fx-background-radius: 5; -fx-border-radius: 5;">
-                                 <font>
-                                    <Font size="35.0" />
-                                 </font>
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.20000000298023224" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                                 <padding>
-                                    <Insets left="51.0" />
-                                 </padding>
-                                 <rotationAxis>
-                                    <Point3D />
-                                 </rotationAxis>
-                              </PasswordField>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="22.0">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#signUp" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #48a6a7; -fx-background-radius: 12;" text="Registrarse" textFill="WHITE">
-                                 <font>
-                                    <Font size="36.0" />
-                                 </font>
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.20000000298023224" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#login" prefHeight="85.0" prefWidth="273.0" style="-fx-background-color: #006a71; -fx-background-radius: 12;" text="Iniciar Sesión" textFill="WHITE">
-                                 <font>
-                                    <Font size="36.0" />
-                                 </font>
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.20000000298023224" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-=======
                         </VBox>
                      </children>
                   </AnchorPane>
->>>>>>> main
                </children>
             </HBox>
          </children>
-<<<<<<< HEAD
-         <effect>
-            <DropShadow>
-               <color>
-                  <Color opacity="0.20000000298023224" />
-               </color>
-            </DropShadow>
-         </effect>
-         <padding>
-            <Insets bottom="130.0" left="367.0" right="367.0" top="130.0" />
-         </padding>
-      </HBox>
-   </center>
-</BorderPane>
-=======
       </AnchorPane>
    </children>
 </AnchorPane>
->>>>>>> main
