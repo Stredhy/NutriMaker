@@ -72,6 +72,18 @@
                                                 </ImageView>
                                              </children>
                                           </AnchorPane>
+                                          <AnchorPane prefHeight="0.0" prefWidth="564.0">
+                                             <children>
+                                                <Label layoutX="39.0" text="Ej: usuario@dominio.com" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="-25.0" top="-50.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
                                           <AnchorPane>
                                              <children>
                                                 <PasswordField fx:id="passwordTextField" layoutX="4.0" prefHeight="85.0" prefWidth="560.0" promptText="Contraseña" style="-fx-background-color: #b0ceb5; -fx-border-color: #b0ceb5; -fx-background-radius: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -96,6 +108,18 @@
                                                 </ImageView>
                                              </children>
                                           </AnchorPane>
+                                          <AnchorPane prefHeight="0.0" prefWidth="564.0">
+                                             <children>
+                                                <Label layoutX="39.0" text="Mínimo 8 y máximo 16 caracteres" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="-25.0" top="-50.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
                                           <AnchorPane>
                                              <children>
                                                 <PasswordField fx:id="confPasswordTextField" layoutX="4.0" prefHeight="85.0" prefWidth="560.0" promptText="Confirmar contraseña" style="-fx-background-color: #b0ceb5; -fx-border-color: #b0ceb5; -fx-background-radius: 5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -119,6 +143,18 @@
                                                    </image>
                                                 </ImageView>
                                              </children>
+                                          </AnchorPane>
+                                          <AnchorPane prefHeight="0.0" prefWidth="564.0">
+                                             <children>
+                                                <Label layoutX="39.0" text="Mínimo 8 y máximo 16 caracteres" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="-25.0" top="-50.0" />
+                                             </VBox.margin>
                                           </AnchorPane>
                                           <AnchorPane prefHeight="50.0" prefWidth="564.0">
                                              <children>
