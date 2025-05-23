@@ -3,7 +3,6 @@ package com.javafx.nutrimaker.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Patient {
-    @SerializedName("patient_name")
     private String name;
     private int age;
     private Double weight;
@@ -29,6 +28,13 @@ public class Patient {
         this.weight = wh;
         this.height = hg;
         this.patientId = id;
+    }
+
+    public Patient(String name, int age, Double weight, Double height) {
+        this.name = name;
+        this.age = age;
+        this.weight = weight;
+        this.height = height;
     }
 
     public void setName(String name) {
