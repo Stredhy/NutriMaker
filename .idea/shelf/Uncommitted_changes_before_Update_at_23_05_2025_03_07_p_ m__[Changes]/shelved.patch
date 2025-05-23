@@ -1,0 +1,234 @@
+Index: src/main/java/com/javafx/nutrimaker/repository/DietRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.javafx.nutrimaker.repository;\r\n\r\nimport com.google.gson.JsonParser;\r\nimport com.javafx.nutrimaker.database.DatabaseClient;\r\nimport com.google.gson.Gson;\r\nimport com.google.gson.*;\r\n\r\nimport java.io.IOException;\r\nimport java.net.URLEncoder;\r\nimport java.nio.charset.StandardCharsets;\r\nimport java.text.ParseException;\r\nimport java.text.SimpleDateFormat;\r\nimport java.time.Instant;\r\nimport java.util.*;\r\n\r\nimport com.javafx.nutrimaker.models.*;\r\n\r\npublic class DietRepository {\r\n    private static final String BASE_URL = \"https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/diet/\";\r\n    private final Gson gson = new Gson();\r\n    private final DatabaseClient dbClient = new DatabaseClient();\r\n\r\n    public List<DietSummary> getDiets(int offset, int limit, int user_id) throws IOException {\r\n        String getsDietsURL = \"https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietapi/diets?\";\r\n        String urlWithParams = getsDietsURL + \"?offset=\" + offset + \"&limit=\" + limit + \"&user_id=\" + user_id;\r\n        String json = dbClient.get(urlWithParams, null);\r\n\r\n        Gson gson = new Gson();\r\n        DietSummaryResponse response = gson.fromJson(json, DietSummaryResponse.class);\r\n\r\n        // Formatear la fecha a solo AAAA-MM-DD\r\n        for (DietSummary diet : response.getItems()) {\r\n            String fullDate = diet.getCreationDate();\r\n            if (fullDate != null && fullDate.contains(\"T\")) {\r\n                diet.setCreationDate(fullDate.split(\"T\")[0]);\r\n            }\r\n        }\r\n\r\n        return response.getItems();\r\n    }\r\n\r\n    public Diet getDietObjectById(int dietId) throws IOException, ParseException {\r\n        String urlDietById = \"https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietapi_access/diets/access?dietId=\" + dietId;\r\n        String json = dbClient.get(urlDietById, null);\r\n\r\n        return buildDietFromFlatJson(json);\r\n    }\r\n\r\n\r\n\r\n    public int getTotalDietsCount() throws IOException {\r\n        String url = \"https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietapi_count/diets/count\";\r\n        String json = dbClient.get(url, null);\r\n\r\n        // Parsear el JSON para obtener total_diets\r\n        return JsonParser.parseString(json)\r\n                .getAsJsonObject()\r\n                .getAsJsonArray(\"items\")\r\n                .get(0)\r\n                .getAsJsonObject()\r\n                .get(\"total_diets\")\r\n                .getAsInt();\r\n    }\r\n\r\n\r\n    // Obtener dieta por id\r\n    public String getDietById(int dietId) throws IOException {\r\n        String url = BASE_URL + dietId;\r\n        return dbClient.get(url, null);\r\n    }\r\n\r\n    // Crear Dieta\r\n    public String createDiet(Map<String, Object> dietData) throws IOException {\r\n        String json = gson.toJson(dietData);\r\n        return dbClient.post(BASE_URL, json, defaultHeaders());\r\n    }\r\n\r\n    // Modificar dieta\r\n    public String updateDiet(int dietId, Map<String, Object> dietData) throws IOException {\r\n        String json = gson.toJson(dietData);\r\n        String url = BASE_URL + dietId;\r\n        return dbClient.put(url, json, defaultHeaders());\r\n    }\r\n\r\n    // Eliminar dieta por diet_id\r\n    public String deleteDiet(int dietId) throws IOException {\r\n        String url = BASE_URL + dietId;\r\n        return dbClient.delete(url, defaultHeaders());\r\n    }\r\n\r\n    // Buscar dietas por user_id\r\n    public String getDietsByUserId(int userId) throws IOException {\r\n        String query = \"{\\\"user_id\\\":\" + userId + \"}\";\r\n        String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);\r\n        String url = BASE_URL + \"?q=\" + encodedQuery;\r\n        return dbClient.get(url, null);\r\n    }\r\n\r\n    // Buscar dietas por patient_id\r\n    public String getDietsByPatientId(int patientId) throws IOException {\r\n        String query = \"{\\\"patient_id\\\":\" + patientId + \"}\";\r\n        String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);\r\n        String url = BASE_URL + \"?q=\" + encodedQuery;\r\n        return dbClient.get(url, null);\r\n    }\r\n\r\n    private Map<String, String> defaultHeaders() {\r\n        Map<String, String> headers = new HashMap<>();\r\n        headers.put(\"Content-Type\", \"application/json\");\r\n        return headers;\r\n    }\r\n\r\n\r\n\r\n    public Diet buildDietFromFlatJson(String json) throws ParseException {\r\n        JsonObject root = JsonParser.parseString(json).getAsJsonObject(); // ✅ parsea como objeto\r\n        JsonArray rows = root.getAsJsonArray(\"items\"); // ✅ accede al array de \"items\"\r\n\r\n        Diet diet = new Diet();\r\n        Map<Integer, Meal> mealsMap = new HashMap<>();\r\n\r\n        for (JsonElement elem : rows) {\r\n            JsonObject row = elem.getAsJsonObject();\r\n\r\n            // Asignar datos generales de la dieta (sólo una vez)\r\n            if (diet.getDietID() == 0) {\r\n                diet.setDietID(row.get(\"diet_id\").getAsInt());\r\n                String fullDate = row.get(\"creation_date\").getAsString();\r\n                String dateOnly = fullDate.split(\"T\")[0];\r\n\r\n                Date date = new SimpleDateFormat(\"yyyy-MM-dd\").parse(dateOnly);\r\n                diet.setCreationDate(date);\r\n                diet.setCalories(row.get(\"calories\").getAsDouble());\r\n                diet.setProtein(row.get(\"protein\").getAsDouble());\r\n                diet.setCalcium(row.get(\"calcium\").getAsDouble());\r\n                diet.setSodium(row.get(\"sodium\").getAsDouble());\r\n                diet.setIron(row.get(\"iron\").getAsDouble());\r\n                diet.setFats(row.get(\"fat\").getAsDouble());\r\n\r\n                Patient patient = new Patient(row.get(\"patient_name\").getAsString(), row.get(\"age\").getAsInt(), row.get(\"weight\").getAsDouble(), row.get(\"height\").getAsDouble(), row.get(\"patient_id\").getAsInt());\r\n                diet.setPatient(patient);\r\n            }\r\n\r\n            // Obtener meal id y verificar si ya existe\r\n            int mealBaseId = row.get(\"meal_base_id\").getAsInt();\r\n            Meal meal = mealsMap.get(mealBaseId);\r\n            if (meal == null) {\r\n                meal = new Meal();\r\n                meal.setMealBaseId(mealBaseId);\r\n                meal.setName(row.get(\"meal_name\").getAsString());\r\n                meal.setIngredients(new ArrayList<>());\r\n\r\n                // Fecha del día de la comida\r\n                String dayString = row.get(\"day\").getAsString(); // Ej: \"2025-05-21T00:00:00Z\"\r\n                Date mealDate = Date.from(Instant.parse(dayString));\r\n                meal.setDay(mealDate);\r\n\r\n                // Hora del día\r\n                String timeString = row.get(\"time_of_day\").getAsString(); // Ej: \"2025-05-01T08:00:00Z\"\r\n                Date mealTime = Date.from(Instant.parse(timeString));\r\n                meal.setTimeOfDay(mealTime);\r\n\r\n                // Tipo, grupo, etc.\r\n                meal.setMealType(row.get(\"meal_type\").getAsString());\r\n                meal.setMealGroup(row.get(\"meal_group\").getAsString());\r\n\r\n                // Nutrimentos\r\n                meal.setCalories(row.get(\"meal_calories\").getAsDouble());\r\n                meal.setFat(row.get(\"meal_fat\").getAsDouble());\r\n                meal.setCholesterol(row.get(\"cholesterol\").getAsDouble());\r\n                meal.setSodium(row.get(\"meal_sodium\").getAsDouble());\r\n                meal.setCarbohydrates(row.get(\"carbohydrates\").getAsDouble());\r\n                meal.setProtein(row.get(\"meal_protein\").getAsDouble());\r\n                meal.setCalcium(row.get(\"meal_calcium\").getAsDouble());\r\n                meal.setIron(row.get(\"meal_iron\").getAsDouble());\r\n\r\n                mealsMap.put(mealBaseId, meal);\r\n            }\r\n\r\n            // Obtener ingrediente (si existe)\r\n            if (row.has(\"ingredient_name\") && !row.get(\"ingredient_name\").isJsonNull()) {\r\n                String ingredientName = row.get(\"ingredient_name\").getAsString();\r\n\r\n                boolean ingredientExists = meal.getIngredients().stream()\r\n                        .anyMatch(i -> i.getName().equalsIgnoreCase(ingredientName));\r\n\r\n                if (!ingredientExists) {\r\n                    Ingredient ingredient = new Ingredient();\r\n                    ingredient.setName(ingredientName);\r\n\r\n                    if (row.has(\"ingredient_amount\") && !row.get(\"ingredient_amount\").isJsonNull()) {\r\n                        ingredient.setAmount(row.get(\"ingredient_amount\").getAsDouble());\r\n                    }\r\n\r\n                    // Agrega otros atributos si están disponibles\r\n                    meal.getIngredients().add(ingredient);\r\n                }\r\n            }\r\n        }\r\n\r\n        // Finalmente setear la lista de meals en la dieta\r\n        diet.setMeals(new ArrayList<>(mealsMap.values()));\r\n\r\n        return diet;\r\n    }\r\n\r\n}\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/javafx/nutrimaker/repository/DietRepository.java b/src/main/java/com/javafx/nutrimaker/repository/DietRepository.java
+--- a/src/main/java/com/javafx/nutrimaker/repository/DietRepository.java	(revision 6e657289b93a4ef186690d612ddc714456037875)
++++ b/src/main/java/com/javafx/nutrimaker/repository/DietRepository.java	(date 1747980303667)
+@@ -46,8 +46,6 @@
+         return buildDietFromFlatJson(json);
+     }
+ 
+-
+-
+     public int getTotalDietsCount() throws IOException {
+         String url = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietapi_count/diets/count";
+         String json = dbClient.get(url, null);
+@@ -69,11 +67,61 @@
+         return dbClient.get(url, null);
+     }
+ 
+-    // Crear Dieta
+-    public String createDiet(Map<String, Object> dietData) throws IOException {
+-        String json = gson.toJson(dietData);
+-        return dbClient.post(BASE_URL, json, defaultHeaders());
++    public int createDietReturnId(
++            DatabaseClient dbClient,
++            int userId,
++            int patientId,
++            double calories,
++            double protein,
++            double fat,
++            double cholesterol,
++            double sodium,
++            double carbohydrate,
++            double calcium,
++            double iron,
++            String notes,
++            String creationDate, // Formato "YYYY-MM-DD"
++            String restDay,
++            String targetGender,
++            int mealsPerDay
++    ) throws IOException {
++
++        String url = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietcreation/dietcreation/returid";
++
++        // Construir JSON de solicitud
++        JsonObject requestBody = new JsonObject();
++        requestBody.addProperty("user_id", userId);
++        requestBody.addProperty("patient_id", patientId);
++        requestBody.addProperty("calories", calories);
++        requestBody.addProperty("protein", protein);
++        requestBody.addProperty("fat", fat);
++        requestBody.addProperty("cholesterol", cholesterol);
++        requestBody.addProperty("sodium", sodium);
++        requestBody.addProperty("carbohydrate", carbohydrate);
++        requestBody.addProperty("calcium", calcium);
++        requestBody.addProperty("iron", iron);
++        requestBody.addProperty("note", notes);
++        requestBody.addProperty("creation_date", creationDate); // "YYYY-MM-DD"
++        requestBody.addProperty("rest_day", restDay);
++        requestBody.addProperty("target_gender", targetGender);
++        requestBody.addProperty("meals_per_day", mealsPerDay);
++
++        // Enviar solicitud POST y obtener respuesta
++        System.out.println(requestBody.toString());
++        String response = dbClient.post(url, requestBody.toString(), null);
++        System.out.println(requestBody.toString());
++
++        // Parsear respuesta JSON
++        JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
++
++        // Validar que contenga el campo diet_id
++        if (!jsonResponse.has("diet_id")) {
++            throw new IOException("La respuesta no contiene el campo 'diet_id'");
++        }
++
++        return jsonResponse.get("diet_id").getAsInt();
+     }
++
+ 
+     // Modificar dieta
+     public String updateDiet(int dietId, Map<String, Object> dietData) throws IOException {
+@@ -88,6 +136,114 @@
+         return dbClient.delete(url, defaultHeaders());
+     }
+ 
++    public int cloneDietById(int dietIdOriginal) throws IOException, ParseException {
++        // Obtener dieta original
++        String json = getDietById(dietIdOriginal);
++        System.out.println("JSON obtenido desde getDietById(" + dietIdOriginal + "): " + json);
++
++        // 1. Parsear JSON
++        JsonObject root;
++        try {
++            root = JsonParser.parseString(json).getAsJsonObject();
++        } catch (Exception e) {
++            throw new IllegalArgumentException("El JSON no es válido: " + json, e);
++        }
++
++        // 2. Extraer los datos directamente (no hay "items")
++        if (root == null || !root.has("diet_id")) {
++            throw new IllegalArgumentException("No se encontró información válida para dietId: " + dietIdOriginal);
++        }
++
++        JsonObject firstRow = root;
++
++        // 3. Extraer datos generales de la dieta
++        int userId = firstRow.get("user_id").getAsInt();
++        int patientId = firstRow.get("patient_id").getAsInt();
++        double calories = firstRow.get("calories").getAsDouble();
++        double protein = firstRow.get("protein").getAsDouble();
++        double fat = firstRow.get("fat").getAsDouble();
++        double cholesterol = firstRow.get("cholesterol").getAsDouble();
++        double sodium = firstRow.get("sodium").getAsDouble();
++        double carbohydrate = firstRow.get("carbohydrates").getAsDouble(); // OJO: es "carbohydrates"
++        double calcium = firstRow.get("calcium").getAsDouble();
++        double iron = firstRow.get("iron").getAsDouble();
++        String notes = firstRow.get("note").getAsString();
++        String restDay = firstRow.get("rest_day").getAsString();
++        String target_gender = firstRow.get("target_gender").getAsString();
++        int mealsPerDay = firstRow.get("meals_per_day").getAsInt();
++
++        // 4. Nueva fecha de creación
++        String creationDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
++
++        // 5. Crear nueva dieta
++        DatabaseClient dbClient = new DatabaseClient();
++
++        int nuevoDietId = createDietReturnId(
++                dbClient,
++                userId,
++                patientId,
++                calories,
++                protein,
++                fat,
++                cholesterol,
++                sodium,
++                carbohydrate,
++                calcium,
++                iron,
++                notes,
++                creationDate,
++                restDay,
++                target_gender,
++                mealsPerDay
++        );
++
++        // 6. Obtener todos los Diet_Meal originales por dietIdOriginal
++        String dietMealsJson = dbClient.get(
++                "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietmeal/search?diet_id=" + dietIdOriginal,
++                null
++        );
++        System.out.println("JSON obtenido para dietmeal: " + dietMealsJson);
++
++        JsonObject dietMealsRoot = JsonParser.parseString(dietMealsJson).getAsJsonObject();
++
++        if (!dietMealsRoot.has("items") || dietMealsRoot.get("items").isJsonNull()) {
++            throw new IllegalArgumentException("El JSON de dietmeal no contiene 'items' o es null. JSON: " + dietMealsRoot);
++        }
++
++        JsonArray dietMealsItems = dietMealsRoot.getAsJsonArray("items");
++        System.out.println("Cantidad de meals a clonar: " + dietMealsItems.size());
++
++        for (int i = 0; i < dietMealsItems.size(); i++) {
++            JsonObject dm = dietMealsItems.get(i).getAsJsonObject();
++
++            int mealBaseId = dm.get("meal_base_id").getAsInt();
++            String day = dm.get("day").getAsString();
++            String timeOfDay = dm.get("time_of_day").getAsString();
++            String mealType = dm.get("meal_type").getAsString();
++
++            createDietMeal(dbClient, nuevoDietId, mealBaseId, day, timeOfDay, mealType);
++        }
++
++        return nuevoDietId;
++    }
++
++
++
++    // Crear Diet_Meal
++    private void createDietMeal(DatabaseClient dbClient, int dietId, int mealBaseId, String day, String timeOfDay, String mealType) throws IOException {
++        JsonObject json = new JsonObject();
++        json.addProperty("diet_id", dietId);
++        json.addProperty("meal_base_id", mealBaseId);
++        json.addProperty("day", day);
++        json.addProperty("time_of_day", timeOfDay);
++        json.addProperty("meal_type", mealType);
++
++        // Suponiendo que tu endpoint para crear Diet_Meal es algo así:
++        String url = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/diet_meal/";
++
++        dbClient.post(url, json.toString(), null);
++    }
++
+     // Buscar dietas por user_id
+     public String getDietsByUserId(int userId) throws IOException {
+         String query = "{\"user_id\":" + userId + "}";
+Index: src/main/java/com/javafx/nutrimaker/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.javafx.nutrimaker;\r\n\r\nimport javafx.application.Application;\r\nimport javafx.fxml.FXMLLoader;\r\nimport javafx.scene.Scene;\r\nimport javafx.stage.Stage;\r\n\r\nimport java.io.IOException;\r\n\r\npublic class Main extends Application {\r\n    @Override\r\n    public void start(Stage stage) throws IOException {\r\n        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(\"LoginForm.fxml\"));\r\n        Scene scene = new Scene(fxmlLoader.load());\r\n        stage.setTitle(\"Login\");\r\n        stage.setScene(scene);\r\n        stage.show();\r\n    }\r\n\r\n    public static void main(String[] args) {\r\n        launch();\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/javafx/nutrimaker/Main.java b/src/main/java/com/javafx/nutrimaker/Main.java
+--- a/src/main/java/com/javafx/nutrimaker/Main.java	(revision 6e657289b93a4ef186690d612ddc714456037875)
++++ b/src/main/java/com/javafx/nutrimaker/Main.java	(date 1747977899472)
+@@ -1,5 +1,6 @@
+ package com.javafx.nutrimaker;
+ 
++import com.javafx.nutrimaker.repository.DietRepository;
+ import javafx.application.Application;
+ import javafx.fxml.FXMLLoader;
+ import javafx.scene.Scene;
+@@ -19,6 +20,14 @@
+ 
+     public static void main(String[] args) {
+         launch();
+-
++        try {
++            int dietIdOriginal = 1; // Cambia este valor por un diet_id válido existente
++            DietRepository service = new DietRepository();
++            int nuevoDietId = service.cloneDietById(dietIdOriginal);
++            System.out.println("La dieta fue clonada exitosamente. Nuevo diet_id: " + nuevoDietId);
++        } catch (Exception e) {
++            e.printStackTrace();
++            System.err.println("Error al clonar la dieta: " + e.getMessage());
++        }
+     }
+ }
+\ No newline at end of file

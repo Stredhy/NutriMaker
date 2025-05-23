@@ -1,0 +1,17 @@
+Index: src/main/java/com/javafx/nutrimaker/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.javafx.nutrimaker;\r\n\r\n\r\nimport javafx.application.Application;\r\nimport javafx.fxml.FXMLLoader;\r\nimport javafx.scene.Scene;\r\nimport javafx.stage.Stage;\r\n\r\nimport java.io.IOException;\r\n\r\npublic class Main extends Application {\r\n    @Override\r\n    public void start(Stage stage) throws IOException {\r\n        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(\"DietStorage.fxml\"));\r\n        Scene scene = new Scene(fxmlLoader.load());\r\n        stage.setTitle(\"Login\");\r\n        stage.setScene(scene);\r\n        stage.show();\r\n    }\r\n\r\n    public static void main(String[] args) {\r\n        launch();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/javafx/nutrimaker/Main.java b/src/main/java/com/javafx/nutrimaker/Main.java
+--- a/src/main/java/com/javafx/nutrimaker/Main.java	(revision 4ef6ff9be4e9d6a868687e8fa285a7f475d7671b)
++++ b/src/main/java/com/javafx/nutrimaker/Main.java	(date 1747961122125)
+@@ -1,6 +1,5 @@
+ package com.javafx.nutrimaker;
+ 
+-
+ import javafx.application.Application;
+ import javafx.fxml.FXMLLoader;
+ import javafx.scene.Scene;
