@@ -38,6 +38,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 /**
  *
@@ -119,30 +120,42 @@ public class PDFBuilder {
         doc.add(new LineSeparator(new SolidLine(1))); // linea separadora
                 
         //settear dietas
-        
+        for(Meal meal : diet.getMeals()){
+            Table table = new Table(new float[]{1,10});
+            table.setWidth(UnitValue.createPercentValue(100));
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE", new Locale("es", "ES"));
+
+            Paragraph day = new Paragraph(sdf.format(meal.getDay())).setFontSize(12);
+
+            day.setRotationAngle(Math.PI/2);
+            
+            Cell dayCell = new Cell().add(day);
+            dayCell.setBorder(Border.NO_BORDER);    
+            dayCell.setBorderRight(new SolidBorder(1));
+            dayCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
+            
+            Cell mealCell = new Cell();
+            for(Paragraph paragraph : setMeals(meal)){
+                mealCell.add(paragraph);
+            }
+            table.addCell(dayCell);
+            table.addCell(mealCell);
+        }
         doc.close();
    }
     
-   private static Table setMeats(Meal meal){
-        Table table = new Table(new float[]{1,1});
-        table.setWidth(UnitValue.createPercentValue(100));
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE", new Locale("es", "ES"));
-
-        Paragraph day = new Paragraph(sdf.format(meal.getDay()));
-
-        day.setRotationAngle(Math.PI/2);
-
-        Cell dayCell = new Cell().add(day);
-        dayCell.setBorder(Border.NO_BORDER);    
-        dayCell.setBorderRight(new SolidBorder(1));
-        dayCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
-        Paragraph typeMeal = new Paragraph("" + meal.getMealType());
-        
-        for(Ingredient ingredient : meal.getIngredients()){
-
+   private static Iterable<Paragraph> setMeals(Meal meal){
+        List<Paragraph> ingredients=null;
+        Paragraph typeMeal = new Paragraph("            " + meal.getMealType());
+        ingredients.add(typeMeal);
+        for(Ingredient ing : meal.getIngredients()){
+            Paragraph ingredient = new Paragraph((ing != meal.getIngredients().getLast())?
+                    ing.getName()+ " - " + ing.getAmount() + " | ":
+                    ing.getName()+ " - " + ing.getAmount()
+            );
+            ingredients.add(typeMeal);
         }
-
-        return table;
+        return ingredients;
    }
    
 }
