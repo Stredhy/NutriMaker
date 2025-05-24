@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 
 public class DialogController implements Initializable {
 
+    
     @FXML
     private Label warningLabel;
     

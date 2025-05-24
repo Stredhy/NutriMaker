@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
+
 package com.javafx.nutrimaker;
 
+import static com.javafx.nutrimaker.animations.AnimationPersonalized.setFadeAndScaleAnimation;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -24,18 +22,19 @@ public class AskDialogController implements Initializable {
     private Stage stage;
     
     @FXML
-    private Label textField;
-    @FXML
     private Button acceptBtn;
     @FXML
     private Button cancelBtn;
+    @FXML
+    private Label customLabel;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        setFadeAndScaleAnimation(cancelBtn);
+        setFadeAndScaleAnimation(acceptBtn);
     }    
 
     @FXML
@@ -50,8 +49,8 @@ public class AskDialogController implements Initializable {
         stage.close();
     }
 
-    public void setTextField(Label textField) {
-        this.textField = textField;
+    public void setLabelText(String text) {
+        this.customLabel.setText(text);
     }
 
     public void setAcceptBtn(Button acceptBtn) {
@@ -63,7 +62,7 @@ public class AskDialogController implements Initializable {
     }
 
     public Label getTextField() {
-        return textField;
+        return customLabel;
     }
 
     public Button getAcceptBtn() {
@@ -75,7 +74,7 @@ public class AskDialogController implements Initializable {
     }
 
     public boolean isSelection() {
-        return selection;
+    return selection;
     }
 
     public void setSelection(boolean selection) {
