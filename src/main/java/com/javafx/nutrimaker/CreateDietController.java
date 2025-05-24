@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
 import com.javafx.nutrimaker.repository.DietRepository;
+import com.javafx.nutrimaker.repository.MealRepository;
 import com.javafx.nutrimaker.DialogController;
 import java.util.List;
 import javafx.collections.ObservableList;
@@ -72,7 +73,10 @@ public class CreateDietController implements Initializable {
     @FXML
     private void save(ActionEvent event) throws IOException {
         if (checkInputs()) {
-            //creardieta;
+            int cantCalories = Integer.parseInt(calTextField.getText()), foodQuantity= Integer.parseInt(quantityFoodDistribution.getValue());
+            DietRepository dietRepository = new DietRepository();
+            MealRepository mealRepository = new MealRepository();
+            mealRepository.createNewDiet(cantCalories, foodQuantity , selectFreeDay.getValue(), 0, dietRepository.getRecentId());
         }
         /*FXMLLoader loader = new FXMLLoader(getClass().getResource("DietStorage.fxml"));
         Parent root = loader.load();
@@ -84,7 +88,8 @@ public class CreateDietController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        String[] days = {"Lunes", "Martes", "Miercoles", "Jueves", "Virenes", "Sabado", "Domingo"};
+        setFadeAndScaleAnimation(returnButton);
+        String[] days = {"lunes", "martes", "miercoles", "jueves", "virenes", "sabado", "domingo"};
         selectFreeDay.getItems().addAll(days);
         String[] foodDistribution = {"3", "4", "5", "6"};
         quantityFoodDistribution.getItems().addAll(foodDistribution);
