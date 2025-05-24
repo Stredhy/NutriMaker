@@ -18,6 +18,11 @@ public class UserRepository {
         this.dbClient = new DatabaseClient();
     }
 
+    //Obtener todos lo pacientes
+    public String getAllUsers() throws IOException {
+        return dbClient.get(BASE_URL, null);
+    }
+
     // 1. Insertar nuevo usuario
     // Función para insertar usuario con contraseña hasheada
     public boolean insertUser(String email, String plainPassword) {

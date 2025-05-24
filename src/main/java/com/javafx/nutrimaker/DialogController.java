@@ -10,9 +10,13 @@ import javafx.scene.Node;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
-public class EmptyInputsController implements Initializable {
+public class DialogController implements Initializable {
 
+    @FXML
+    private Label warningLabel;
+    
     @FXML
     private Button closeButton;
     @FXML
@@ -20,7 +24,11 @@ public class EmptyInputsController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
-
+    
+    public  void setText(String labelString){
+        warningLabel.setText(labelString);
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setFadeAndScaleAnimation(closeButton);

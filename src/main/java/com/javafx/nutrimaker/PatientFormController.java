@@ -3,6 +3,7 @@ package com.javafx.nutrimaker;
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
 import java.net.URL;
 import com.javafx.nutrimaker.repository.PatientRepository;
+import com.javafx.nutrimaker.models.Patient;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -12,9 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class PatientFormController implements Initializable {
@@ -39,37 +40,51 @@ public class PatientFormController implements Initializable {
     
     @FXML
     private void save(ActionEvent event) throws IOException {
-        checkInputs();
+        if (checkInputs()) {
+            int age = Integer.parseInt(ageTextField.getText());
+            double weight = Double.parseDouble(weightTextField.getText()), height = Double.parseDouble(heightTextField.getText());
+            new PatientRepository().createPatient(nameTextField.getText(), age, weight, height);
+            createDiet(event);
+        }
     }
     
     //1 vacias, 2 formatos, 
-    public void dialog(String archiveRoute) throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource(archiveRoute));
+    public void dialog(String warningMessage) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("DialogInputs.fxml"));
+        Parent parent = loader.load();
+        DialogController dialog = loader.getController();
+        dialog.setText(warningMessage);
         Scene scene = new Scene(parent);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
-    
-    private boolean isPositive(TextField textField) {
-        return textField.getText().matches(REG_EXP_POSIT_INT);
-    }
-    
+        
     public boolean checkInputs() throws IOException {
         if (nameTextField.getText().isEmpty() || ageTextField.getText().isEmpty() || weightTextField.getText().isEmpty() || heightTextField.getText().isEmpty()) {
-            dialog("EmptyInputs.fxml");
+            dialog("No pueden existir campos vacios ");
             return false;
         }
-        if (!isPositive(ageTextField) || !isPositive(weightTextField) || !isPositive(heightTextField)) {
-            dialog("WrongNumberInputs.fxml");
+        if (!ageTextField.getText().matches(REG_EXP_POSIT_INT)) {
+            dialog("Solo se permiten números enteros");
             return false;
         }
+        if (!heightTextField.getText().matches(REG_EXP_POSIT_FLOAT) || !weightTextField.getText().matches(REG_EXP_POSIT_FLOAT)) {
+            dialog("Solo se permiten números");
+            return false;
+        }
+        
         return true;
     }
     
     private void createDiet(ActionEvent event) throws IOException {
-        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateDiet.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Crear Dieta");
+        stage.show();
     }
     
     @Override
