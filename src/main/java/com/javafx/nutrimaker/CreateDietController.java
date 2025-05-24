@@ -117,7 +117,7 @@ public class CreateDietController implements Initializable {
             int cantCalories = Integer.parseInt(calTextField.getText()), foodQuantity = Integer.parseInt(quantityFoodDistribution.getValue());
             UserRepository user = new UserRepository();
             MealRepository mealRepository = new MealRepository();
-            if (mealRepository.createNewDiet(cantCalories, foodQuantity, getRestDay(), 0, user.getIdByEmail(userEmail))) {
+            if (mealRepository.createNewDiet(cantCalories, foodQuantity, getRestDay(), user.getIdByEmail(userEmail), 0)) {
                 dialog("¡La dieta se ha creado con exito!");
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("DietStorage.fxml"));
                 Parent root = loader.load();
