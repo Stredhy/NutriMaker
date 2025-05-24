@@ -70,7 +70,7 @@ public class CreateDietController implements Initializable {
         ObservableList<String> all = selectFreeDay.getItems();
         ObservableList<String> selected = selectFreeDay.getSelectionModel().getSelectedItems();
         //List<String> unSelected = new ArrayList<String>(all); 
-        unSelected.remove(selected);
+        //unSelected.remove(selected);
 
 }
     
