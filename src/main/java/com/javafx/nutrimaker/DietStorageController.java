@@ -27,7 +27,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -45,7 +44,6 @@ public class DietStorageController implements Initializable {
 
     private final int LIMIT = 10;
     private int offset;    
-    private int count=0;
     
     @FXML
     private TableView<DietSummary> dietsTable;
@@ -144,24 +142,24 @@ public class DietStorageController implements Initializable {
                         ImageView pdfIcon = new ImageView(
                         DietStorageController.class.getResource("images/pdf.png").toExternalForm());
                         ImageView cloneIcon = new ImageView(
-                                DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
-                        ImageView editIcon = new ImageView(
-                                DietStorageController.class.getResource("images/edit.png").toExternalForm());
+                        DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
+                        //ImageView editIcon = new ImageView(
+                        //DietStorageController.class.getResource("images/edit.png").toExternalForm());
                         ImageView deleteIcon = new ImageView(
-                                DietStorageController.class.getResource("images/delete.png").toExternalForm());
+                        DietStorageController.class.getResource("images/delete.png").toExternalForm());
                         DropShadow shadow = new DropShadow(5, 2, 2, Color.rgb(0, 0, 0, 0.4));
                         Button pdf = new Button("",pdfIcon);
                         Button clone = new Button("",cloneIcon);
-                        Button edit = new Button("",editIcon);
+                        //Button edit = new Button("",editIcon);
                         Button delete = new Button("",deleteIcon);
                         
-                        for(ImageView icon: new ImageView[]{pdfIcon,cloneIcon,editIcon,deleteIcon}){
+                        for(ImageView icon: new ImageView[]{pdfIcon,cloneIcon,deleteIcon}){
                             icon.setEffect(shadow);
                             icon.setFitHeight(30);
                             icon.setFitWidth(30);
                         }
 
-                        for(Button btn: new Button[]{pdf,clone,edit,delete}){
+                        for(Button btn: new Button[]{pdf,clone,delete}){
                             btn.setPrefSize(30, 30);
                             btn.setStyle("-fx-background-color: none; -fx-border-color: none;");
                             btn.setCursor(Cursor.HAND);
@@ -174,7 +172,6 @@ public class DietStorageController implements Initializable {
                             Diet diet = null;
                             try {
                                 diet = dietRepo.getDietObjectById(dietSummary.getDietId());
-                                System.out.println("Export to Pdf = " + diet.getDietID()); 
                             } catch (IOException | ParseException ex) {
                                 Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -185,14 +182,9 @@ public class DietStorageController implements Initializable {
                             } catch (IOException | URISyntaxException ex) {
                                 Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
                             }
-
                         });
 
                         clone.setOnAction(event -> {
-
-                        });
-
-                        edit.setOnAction(event -> {
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("AskDialog.fxml"));
                             Parent root = null;
                             try {
@@ -214,7 +206,23 @@ public class DietStorageController implements Initializable {
                                 return;
                             }
                             
-                            
+                            DietSummary dietSummary = dietsTable.getItems().get(getIndex());
+                            DietRepository dietRepo = new DietRepository();
+                            try {
+                                
+                                Diet diet = dietRepo.getDietObjectById(dietSummary.getDietId());
+                                if(!dietRepo.cloneDietById(diet.getDietID())){
+                                    return;
+                                }
+                            } catch (IOException | ParseException ex) {
+                                Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                            try {
+                                refreshTable();
+                            } catch (IOException ex) {
+                                Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         });
 
                         delete.setOnAction(event -> {
@@ -237,7 +245,6 @@ public class DietStorageController implements Initializable {
                             deletePopUp.showAndWait();
                             
                             if(!ask.isSelection()){
-                                System.out.println("Not deleted");
                                 return;
                             }
                             
@@ -245,6 +252,7 @@ public class DietStorageController implements Initializable {
                             DietRepository dietRepo = new DietRepository();
                             try {
                                 Diet diet = dietRepo.getDietObjectById(dietSummary.getDietId());
+                                dietRepo.deleteDiet(diet.getDietID());
                             } catch (IOException | ParseException ex) {
                                 Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -255,8 +263,8 @@ public class DietStorageController implements Initializable {
                                 Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         });
-                        HBox actions = new HBox(5);
-                        actions.getChildren().addAll(pdf,clone,edit,delete);
+                        HBox actions = new HBox(10);
+                        actions.getChildren().addAll(pdf,clone,delete);
                         actions.setAlignment(Pos.CENTER);
                         actions.setPadding(new Insets(5));
                         setGraphic(actions);
@@ -281,7 +289,7 @@ public class DietStorageController implements Initializable {
         dietsList.clear();
         DietRepository dietRepo= new DietRepository();
         List<DietSummary> diets = dietRepo.getDiets(offset, LIMIT, User.getUser().getId()); 
-        int numDiet=count;
+        int numDiet=offset;
         for(DietSummary diet : diets){
             dietsList.add(new DietSummary(++numDiet,diet.getDietId(),
                     diet.getPatientName(),
@@ -289,8 +297,6 @@ public class DietStorageController implements Initializable {
                     diet.getHeight(),
                     diet.getCreationDate()));
             dietsTable.setItems(dietsList);
-        }
-        count = numDiet;
-        
+        }        
     }
 }
