@@ -24,9 +24,7 @@ public class MealRepository{
         return MealAdapter.adaptAndDeserialize(json);
     }
 
-
-    public boolean createNewDiet(double caloriasTotales, int comidasPorDia, String diaDescanso, int userId, int patientId) {
-
+    public boolean createNewDiet(double caloriasTotales, int comidasPorDia, String diaDescanso, int userId, int patientId, String note) {
         try {
             // Paso 1: Distribuir calorías en comidas usando DistribuidorDeCalorias
             List<ComidaProgramada> planComidas = DistribuidorDeCalorias.distribuir(caloriasTotales, comidasPorDia);
@@ -39,7 +37,7 @@ public class MealRepository{
                     if (alimento == null) break;
                     comida.agregarOpcion(alimento);
                     caloriasRestantes -= alimento.getCalories();
-                    if(alimento.getCalories() > caloriasRestantes) break;
+                    if (alimento.getCalories() > caloriasRestantes) break;
                 }
             }
 
@@ -52,22 +50,22 @@ public class MealRepository{
             }
 
             // Paso 4: Insertar nueva dieta en la base de datos
-            boolean confirm = sendDiet(userId, patientId, totales, diaDescanso, comidasPorDia);
-            if (confirm == false) return false;
+            boolean confirm = sendDiet(userId, patientId, totales, diaDescanso, comidasPorDia, note);
+            if (!confirm) return false;
 
+            // Paso 5: Obtener el diet_id recién insertado
             String urlId = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/orden/by";
             String jsonId = dbClient.get(urlId, null);
-
-
             JsonObject root = JsonParser.parseString(jsonId).getAsJsonObject();
             JsonArray items = root.getAsJsonArray("items");
 
-            int firstDietId = -1; // valor por defecto si no hay items
+            int firstDietId = -1;
             if (items != null && items.size() > 0) {
                 JsonObject firstItem = items.get(0).getAsJsonObject();
                 firstDietId = firstItem.get("diet_id").getAsInt();
             }
 
+            // Paso 6: Registrar diet_meal por día (excepto día de descanso)
             List<LocalTime> horasDistribuidas = DistribuidorDeCalorias.obtenerHoras(comidasPorDia);
             LocalDate fechaInicio = LocalDate.now();
 
@@ -78,25 +76,27 @@ public class MealRepository{
 
                 for (int j = 0; j < planComidas.size(); j++) {
                     ComidaProgramada comida = planComidas.get(j);
-                    LocalTime hora = horasDistribuidas.get(j); // asigna una hora única por comida
+                    LocalTime hora = horasDistribuidas.get(j);
 
                     for (Meal alimento : comida.getOpciones()) {
                         Map<String, Object> jsonMap = new HashMap<>();
-
                         jsonMap.put("diet_id", firstDietId);
-                        jsonMap.put("meal_base_id", alimento.getMealBaseId());// Convertir LocalDate a ISO 8601 con zona horaria UTC
+                        jsonMap.put("meal_base_id", alimento.getMealBaseId());
+
                         OffsetDateTime dayUtc = diaActual.atStartOfDay().atOffset(ZoneOffset.UTC);
                         OffsetDateTime timeOfDayUtc = diaActual.atTime(hora).atOffset(ZoneOffset.UTC);
 
-                        jsonMap.put("day", dayUtc.toString());             // ejemplo: "2025-05-21T00:00:00Z"
-                        jsonMap.put("time_of_day", timeOfDayUtc.toString()); // ejemplo: "2025-05-21T08:00:00Z"
-
+                        jsonMap.put("day", dayUtc.toString());
+                        jsonMap.put("time_of_day", timeOfDayUtc.toString());
                         jsonMap.put("meal_type", comida.getTipo());
 
                         String jsonBody = new Gson().toJson(jsonMap);
-
                         String endpoint = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/diet_meal/";
 
+                        boolean success = Boolean.parseBoolean(dbClient.post(endpoint, jsonBody, null));
+                        if (!success) {
+                            System.err.println("Error al insertar diet_meal: " + jsonBody);
+                        }
                     }
                 }
             }
@@ -108,15 +108,17 @@ public class MealRepository{
         }
     }
 
+
     public boolean sendDiet(
                                      int userId,
                                      int patientId,
                                      ValoresNutricionales valores,
                                      String restDay, // Puede ser null
-                                     int mealsPerDay) throws IOException {
+                                     int mealsPerDay,
+                                     String note) throws IOException {
 
         // Pasa targetGender tal cual, puede ser null
-        DietRequest dieta = new DietRequest(userId, patientId, valores, restDay, mealsPerDay);
+        DietRequest dieta = new DietRequest(userId, patientId, valores, restDay, mealsPerDay, note);
 
         // Serializa. Si targetGender es null, no se incluirá en el JSON (por defecto Gson lo omite)
         String json = gson.toJson(dieta);
