@@ -27,6 +27,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -37,6 +38,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 public class DietStorageController implements Initializable {
@@ -191,7 +193,28 @@ public class DietStorageController implements Initializable {
                         });
 
                         edit.setOnAction(event -> {
-
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("AskDialog.fxml"));
+                            Parent root = null;
+                            try {
+                                root = loader.load();
+                            } catch (IOException ex) {
+                                Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            
+                            AskDialogController ask = loader.getController();
+                            ask.setLabelText("¿Desea Clonar");
+                            Stage clonePopUp = new Stage();
+                            clonePopUp.initModality(Modality.APPLICATION_MODAL);
+                            clonePopUp.setScene(new Scene(root));
+                            clonePopUp.initStyle(StageStyle.UNDECORATED);
+                            ask.setStage(clonePopUp);
+                            clonePopUp.showAndWait();
+                            
+                            if(!ask.isSelection()){
+                                return;
+                            }
+                            
+                            
                         });
 
                         delete.setOnAction(event -> {
@@ -204,11 +227,19 @@ public class DietStorageController implements Initializable {
                             }
                             
                             AskDialogController ask = loader.getController();
+                            ask.setLabelText("¿Desea Eliminar");
                             Stage deletePopUp = new Stage();
                             deletePopUp.initModality(Modality.APPLICATION_MODAL);
                             deletePopUp.setScene(new Scene(root));
+                            deletePopUp.initStyle(StageStyle.UNDECORATED);
+                            ask.setStage(deletePopUp);
                             
-                            deletePopUp.show();
+                            deletePopUp.showAndWait();
+                            
+                            if(!ask.isSelection()){
+                                System.out.println("Not deleted");
+                                return;
+                            }
                             
                             DietSummary dietSummary = dietsTable.getItems().get(getIndex());
                             DietRepository dietRepo = new DietRepository();
@@ -223,7 +254,6 @@ public class DietStorageController implements Initializable {
                             } catch (IOException ex) {
                                 Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                            System.out.println("Diet Deleted");
                         });
                         HBox actions = new HBox(5);
                         actions.getChildren().addAll(pdf,clone,edit,delete);
@@ -253,7 +283,6 @@ public class DietStorageController implements Initializable {
         List<DietSummary> diets = dietRepo.getDiets(offset, LIMIT, User.getUser().getId()); 
         int numDiet=count;
         for(DietSummary diet : diets){
-        System.out.println("Id dieta = " + diet.getDietId());
             dietsList.add(new DietSummary(++numDiet,diet.getDietId(),
                     diet.getPatientName(),
                     diet.getWeight(),
