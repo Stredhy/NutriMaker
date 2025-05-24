@@ -7,7 +7,6 @@ import com.javafx.nutrimaker.models.User;
 import com.javafx.nutrimaker.repository.DietRepository;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;

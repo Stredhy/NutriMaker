@@ -38,8 +38,14 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 /**
  *
  * @author mimoe
@@ -58,8 +64,8 @@ public class PDFBuilder {
     }
     
     private static void generatePdf(Diet diet) throws FileNotFoundException, MalformedURLException, IOException, URISyntaxException{         
-        String fontPath = PDFBuilder.class.getResource("fonts/ComicRelief-Regular.ttf").toURI().getPath();
-        String fontBoldPath = PDFBuilder.class.getResource("fonts/ComicRelief-Bold.ttf").toURI().getPath();
+        String fontPath = PDFBuilder.class.getResource("fonts/ComicShannsMonoNerdFont-Regular.otf").toURI().getPath();
+        
         ImageData imageData = ImageDataFactory.create(LOGO_PATH);
         Image img = new Image(imageData);
         img.scaleToFit(200,200);
@@ -80,6 +86,8 @@ public class PDFBuilder {
         doc.setFont(font);
         doc.setFontSize(10);  
 
+        
+        //Datos del paciente
         Paragraph namePara = new Paragraph("Nombre: " + diet.getPatient().getName()).setFontSize(12);
         Paragraph infoPatient = new Paragraph();
 
@@ -98,14 +106,19 @@ public class PDFBuilder {
         for(Paragraph paragraph : new Paragraph[]{namePara,infoPatient}){
             doc.add(paragraph);
         }
+        
         doc.add(new LineSeparator(new SolidLine(1))); // linea separadora
 
+        //Comentarios
         Paragraph comments = new Paragraph("Comentarios:");
-        // Paragraph comments = new Paragraph(diet.getComments());
+        
         doc.add(comments);
+        doc.add(new Paragraph(diet.getNote()));
 
         doc.add(new LineSeparator(new SolidLine(1))); // linea separadora
 
+        //Valores nutrimentales
+        
         Paragraph nutriValues = new Paragraph();
        
         nutriValues.add("Calorias: " + diet.getCalories() + " Kcal    ");
@@ -120,42 +133,93 @@ public class PDFBuilder {
         doc.add(new LineSeparator(new SolidLine(1))); // linea separadora
                 
         //settear dietas
-        for(Meal meal : diet.getMeals()){
-            Table table = new Table(new float[]{1,10});
-            table.setWidth(UnitValue.createPercentValue(100));
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE", new Locale("es", "ES"));
-
-            Paragraph day = new Paragraph(sdf.format(meal.getDay())).setFontSize(12);
-
-            day.setRotationAngle(Math.PI/2);
-            
-            Cell dayCell = new Cell().add(day);
-            dayCell.setBorder(Border.NO_BORDER);    
-            dayCell.setBorderRight(new SolidBorder(1));
-            dayCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
-            
-            Cell mealCell = new Cell();
-            for(Paragraph paragraph : setMeals(meal)){
-                mealCell.add(paragraph);
-            }
-            table.addCell(dayCell);
-            table.addCell(mealCell);
-        }
+        doc.add(setMeals(diet));
+        
         doc.close();
    }
     
-   private static Iterable<Paragraph> setMeals(Meal meal){
-        List<Paragraph> ingredients=null;
-        Paragraph typeMeal = new Paragraph("            " + meal.getMealType());
-        ingredients.add(typeMeal);
-        for(Ingredient ing : meal.getIngredients()){
-            Paragraph ingredient = new Paragraph((ing != meal.getIngredients().getLast())?
-                    ing.getName()+ " - " + ing.getAmount() + " | ":
-                    ing.getName()+ " - " + ing.getAmount()
-            );
-            ingredients.add(typeMeal);
+   private static Table setMeals(Diet diet) throws IOException, URISyntaxException{
+        String fontBoldPath = PDFBuilder.class.getResource("fonts/ComicShannsMonoNerdFont-Bold.otf").toURI().getPath();
+        PdfFont fontBold = PdfFontFactory.createFont(fontBoldPath, PdfEncodings.IDENTITY_H, EmbeddingStrategy.PREFER_EMBEDDED);
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE", new Locale("es", "ES"));
+        Map<String,Integer> mealsSort = new HashMap<>();
+        mealsSort.put("BREAKFAST",1);
+        mealsSort.put("SNACK",2);
+        mealsSort.put("LUNCH",3);
+        mealsSort.put("DINNER",4);
+        
+        Map<String, List<Meal>> mealsByDay = new LinkedHashMap<>();
+        
+        List<String> days = Arrays.asList("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo");
+
+        
+        for(String day : days){
+            mealsByDay.put(day, new ArrayList<>());
         }
-        return ingredients;
-   }
-   
+        
+        for(Meal meal : diet.getMeals()){
+            String day = sdf.format(meal.getDay()).toLowerCase();
+            if(mealsByDay.containsKey(day)){
+                mealsByDay.get(day).add(meal);
+            }
+        }
+        
+        for(String day : days){
+            List<Meal> meals = mealsByDay.get(day);
+            meals.sort(Comparator.comparing(e -> mealsSort.getOrDefault(e.getMealType(), 99)));
+        }
+        
+        Table table = new Table(new float[]{1,10});
+        table.setWidth(UnitValue.createPercentValue(100));
+        
+        for(String day : days){
+            List<Meal> meals = mealsByDay.get(day);
+            if(meals.isEmpty()){
+                continue;
+            }
+            Paragraph currentDay = new Paragraph();
+            currentDay.add(day.toUpperCase());
+            currentDay.setFontSize(12);
+            currentDay.setRotationAngle(Math.PI/2);
+            currentDay.setFont(fontBold);
+            
+            Cell dayCell = new Cell().add(currentDay);
+            dayCell.setBorderRight(new SolidBorder(1));
+            dayCell.setBorderBottom(new SolidBorder(1));
+            dayCell.setBorder(Border.NO_BORDER);
+            dayCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
+            dayCell.setWidth(30);
+            dayCell.setPadding(10);
+            
+            
+            Cell mealsCell = new Cell();
+            
+            for(Meal meal : meals){
+                Paragraph type = new Paragraph(meal.getMealType()+ " \uE28D \uE2A5 \uE28D  " + meal.getName()).setFont(fontBold);
+                type.setPaddingLeft(50);
+                mealsCell.add(type);
+                
+                mealsCell.add(setIngredients(meal));
+                
+            }
+            mealsCell.setBorderBottom(new SolidBorder(1));
+            mealsCell.setBorder(Border.NO_BORDER);
+            mealsCell.setPadding(10);
+            
+            table.addCell(dayCell);
+            table.addCell(mealsCell);
+        }
+        
+        return table;
+    }
+    
+    private static Paragraph setIngredients(Meal meal){
+        Paragraph paragraph = new Paragraph();
+        for(Ingredient ingredient : meal.getIngredients()){
+            paragraph.add((ingredient != meal.getIngredients().get(meal.getIngredients().size() - 1))?
+                    ingredient.getName() + " \uEA9C " + ingredient.getAmount() + "  \uE29E  " :
+                    ingredient.getName() + " \uEA9C " + ingredient.getAmount());
+        }
+        return paragraph;
+    }
 }
