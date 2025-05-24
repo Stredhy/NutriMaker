@@ -40,7 +40,7 @@ public class CreateDietController implements Initializable {
     @FXML
     private ChoiceBox<String> quantityFoodDistribution;
     @FXML
-    private ListView<String> selectFreeDay;
+    private ChoiceBox<String> selectFreeDay;
 
     @FXML
     public void dialog(String warningMessage) throws IOException {
@@ -56,11 +56,12 @@ public class CreateDietController implements Initializable {
     }
 
     private boolean checkInputs() throws IOException {
-        int cantCalories = Integer.parseInt(calTextField.getText());
-        if (calTextField.getText().isEmpty() || selectFreeDay.getSelectionModel().getSelectedItems().isEmpty() || quantityFoodDistribution.getValue() == null) {
+        int cantCalories;
+        if (calTextField.getText().isEmpty() || selectFreeDay.getValue() == null || quantityFoodDistribution.getValue() == null) {
             dialog("No pueden existir entradas vacías");
             return false;
         }
+        cantCalories  = Integer.parseInt(calTextField.getText());
         if (!(0 < cantCalories && cantCalories <= 6000)) {
             dialog("Rango de calorías permitido 0 - 6000");
             return false;
@@ -85,6 +86,8 @@ public class CreateDietController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         String[] days = {"Lunes", "Martes", "Miercoles", "Jueves", "Virenes", "Sabado", "Domingo"};
         selectFreeDay.getItems().addAll(days);
+        String[] foodDistribution = {"3", "4", "5", "6"};
+        quantityFoodDistribution.getItems().addAll(foodDistribution);
         // TODO
     }
 
