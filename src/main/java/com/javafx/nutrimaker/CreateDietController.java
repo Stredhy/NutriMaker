@@ -35,7 +35,7 @@ import javafx.stage.StageStyle;
 public class CreateDietController implements Initializable {
 
     @FXML
-    private Button returnButton;
+    private Button saveButton;
     @FXML
     private TextField calTextField;
     @FXML
@@ -88,7 +88,7 @@ public class CreateDietController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setFadeAndScaleAnimation(returnButton);
+        setFadeAndScaleAnimation(saveButton);
         String[] days = {"lunes", "martes", "miercoles", "jueves", "virenes", "sabado", "domingo"};
         selectFreeDay.getItems().addAll(days);
         String[] foodDistribution = {"3", "4", "5", "6"};
