@@ -41,9 +41,10 @@ public class CreateDietController implements Initializable {
     private ChoiceBox<String> quantityFoodDistribution;
     @FXML
     private ListView<String> selectFreeDay;
+
     @FXML
     public void dialog(String warningMessage) throws IOException {
-        FXMLLoader loader =new FXMLLoader(getClass().getResource("DialogInputs.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DialogInputs.fxml"));
         Parent parent = loader.load();
         DialogController dialog = loader.getController();
         dialog.setText(warningMessage);
@@ -53,6 +54,7 @@ public class CreateDietController implements Initializable {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
+
     private boolean checkInputs() throws IOException {
         int cantCalories = Integer.parseInt(calTextField.getText());
         if (calTextField.getText().isEmpty() || selectFreeDay.getSelectionModel().getSelectedItems().isEmpty() || quantityFoodDistribution.getValue() == null) {
@@ -65,16 +67,7 @@ public class CreateDietController implements Initializable {
         }
         return true;
     }
-    
-    private void setUnselectedItems() {
-        ObservableList<String> all = selectFreeDay.getItems();
-        ObservableList<String> selected = selectFreeDay.getSelectionModel().getSelectedItems();
-        //List<String> unSelected = new ArrayList<String>(all); 
-        //unSelected.remove(selected);
 
-}
-    
-    }
     @FXML
     private void save(ActionEvent event) throws IOException {
         if (checkInputs()) {
@@ -93,8 +86,6 @@ public class CreateDietController implements Initializable {
         String[] days = {"Lunes", "Martes", "Miercoles", "Jueves", "Virenes", "Sabado", "Domingo"};
         selectFreeDay.getItems().addAll(days);
         // TODO
-    }    
+    }
 
-    
-    
 }

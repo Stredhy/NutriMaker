@@ -7,95 +7,104 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="972.0" prefWidth="1728.0" style="-fx-background-color: #101d4f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <AnchorPane layoutX="93.0" layoutY="145.0" prefHeight="267.0" prefWidth="1588.0" AnchorPane.bottomAnchor="560.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="145.0">
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.PatientFormController">
+   <top>
+      <AnchorPane id="AnchorPane" minHeight="972.0" minWidth="1280.0" prefHeight="972.0" prefWidth="1728.0" style="-fx-background-color: #101d4f;" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" layoutX="60.0" layoutY="60.0" prefHeight="243.0" prefWidth="914.0" style="-fx-background-color: #0c7774; -fx-background-radius: 12;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutX="93.0" layoutY="145.0" prefHeight="267.0" prefWidth="1588.0" AnchorPane.bottomAnchor="560.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="145.0">
                <children>
-                  <AnchorPane prefHeight="131.0" prefWidth="1528.0">
+                  <VBox alignment="CENTER" layoutX="60.0" layoutY="60.0" prefHeight="243.0" prefWidth="914.0" style="-fx-background-color: #0c7774; -fx-background-radius: 12;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <VBox prefHeight="209.0" prefWidth="1528.0" spacing="30.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane prefHeight="131.0" prefWidth="1528.0">
                            <children>
-                              <AnchorPane prefHeight="50.0" prefWidth="854.0">
+                              <VBox prefHeight="209.0" prefWidth="1528.0" spacing="30.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <TextField fx:id="nameTextField" prefHeight="40.0" prefWidth="854.0" promptText="Nombre del paciente" style="-fx-background-color: #b0ceb5; -fx-border-color: #b0ceb5; -fx-background-radius: 5; -fx-border-radius: 5;" styleClass="text-field" stylesheets="@styles/loginForm.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <effect>
-                                          <DropShadow>
-                                             <color>
-                                                <Color opacity="0.20000000298023224" />
-                                             </color>
-                                          </DropShadow>
-                                       </effect>
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </TextField>
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="59.0" prefWidth="1256.0">
-                                 <children>
-                                    <HBox prefHeight="54.0" prefWidth="1156.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="372.0" AnchorPane.topAnchor="0.0">
+                                    <AnchorPane prefHeight="50.0" prefWidth="854.0">
                                        <children>
-                                          <TextField fx:id="ageTextField" maxWidth="1.7976931348623157E308" prefHeight="53.0" promptText="Edad" styleClass="text-field" stylesheets="@styles/loginForm.css" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="weightTextField" maxWidth="1.7976931348623157E308" prefHeight="53.0" promptText="Peso" styleClass="text-field" stylesheets="@styles/loginForm.css" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="heightTextField" maxWidth="1.7976931348623157E308" prefHeight="53.0" promptText="Estatura" styleClass="text-field" stylesheets="@styles/loginForm.css" HBox.hgrow="ALWAYS" />
-                                          <Button alignment="CENTER" mnemonicParsing="false" onAction="#save" prefHeight="53.0" prefWidth="124.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 5;" text="Guardar" textFill="WHITE">
-                                             <font>
-                                                <Font size="21.0" />
-                                             </font>
+                                          <TextField fx:id="nameTextField" prefHeight="40.0" prefWidth="854.0" promptText="Nombre del paciente" style="-fx-background-color: #b0ceb5; -fx-border-color: #b0ceb5; -fx-background-radius: 5; -fx-border-radius: 5;" styleClass="text-field" stylesheets="@styles/loginForm.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <effect>
                                                 <DropShadow>
                                                    <color>
-                                                      <Color opacity="0.25" />
+                                                      <Color opacity="0.20000000298023224" />
                                                    </color>
                                                 </DropShadow>
                                              </effect>
-                                          </Button>
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </TextField>
                                        </children>
-                                    </HBox>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="59.0" prefWidth="1256.0">
+                                       <children>
+                                          <HBox prefHeight="54.0" prefWidth="1156.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="372.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <TextField fx:id="ageTextField" maxWidth="1.7976931348623157E308" prefHeight="53.0" promptText="Edad" styleClass="text-field" stylesheets="@styles/loginForm.css" HBox.hgrow="ALWAYS" />
+                                                <TextField fx:id="weightTextField" maxWidth="1.7976931348623157E308" prefHeight="53.0" promptText="Peso" styleClass="text-field" stylesheets="@styles/loginForm.css" HBox.hgrow="ALWAYS" />
+                                                <TextField fx:id="heightTextField" maxWidth="1.7976931348623157E308" prefHeight="53.0" promptText="Estatura" styleClass="text-field" stylesheets="@styles/loginForm.css" HBox.hgrow="ALWAYS" />
+                                                <AnchorPane>
+                                                   <children>
+                                                      <Button fx:id="saveButton" alignment="CENTER" layoutX="9.0" layoutY="9.0" mnemonicParsing="false" onAction="#save" prefHeight="53.0" prefWidth="124.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 5;" text="Guardar" textFill="WHITE" AnchorPane.leftAnchor="9.0">
+                                                         <font>
+                                                            <Font size="21.0" />
+                                                         </font>
+                                                         <effect>
+                                                            <DropShadow>
+                                                               <color>
+                                                                  <Color opacity="0.25" />
+                                                               </color>
+                                                            </DropShadow>
+                                                         </effect>
+                                                      </Button>
+                                                   </children>
+                                                </AnchorPane>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </AnchorPane>
                                  </children>
-                              </AnchorPane>
+                              </VBox>
                            </children>
-                        </VBox>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets top="30.0" />
+                           </padding>
+                        </AnchorPane>
                      </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
                      <padding>
-                        <Insets top="30.0" />
+                        <Insets left="30.0" right="30.0" />
                      </padding>
-                  </AnchorPane>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                  </VBox>
                </children>
-               <padding>
-                  <Insets left="30.0" right="30.0" />
-               </padding>
                <effect>
-                  <InnerShadow />
+                  <DropShadow offsetX="10.0" offsetY="10.0">
+                     <color>
+                        <Color opacity="0.25" />
+                     </color>
+                  </DropShadow>
                </effect>
-            </VBox>
-         </children>
-         <effect>
-            <DropShadow offsetX="10.0" offsetY="10.0">
-               <color>
-                  <Color opacity="0.25" />
-               </color>
-            </DropShadow>
-         </effect>
-      </AnchorPane>
-      <AnchorPane minHeight="110.0" minWidth="1280.0" prefHeight="110.0" prefWidth="1920.0" style="-fx-background-color: #0e3d58;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <Label layoutX="31.0" layoutY="29.0" text="Nueva Dieta" textFill="WHITE">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
+            </AnchorPane>
+            <AnchorPane minHeight="110.0" minWidth="1280.0" prefHeight="110.0" prefWidth="1920.0" style="-fx-background-color: #0e3d58;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Label layoutX="31.0" layoutY="29.0" text="Nueva Dieta" textFill="WHITE">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
-   </children>
-</AnchorPane>
+   </top>
+</BorderPane>
