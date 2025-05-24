@@ -52,6 +52,8 @@ public class LoginController implements Initializable {
     private void dietStorage(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DietStorage.fxml"));
         Parent root = loader.load();
+        DietStorageController dietController = loader.getController();
+        dietController.setUserEmail(emailTextField.getText());        
         
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
