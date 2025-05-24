@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="768bfe14-9567-47cb-b4a2-8c0af2c2bb3e" name="Changes" comment="Arreglo del Endpoint de  getDietObjectById">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/javafx/nutrimaker/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/javafx/nutrimaker/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +140,7 @@
       <workItem from="1747918306900" duration="40030000" />
       <workItem from="1748032817916" duration="1217000" />
       <workItem from="1748034768255" duration="2825000" />
-      <workItem from="1748038941266" duration="494000" />
+      <workItem from="1748038941266" duration="2814000" />
     </task>
     <task id="LOCAL-00001" summary="Comentario agregado lineal 18">
       <option name="closed" value="true" />
@@ -367,7 +366,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748038767478</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Arreglo del Endpoint de  getDietObjectById">
+      <option name="closed" value="true" />
+      <created>1748039910227</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1748039910227</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
