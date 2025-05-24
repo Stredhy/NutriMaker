@@ -3,6 +3,7 @@ package com.javafx.nutrimaker;
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
 import java.net.URL;
 import com.javafx.nutrimaker.repository.PatientRepository;
+import com.javafx.nutrimaker.models.Patient;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -39,7 +40,12 @@ public class PatientFormController implements Initializable {
     
     @FXML
     private void save(ActionEvent event) throws IOException {
-        checkInputs();
+        if (checkInputs()) {
+            int age = Integer.parseInt(ageTextField.getText());
+            double weight = Double.parseDouble(weightTextField.getText()), height = Double.parseDouble(heightTextField.getText());
+            new PatientRepository().createPatient(nameTextField.getText(), age, weight, height);
+            createDiet(event);
+        }
     }
     
     //1 vacias, 2 formatos, 
@@ -54,20 +60,21 @@ public class PatientFormController implements Initializable {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
-    
-    private boolean isPositive(TextField textField) {
-        return textField.getText().matches(REG_EXP_POSIT_INT);
-    }
-    
+        
     public boolean checkInputs() throws IOException {
         if (nameTextField.getText().isEmpty() || ageTextField.getText().isEmpty() || weightTextField.getText().isEmpty() || heightTextField.getText().isEmpty()) {
             dialog("No pueden existir campos vacios ");
             return false;
         }
-        if (!isPositive(ageTextField) || !isPositive(heightTextField) || !weightTextField.getText().matches(REG_EXP_POSIT_FLOAT)) {
+        if (!ageTextField.getText().matches(REG_EXP_POSIT_INT)) {
+            dialog("Solo se permiten números enteros");
+            return false;
+        }
+        if (!heightTextField.getText().matches(REG_EXP_POSIT_FLOAT) || !weightTextField.getText().matches(REG_EXP_POSIT_FLOAT)) {
             dialog("Solo se permiten números");
             return false;
         }
+        
         return true;
     }
     
