@@ -5,6 +5,10 @@ import com.javafx.nutrimaker.database.DatabaseClient;
 import com.google.gson.Gson;
 import com.google.gson.*;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -122,6 +126,55 @@ public class DietRepository {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         return headers;
+    }
+
+
+    public boolean cloneDietById(int dietId) throws IOException {
+        Gson gson = new Gson();
+
+        // 1. Clonar la dieta sin comidas
+        String urlDiet = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/clonediet/diet";
+        String jsonBodyDiet = String.format("{\"old_diet_id\": %d}", dietId);
+        String jsonResponseDiet = dbClient.post(urlDiet, jsonBodyDiet, null);
+
+        int newDietId = getRecentId();
+        if (newDietId <= 0) {
+            System.err.println("Error: nuevo diet_id inválido");
+            return false;
+        }
+
+        // 2. Obtener comidas originales de la dieta
+        String getMealsUrl = String.format(
+                "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/clonedietmeals/mealsclone/?oldId=%d",
+                dietId
+        );
+        String getMealsJson = dbClient.get(getMealsUrl, null);
+        JsonObject response = gson.fromJson(getMealsJson, JsonObject.class);
+        JsonArray items = response.getAsJsonArray("items");
+
+        // 3. Insertar cada comida con el nuevo diet_id
+        String insertMealUrl = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/diet_meal/";
+        boolean allInsertsSuccessful = true;
+
+        for (JsonElement item : items) {
+            JsonObject oldMeal = item.getAsJsonObject();
+            JsonObject newMeal = new JsonObject();
+
+            newMeal.addProperty("diet_id", newDietId);
+            newMeal.addProperty("meal_base_id", oldMeal.get("meal_base_id").getAsInt());
+            newMeal.addProperty("day", oldMeal.get("day").getAsString());
+            newMeal.addProperty("time_of_day", oldMeal.get("time_of_day").getAsString());
+            newMeal.addProperty("meal_type", oldMeal.get("meal_type").getAsString());
+
+            String responseInsert = dbClient.post(insertMealUrl, gson.toJson(newMeal), null);
+
+            if (responseInsert == null || responseInsert.isEmpty()) {
+                System.err.println("Error al insertar comida: " + gson.toJson(newMeal));
+                allInsertsSuccessful = false;
+            }
+        }
+
+        return !(jsonResponseDiet != null && !jsonResponseDiet.isEmpty() && allInsertsSuccessful);
     }
 
 
