@@ -65,6 +65,8 @@ public class DietStorageController implements Initializable {
     
     private ObservableList<DietSummary> dietsList = FXCollections.observableArrayList();
     
+    private String userEmail;
+    
     /**
      * Initializes the controller class.
      */
@@ -82,11 +84,18 @@ public class DietStorageController implements Initializable {
             System.out.println(ex.getMessage());
         }
     }    
-
+    
+    public void setUserEmail(String uE) {
+        userEmail = uE;
+    }
+    
     @FXML
     private void createDiet(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("PatientForm.fxml"));
         Parent root = loader.load();
+        PatientFormController patientController = loader.getController();
+        patientController.setUserEmail(userEmail);
+        
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("Crear Dieta");

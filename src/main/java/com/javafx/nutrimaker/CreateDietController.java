@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
 import com.javafx.nutrimaker.repository.DietRepository;
+import com.javafx.nutrimaker.repository.UserRepository;
 import com.javafx.nutrimaker.repository.MealRepository;
 import com.javafx.nutrimaker.DialogController;
 import java.util.List;
@@ -34,12 +35,20 @@ import javafx.stage.StageStyle;
  */
 public class CreateDietController implements Initializable {
 
+    private String userEmail;
+
     @FXML
     private Button saveButton;
+
     @FXML
     private TextField calTextField;
+
+    @FXML
+    private TextField commentTextField;
+
     @FXML
     private ChoiceBox<String> quantityFoodDistribution;
+
     @FXML
     private ChoiceBox<String> selectFreeDay;
 
@@ -58,11 +67,18 @@ public class CreateDietController implements Initializable {
 
     private boolean checkInputs() throws IOException {
         int cantCalories;
-        if (calTextField.getText().isEmpty() || selectFreeDay.getValue() == null || quantityFoodDistribution.getValue() == null) {
+
+        if (commentTextField.getText().isEmpty() || calTextField.getText().isEmpty() || selectFreeDay.getValue() == null || quantityFoodDistribution.getValue() == null) {
             dialog("No pueden existir entradas vacías");
             return false;
         }
-        cantCalories  = Integer.parseInt(calTextField.getText());
+
+        if (calTextField.getText().matches("\\d+")) {
+            dialog("Solo se permite números");
+            return false;
+        }
+
+        cantCalories = Integer.parseInt(calTextField.getText());
         if (!(0 < cantCalories && cantCalories <= 6000)) {
             dialog("Rango de calorías permitido 0 - 6000");
             return false;
@@ -70,26 +86,54 @@ public class CreateDietController implements Initializable {
         return true;
     }
 
+    private String getRestDay() {
+        String day = selectFreeDay.getValue();
+        if (day.equals("Lunes")) {
+            return "MONDAY";
+        } else if (day.equals("Martes")) {
+            return "TUESDAY";
+        } else if (day.equals("Miercoles")) {
+            return "WEDNESDAY";
+        } else if (day.equals("Jueves")) {
+            return "THURSDAY";
+        } else if (day.equals("Viernes")) {
+            return "FRIDAY";
+        } else if (day.equals("Sabado")) {
+            return "SATURDAY";
+        } else if (day.equals("Domingo")) {
+            return "SUNDAY";
+        } else {
+            return "UNKNOWN";
+        }
+    }
+
+    public void setUserEmail(String uE) {
+        userEmail = uE;
+    }
+
     @FXML
     private void save(ActionEvent event) throws IOException {
         if (checkInputs()) {
-            int cantCalories = Integer.parseInt(calTextField.getText()), foodQuantity= Integer.parseInt(quantityFoodDistribution.getValue());
-            DietRepository dietRepository = new DietRepository();
+            int cantCalories = Integer.parseInt(calTextField.getText()), foodQuantity = Integer.parseInt(quantityFoodDistribution.getValue());
+            UserRepository user = new UserRepository();
             MealRepository mealRepository = new MealRepository();
-            mealRepository.createNewDiet(cantCalories, foodQuantity , selectFreeDay.getValue(), 0, dietRepository.getRecentId());
+            if (mealRepository.createNewDiet(cantCalories, foodQuantity, getRestDay(), 0, user.getIdByEmail(userEmail))) {
+                dialog("¡La dieta se ha creado con exito!");
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("DietStorage.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Almacenamiento de Dietas");
+                stage.show();
+            }
         }
-        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("DietStorage.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Almacenamiento de Dietas");
-        stage.show();*/
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setFadeAndScaleAnimation(saveButton);
-        String[] days = {"lunes", "martes", "miercoles", "jueves", "virenes", "sabado", "domingo"};
+        String[] days = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
         selectFreeDay.getItems().addAll(days);
         String[] foodDistribution = {"3", "4", "5", "6"};
         quantityFoodDistribution.getItems().addAll(foodDistribution);

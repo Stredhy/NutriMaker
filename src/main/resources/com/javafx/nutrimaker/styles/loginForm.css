@@ -7,3 +7,12 @@
     -fx-border-radius: 5;
     -fx-font-size: 24px;
 }
+.text-area {
+    -fx-prompt-text-fill: #101d4f;
+    -fx-background-color: #b0ceb5;
+    -fx-border-color: #b0ceb5;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-font-size: 24px;
+}
+

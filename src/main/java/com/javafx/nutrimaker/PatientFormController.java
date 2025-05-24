@@ -23,6 +23,8 @@ public class PatientFormController implements Initializable {
     static final String REG_EXP_POSIT_FLOAT = "\\d+(\\.\\d*)?";
     static final String REG_EXP_POSIT_INT = "\\d+";
     
+    private String userEmail;
+    
     @FXML
     private TextField nameTextField;
     
@@ -37,6 +39,10 @@ public class PatientFormController implements Initializable {
 
     @FXML
     private Button saveButton;
+    
+    public void setUserEmail(String uE) {
+        userEmail = uE;
+    }
     
     @FXML
     private void save(ActionEvent event) throws IOException {

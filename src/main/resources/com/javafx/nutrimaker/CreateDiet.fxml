@@ -40,7 +40,8 @@
                                              </font>
                                           </Label>
                                           <ChoiceBox fx:id="selectFreeDay" prefWidth="150.0" styleClass="text-field" stylesheets="@styles/loginForm.css" />
-                                          <Button fx:id="saveButton" alignment="CENTER" mnemonicParsing="false" onAction="#save" prefHeight="53.0" prefWidth="124.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 5;" text="Guardar" textFill="WHITE">
+                                          <TextField fx:id="commentTextField" alignment="TOP_LEFT" prefHeight="271.0" prefWidth="386.0" promptText="Comentarios" styleClass="text-field" stylesheets="@styles/loginForm.css" />
+                                          <Button alignment="CENTER" mnemonicParsing="false" onAction="#save" prefHeight="53.0" prefWidth="124.0" style="-fx-background-color: #0e3d58; -fx-background-radius: 5;" text="Guardar" textFill="WHITE">
                                              <font>
                                                 <Font size="21.0" />
                                              </font>
