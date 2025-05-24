@@ -20,7 +20,8 @@
     -fx-text-fill: #101d4f;
     -fx-font-size: 20px;
     -fx-alignment: CENTER_LEFT;
-    -fx-padding:5 10 5 10;
+    -fx-padding:3 10 3 10;
+    -fx-margin:3 10 3 10;
     -fx-border-color: none;
 }
 

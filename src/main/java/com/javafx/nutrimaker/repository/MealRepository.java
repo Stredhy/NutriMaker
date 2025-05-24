@@ -4,12 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.javafx.nutrimaker.database.DatabaseClient;
 import com.javafx.nutrimaker.models.*;
-
 import java.io.IOException;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.javafx.nutrimaker.database.DatabaseClient;

@@ -35,12 +35,15 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class DietStorageController implements Initializable {
 
     private final int LIMIT = 10;
-    private int count = 0;    
+    private int offset;    
+    private int count=0;
     
     @FXML
     private TableView<DietSummary> dietsTable;
@@ -95,139 +98,161 @@ public class DietStorageController implements Initializable {
     
     @FXML
     private void next(ActionEvent event) throws IOException{
-        count+=10;
+        offset+=10;
         showDietList();
     }
     
     @FXML
     private void prev(ActionEvent event) throws IOException{
-        count-=10;
-        if (count < 0){
-            count+=10;
+        offset-=10;
+        if (offset < 0){
+            offset+=10;
         }
         showDietList();
     }
 
     private void showDietList() throws IOException {
-        refreshButtons();
         refreshTable();
-        numCol.setCellValueFactory(new PropertyValueFactory<>("dietId"));
+        refreshButtons();
+        numCol.setCellValueFactory(new PropertyValueFactory<>("numDiet"));
         patientCol.setCellValueFactory(new PropertyValueFactory<>("patientName"));
         weightCol.setCellValueFactory(new PropertyValueFactory<>("weight"));
         heightCol.setCellValueFactory(new PropertyValueFactory<>("height"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("creationDate"));
         //Hace seteo de botones por cada fila de dieta que se genera
-        actionsCol.setCellFactory(col ->  new TableCell<DietSummary,String>(){
-            private final HBox actions = new HBox(5);
-            private final ImageView pdfIcon = new ImageView(
-                    DietStorageController.class.getResource("images/pdf.png").toExternalForm());
-            private final ImageView cloneIcon = new ImageView(
-                    DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
-            private final ImageView editIcon = new ImageView(
-                    DietStorageController.class.getResource("images/edit.png").toExternalForm());
-            private final ImageView deleteIcon = new ImageView(
-                    DietStorageController.class.getResource("images/delete.png").toExternalForm());
-            private final DropShadow shadow = new DropShadow(5, 2, 2, Color.rgb(0, 0, 0, 0.4));
-            private final Button pdf = new Button("",pdfIcon);
-            private final Button clone = new Button("",cloneIcon);
-            private final Button edit = new Button("",editIcon);
-            private final Button delete = new Button("",deleteIcon);
-            {
-                for(ImageView icon: new ImageView[]{pdfIcon,cloneIcon,editIcon,deleteIcon}){
-                    icon.setEffect(shadow);
-                    icon.setFitHeight(30);
-                    icon.setFitWidth(30);
+        
+        Callback<TableColumn<DietSummary, String>, TableCell<DietSummary, String>> cellFactory = (TableColumn<DietSummary, String> param) -> {
+             final TableCell<DietSummary,String> cell = new TableCell<DietSummary,String>(){
+                @Override   
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        ImageView pdfIcon = new ImageView(
+                        DietStorageController.class.getResource("images/pdf.png").toExternalForm());
+                        ImageView cloneIcon = new ImageView(
+                                DietStorageController.class.getResource("images/clone.png").toExternalForm()); 
+                        ImageView editIcon = new ImageView(
+                                DietStorageController.class.getResource("images/edit.png").toExternalForm());
+                        ImageView deleteIcon = new ImageView(
+                                DietStorageController.class.getResource("images/delete.png").toExternalForm());
+                        DropShadow shadow = new DropShadow(5, 2, 2, Color.rgb(0, 0, 0, 0.4));
+                        Button pdf = new Button("",pdfIcon);
+                        Button clone = new Button("",cloneIcon);
+                        Button edit = new Button("",editIcon);
+                        Button delete = new Button("",deleteIcon);
+                        
+                        for(ImageView icon: new ImageView[]{pdfIcon,cloneIcon,editIcon,deleteIcon}){
+                            icon.setEffect(shadow);
+                            icon.setFitHeight(30);
+                            icon.setFitWidth(30);
+                        }
+
+                        for(Button btn: new Button[]{pdf,clone,edit,delete}){
+                            btn.setPrefSize(30, 30);
+                            btn.setStyle("-fx-background-color: none; -fx-border-color: none;");
+                            btn.setCursor(Cursor.HAND);
+                            setFadeAndScaleAnimation(btn);
+                        }
+                        
+                        pdf.setOnAction(event -> {
+                            DietSummary dietSummary = dietsTable.getItems().get(getIndex());
+                            DietRepository dietRepo = new DietRepository();
+                            Diet diet = null;
+                            try {
+                                diet = dietRepo.getDietObjectById(dietSummary.getDietId());
+                                System.out.println("Export to Pdf = " + diet.getDietID()); 
+                            } catch (IOException | ParseException ex) {
+                                Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            try {
+                                PDFBuilder.exportPdf(diet);
+                            } catch (FileNotFoundException ex) {
+                                Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (IOException | URISyntaxException ex) {
+                                Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                        });
+
+                        clone.setOnAction(event -> {
+
+                        });
+
+                        edit.setOnAction(event -> {
+
+                        });
+
+                        delete.setOnAction(event -> {
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("AskDialog.fxml"));
+                            Parent root = null;
+                            try {
+                                root = loader.load();
+                            } catch (IOException ex) {
+                                Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            
+                            AskDialogController ask = loader.getController();
+                            Stage deletePopUp = new Stage();
+                            deletePopUp.initModality(Modality.APPLICATION_MODAL);
+                            deletePopUp.setScene(new Scene(root));
+                            
+                            deletePopUp.show();
+                            
+                            DietSummary dietSummary = dietsTable.getItems().get(getIndex());
+                            DietRepository dietRepo = new DietRepository();
+                            try {
+                                Diet diet = dietRepo.getDietObjectById(dietSummary.getDietId());
+                            } catch (IOException | ParseException ex) {
+                                Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                            try {
+                                refreshTable();
+                            } catch (IOException ex) {
+                                Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            System.out.println("Diet Deleted");
+                        });
+                        HBox actions = new HBox(5);
+                        actions.getChildren().addAll(pdf,clone,edit,delete);
+                        actions.setAlignment(Pos.CENTER);
+                        actions.setPadding(new Insets(5));
+                        setGraphic(actions);
+                    }
                 }
                 
-                for(Button btn: new Button[]{pdf,clone,edit,delete}){
-                    btn.setPrefSize(30, 30);
-                    btn.setStyle("-fx-background-color: none; -fx-border-color: none;");
-                    btn.setCursor(Cursor.HAND);
-                    setFadeAndScaleAnimation(btn);
-                }
-                
-                pdf.setOnAction(event -> {
-                    DietSummary dietSummary = dietsTable.getItems().get(getIndex());
-                    DietRepository dietRepo = new DietRepository();
-                    Diet diet = null;
-                    try {
-                        diet = dietRepo.getDietObjectById(dietSummary.getDietId());
-                        System.out.println("Export to Pdf = " + diet.getDietID()); 
-                    } catch (IOException | ParseException ex) {
-                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try {
-                        PDFBuilder.exportPdf(diet);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException | URISyntaxException ex) {
-                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
-                });
-                
-                clone.setOnAction(event -> {
-                    
-                });
-                
-                edit.setOnAction(event -> {
-                
-                });
-                
-                delete.setOnAction(event -> {
-                    DietSummary dietSummary = dietsTable.getItems().get(getIndex());
-                    DietRepository dietRepo = new DietRepository();
-                    try {
-                        Diet diet = dietRepo.getDietObjectById(dietSummary.getDietId());
-                    } catch (IOException | ParseException ex) {
-                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
-                    try {
-                        refreshTable();
-                    } catch (IOException ex) {
-                        Logger.getLogger(DietStorageController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    System.out.println("Diet Deleted");
-                });
-            }
+            };
+            return cell;
             
-            @Override   
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    actions.getChildren().addAll(pdf,clone,edit,delete);
-                    actions.setAlignment(Pos.CENTER);
-                    actions.setPadding(new Insets(5));
-                    
-                    setGraphic(actions);
-                }
-            }
-        });
+        };
+        actionsCol.setCellFactory(cellFactory);
+        dietsTable.setItems(dietsList);
     }
     
     private void refreshButtons() throws IOException{
         DietRepository dietRepo = new DietRepository();        
-        prevButton.setVisible( count > 0);        
-        nextButton.setVisible((count + LIMIT) < dietRepo.getTotalDietsCount());
+        prevButton.setVisible(offset > 0);        
+        nextButton.setVisible(offset < (dietRepo.getTotalDietsCount() - LIMIT));
     }
     
     private void refreshTable() throws IOException{
         dietsList.clear();
-        
-        int id = User.getUser().getId();
         DietRepository dietRepo= new DietRepository();
-        List<DietSummary> diets = dietRepo.getDiets(count, LIMIT, id); 
+        List<DietSummary> diets = dietRepo.getDiets(offset, LIMIT, User.getUser().getId()); 
+        int numDiet=count;
         for(DietSummary diet : diets){
-            dietsList.add(new DietSummary(diet.getDietId(),
+        System.out.println("Id dieta = " + diet.getDietId());
+            dietsList.add(new DietSummary(++numDiet,diet.getDietId(),
                     diet.getPatientName(),
                     diet.getWeight(),
                     diet.getHeight(),
                     diet.getCreationDate()));
             dietsTable.setItems(dietsList);
         }
+        count = numDiet;
         
     }
 }

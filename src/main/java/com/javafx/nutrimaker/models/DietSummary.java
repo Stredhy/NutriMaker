@@ -4,6 +4,8 @@ package com.javafx.nutrimaker.models;
 import com.google.gson.annotations.SerializedName;
 
 public class DietSummary {
+    private int numDiet;
+    
     @SerializedName("diet_id")
     private int dietId;
 
@@ -18,6 +20,7 @@ public class DietSummary {
 
     
     private void copyAll(DietSummary ds){
+        this.numDiet = ds.numDiet;
         this.dietId = ds.dietId;
         this.patientName = ds.patientName;
         this.weight = ds.weight;
@@ -29,7 +32,8 @@ public class DietSummary {
         copyAll(ds);
     }
     
-    public DietSummary(int dietId, String patientName, double weight, double height, String creationDate) {
+    public DietSummary(int num,int dietId, String patientName, double weight, double height, String creationDate) {
+        this.numDiet = num;
         this.dietId = dietId;
         this.patientName = patientName;
         this.weight = weight;
@@ -76,5 +80,13 @@ public class DietSummary {
 
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public void setNumDiet(int numDiet) {
+        this.numDiet = numDiet;
+    }
+
+    public int getNumDiet() {
+        return numDiet;
     }
 }

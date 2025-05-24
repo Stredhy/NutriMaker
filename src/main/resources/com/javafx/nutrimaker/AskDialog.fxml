@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="147.0" prefWidth="305.0" style="-fx-background-color: #101d4f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.nutrimaker.AskDialogController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="55.0" prefWidth="305.0">
+         <children>
+            <Label fx:id="textField" alignment="CENTER" contentDisplay="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <AnchorPane layoutX="42.0" layoutY="75.0" prefHeight="49.0" prefWidth="211.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="52.0">
+         <children>
+            <HBox layoutX="13.0" layoutY="5.0" prefHeight="30.0" prefWidth="185.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0">
+               <children>
+                  <AnchorPane>
+                     <children>
+                        <Button fx:id="acceptBtn" mnemonicParsing="false" onAction="#onAccept" style="-fx-background-color: #67ab95;" text="Aceptar" textFill="WHITE" AnchorPane.leftAnchor="0.0">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <effect>
+                              <DropShadow>
+                                 <color>
+                                    <Color opacity="0.4751908481121063" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefWidth="58.0">
+                     <children>
+                        <Button fx:id="cancelBtn" layoutX="53.0" mnemonicParsing="false" onAction="#onCancel" style="-fx-background-color: #0e3d58;" text="Cancelar" textFill="WHITE" AnchorPane.leftAnchor="50.0">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <effect>
+                              <DropShadow>
+                                 <color>
+                                    <Color opacity="0.4751908481121063" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
