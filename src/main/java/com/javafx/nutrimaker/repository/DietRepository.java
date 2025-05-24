@@ -46,6 +46,22 @@ public class DietRepository {
         return buildDietFromFlatJson(json);
     }
 
+    public int getRecentId() throws IOException {
+        String urlId = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/orden/by";
+        String jsonId = dbClient.get(urlId, null);
+
+
+        JsonObject root = JsonParser.parseString(jsonId).getAsJsonObject();
+        JsonArray items = root.getAsJsonArray("items");
+
+        int firstDietId = -1; // valor por defecto si no hay items
+        if (items != null && items.size() > 0) {
+            JsonObject firstItem = items.get(0).getAsJsonObject();
+            firstDietId = firstItem.get("diet_id").getAsInt();
+        }
+        return firstDietId;
+    }
+
     public int getTotalDietsCount() throws IOException {
         String url = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/dietapi_count/diets/count";
         String json = dbClient.get(url, null);
