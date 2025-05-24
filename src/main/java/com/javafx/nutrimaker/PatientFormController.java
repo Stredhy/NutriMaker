@@ -12,9 +12,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class PatientFormController implements Initializable {
@@ -64,7 +64,7 @@ public class PatientFormController implements Initializable {
             dialog("No pueden existir campos vacios ");
             return false;
         }
-        if (!isPositive(ageTextField) || !isPositive(weightTextField) || !isPositive(heightTextField)) {
+        if (!isPositive(ageTextField) || !isPositive(heightTextField) || !weightTextField.getText().matches(REG_EXP_POSIT_FLOAT)) {
             dialog("Solo se permiten números");
             return false;
         }
@@ -72,7 +72,12 @@ public class PatientFormController implements Initializable {
     }
     
     private void createDiet(ActionEvent event) throws IOException {
-        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateDiet.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Crear Dieta");
+        stage.show();
     }
     
     @Override
