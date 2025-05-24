@@ -21,7 +21,7 @@ public class DietRequest {
     private String creation_date; // <-- Nuevo campo
 
     public DietRequest(int userId, int patientId, ValoresNutricionales v,
-                       String restDay, int mealsPerDay) {
+                       String restDay, int mealsPerDay, String note) {
         this.user_id = userId;
         this.patient_id = patientId;
         this.calories = v.getCalories();
@@ -34,6 +34,7 @@ public class DietRequest {
         this.iron = v.getIron();
         this.rest_day = restDay.toUpperCase();
         this.meals_per_day = mealsPerDay;
+        this.note = note;
 
         // Formato ISO 8601 en UTC
         this.creation_date = DateTimeFormatter.ISO_INSTANT.format(Instant.now());

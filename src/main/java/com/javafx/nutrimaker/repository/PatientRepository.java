@@ -1,7 +1,9 @@
 package com.javafx.nutrimaker.repository;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.javafx.nutrimaker.database.DatabaseClient;
 import com.javafx.nutrimaker.models.Patient;
 
@@ -19,6 +21,22 @@ public class PatientRepository {
     public PatientRepository() {
         this.databaseClient = new DatabaseClient();
         this.gson = new Gson();
+    }
+
+    public int getMostRecentPatientId() throws IOException {
+        String url = "https://g123ac362d4a31c-appnutrimaker.adb.mx-queretaro-1.oraclecloudapps.com/ords/developer/api/patient/recent";
+        String json = databaseClient.get(url, null);
+
+        JsonObject root = JsonParser.parseString(json).getAsJsonObject();
+        JsonArray items = root.getAsJsonArray("items");
+
+        int patientId = -1; // Valor por defecto
+        if (items != null && items.size() > 0) {
+            JsonObject firstItem = items.get(0).getAsJsonObject();
+            patientId = firstItem.get("patient_id").getAsInt();
+        }
+
+        return patientId;
     }
 
     //Obtener todos lo pacientes

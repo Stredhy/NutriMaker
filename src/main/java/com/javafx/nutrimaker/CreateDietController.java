@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import static com.javafx.nutrimaker.animations.AnimationPersonalized.*;
+
+import com.javafx.nutrimaker.models.User;
 import com.javafx.nutrimaker.repository.DietRepository;
+import com.javafx.nutrimaker.repository.PatientRepository;
 import com.javafx.nutrimaker.repository.UserRepository;
 import com.javafx.nutrimaker.repository.MealRepository;
 import com.javafx.nutrimaker.DialogController;
@@ -73,8 +76,8 @@ public class CreateDietController implements Initializable {
             return false;
         }
 
-        if (calTextField.getText().matches("\\d+")) {
-            dialog("Solo se permite números");
+        if (!calTextField.getText().matches("\\d+")) {
+            dialog("Solo se permiten números");
             return false;
         }
 
@@ -114,10 +117,12 @@ public class CreateDietController implements Initializable {
     @FXML
     private void save(ActionEvent event) throws IOException {
         if (checkInputs()) {
-            int cantCalories = Integer.parseInt(calTextField.getText()), foodQuantity = Integer.parseInt(quantityFoodDistribution.getValue());
-            UserRepository user = new UserRepository();
+            double cantCalories = Double.parseDouble(calTextField.getText());
+            int foodQuantity = Integer.parseInt(quantityFoodDistribution.getValue());
+            String note = commentTextField.getText();
+            PatientRepository patient = new PatientRepository();
             MealRepository mealRepository = new MealRepository();
-            if (mealRepository.createNewDiet(cantCalories, foodQuantity, getRestDay(), user.getIdByEmail(userEmail), 0)) {
+            if (mealRepository.createNewDiet(cantCalories, foodQuantity, getRestDay(), User.getUser().getId(), patient.getMostRecentPatientId(), note)) {
                 dialog("¡La dieta se ha creado con exito!");
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("DietStorage.fxml"));
                 Parent root = loader.load();
